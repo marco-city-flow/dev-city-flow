@@ -50,7 +50,7 @@ def generate_route(rowNum, colNum, turn=False):
     for i in range(1, colNum+1):
         routes.append(get_straight_route((i, 0), 1, rowNum+1))
         routes.append(get_straight_route((i, rowNum+1), 3, rowNum+1))
-    
+
     if turn:
         def get_turn_route(start, direction):
             if direction[0] % 2 == 0:
@@ -75,7 +75,7 @@ def generate_route(rowNum, colNum, turn=False):
         routes.append(get_turn_route((1, rowNum+1), (3, 0)))
         routes.append(get_turn_route((colNum+1, 1), (2, 1)))
         routes.append(get_turn_route((colNum, 0), (1, 2)))
-    
+
     return routes
 
 if __name__ == '__main__':
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     }
 
     json.dump(gridToRoadnet(**grid), open(os.path.join(args.dir, args.roadnetFile), "w"), indent=2)
-    
+
     vehicle_template = {
         "length": args.vehLen,
         "width": args.vehWidth,

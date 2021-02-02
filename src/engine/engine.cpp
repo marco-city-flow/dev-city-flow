@@ -35,7 +35,7 @@ namespace CityFlow {
                                     std::ref(threadIntersectionPool[i]),
                                     std::ref(threadDrivablePool[i]));
         }
-        std::cerr << "engine created!" << std::endl;
+        //std::cerr << "engine created!" << std::endl;
 
     }
 
@@ -62,7 +62,7 @@ namespace CityFlow {
             dir = getJsonMember<const char*>("dir", document);
             std::string roadnetFile = getJsonMember<const char*>("roadnetFile", document);
             std::string flowFile = getJsonMember<const char*>("flowFile", document);
-            std::cerr << "readed elements of config" << std::endl;
+            //std::cerr << "readed elements of config" << std::endl;
 
             if (!loadRoadNet(dir + roadnetFile)) {
                 std::cerr << "loading roadnet file error!" << std::endl;
@@ -422,7 +422,7 @@ namespace CityFlow {
         startBarrier.wait();
         std::vector<std::pair<Vehicle *, double>> buffer;
         for (auto vehicle: vehicles)
-            if (vehicle->isRunning()) 
+            if (vehicle->isRunning())
                 vehicleControl(*vehicle, buffer);
         {
             std::lock_guard<std::mutex> guard(lock);
@@ -588,7 +588,7 @@ namespace CityFlow {
         //std::cerr << "flow nextstep done" << std::endl;
         planRoute();
         //std::cerr << "planroute done" << std::endl;
-        handleWaiting();
+        handleWaiting();//handle all waiting vehicles in the buffer of lanes
         //std::cerr << "handlewaiting done" << std::endl;
 
         if (laneChange) {
@@ -597,10 +597,10 @@ namespace CityFlow {
             updateLeaderAndGap();
         }
 
-        notifyCross();
+        notifyCross();//nothing happens
         //std::cerr << "notifycross done" << std::endl;
 
-        getAction();
+        getAction();//nothing happens
         //std::cerr << "getaction done" << std::endl;
 
         updateLocation();
@@ -609,7 +609,7 @@ namespace CityFlow {
         updateAction();
         //std::cerr << "updateaction done" << std::endl;
 
-        updateLeaderAndGap();
+        updateLeaderAndGap();//nothing happens
         //std::cerr << "updateleaderandgap done" << std::endl;
 
 
@@ -744,7 +744,6 @@ namespace CityFlow {
         for (auto &road: roads) routes.emplace_back(roadnet.getRoadById(road));
         auto route = std::make_shared<const Route>(routes);
         vehicleInfo.route = route;
-        
         Vehicle *vehicle = new Vehicle(vehicleInfo,
             "manually_pushed_" + std::to_string(manuallyPushCnt++), this);
         pushVehicle(vehicle, false);
@@ -775,7 +774,7 @@ namespace CityFlow {
         }
         saveReplay = open;
     }
-    
+
     void Engine::reset(bool resetRnd) {
         for (auto &vehiclePair : vehiclePool) delete vehiclePair.second.first;
         for (auto &pool : threadVehiclePool) pool.clear();

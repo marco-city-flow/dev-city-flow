@@ -12,6 +12,8 @@ set(PROJECT_HEADER_FILES
     vehicle/router.h
     vehicle/vehicle.h
     vehicle/lanechange.h
+    multiprocessor/multiprocessor.h
+    multiprocessor/ThreadPool.h
 )
 
 set(PROJECT_SOURCE_FILES
@@ -24,7 +26,8 @@ set(PROJECT_SOURCE_FILES
     roadnet/trafficlight.cpp
     vehicle/router.cpp
     vehicle/vehicle.cpp
-    vehicle/lanechange.cpp)
+    vehicle/lanechange.cpp
+    multiprocessor/multiprocessor.cpp)
 
 set(PROJECT_LIB_NAME ${PROJECT_NAME}_lib CACHE INTERNAL "")
 

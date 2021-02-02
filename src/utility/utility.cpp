@@ -98,16 +98,13 @@ namespace CityFlow {
         if (!fp) {
             return false;
         }
-        else
-        {
-            std::cerr << "utility readJsonFromFile suc" << std::endl;
-        }
+
         char readBuffer[JSON_BUFFER_SIZE];
-        std::cerr << "readbuffer created" << std::endl;
+        //std::cerr << "readbuffer created" << std::endl;
         rapidjson::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
-        std::cerr << "filereadstream created" << std::endl;
+        //std::cerr << "filereadstream created" << std::endl;
         rapidjson::CursorStreamWrapper<rapidjson::FileReadStream> csw(is);
-        std::cerr << "CursorStreamWrapper created" << std::endl;
+        //std::cerr << "CursorStreamWrapper created" << std::endl;
         document.ParseStream(csw);
         if (document.HasParseError()) {
             std::cerr << "Json parsing error at line " << csw.GetLine() << std::endl;

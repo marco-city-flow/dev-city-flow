@@ -1,5 +1,6 @@
 #include "engine/engine.h"
 #include "utility/optionparser.h"
+#include "multiprocessor/multiprocessor.h"
 
 #include <string>
 #include <iostream>
@@ -9,7 +10,7 @@
 using namespace CityFlow;
 
 int main(int argc, char const *argv[]) {
-    Engine engine("./nanjingmega/nanjingmegaconfig.json", 1);
-    engine.nextStep();
+    multiprocessor engine1;
+    engine1.nextStepPro();
     return 0;
 }

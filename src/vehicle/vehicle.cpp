@@ -167,7 +167,7 @@ namespace CityFlow {
             for (int i = 0; ; ++i) {
                 drivable = getNextDrivable(i);
                 if (drivable == nullptr) return;
-                if (drivable->isLaneLink()) { // if laneLink, check all laneLink start from previous lane, because lanelinks may overlap 
+                if (drivable->isLaneLink()) { // if laneLink, check all laneLink start from previous lane, because lanelinks may overlap
                     for (auto laneLink : static_cast<LaneLink *>(drivable)->getStartLane()->getLaneLinks()) {
                         if ((candidateLeader = laneLink->getLastVehicle()) != nullptr) {
                             candidateGap = dis + candidateLeader->getDistance() - candidateLeader->getLen();

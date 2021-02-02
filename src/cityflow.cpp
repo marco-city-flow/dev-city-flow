@@ -40,6 +40,10 @@ PYBIND11_MODULE(cityflow, m) {
     py::class_<CityFlow::Archive>(m, "Archive")
         .def(py::init<const CityFlow::Engine&>())
         .def("dump", &CityFlow::Archive::dump, "path"_a);
+
+    py::class_<CityFlow::multiprocessor>(m,"multiprocessor")
+        .def(py::init<>())
+        .def("next_step_pro",&CityFlow::multiprocessor::nextStepPro);
 #ifdef VERSION
     m.attr("__version__") = VERSION;
 #else

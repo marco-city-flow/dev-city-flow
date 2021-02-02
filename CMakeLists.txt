@@ -24,7 +24,7 @@ set(REQUIRED_SUBMODULES
 
 foreach(REQUIRED_SUBMODULE ${REQUIRED_SUBMODULES})
     if(NOT EXISTS "${PROJECT_SOURCE_DIR}/${REQUIRED_SUBMODULE}")
-        # update submodule 
+        # update submodule
         # https://cliutils.gitlab.io/modern-cmake/chapters/projects/submodule.html
         find_package(Git QUIET)
         if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")

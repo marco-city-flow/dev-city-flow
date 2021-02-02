@@ -18,7 +18,7 @@ namespace CityFlow {
     class Router {
     friend Archive;
     private:
-        
+
         Vehicle* vehicle = nullptr;
         std::vector<Road *> route;
         std::vector<Road *> anchorPoints;
@@ -26,7 +26,7 @@ namespace CityFlow {
         std::mt19937 *rnd = nullptr;
 
         mutable std::deque<Drivable *> planned;
-        
+
         int selectLaneIndex(const Lane *curLane, const std::vector<Lane *> &lanes) const;
 
         LaneLink *selectLaneLink(const Lane *curLane, const std::vector<LaneLink*> &laneLinks) const;

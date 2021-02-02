@@ -310,7 +310,7 @@ namespace CityFlow {
             }
             path.pop_back();
             assert(path.empty());
-            std::cerr << "read is over" << std::endl;
+            //std::cerr << "read is over" << std::endl;
         }catch (const JsonFormatError &e) {
             std::cerr << "Error occurred when reading the roadnet file: " << std::endl;
             for (const auto &node : path) {
@@ -323,29 +323,29 @@ namespace CityFlow {
         for (auto &intersection : intersections)
             intersection.initCrosses();
         VehicleInfo vehicleTemplate;
-        std::cerr << "initcross ok" << std::endl;
+        //std::cerr << "initcross ok" << std::endl;
 
         for (auto &road : roads)
             road.initLanesPoints();
-        std::cerr << "initLanesPoints ok" << std::endl;
+        //std::cerr << "initLanesPoints ok" << std::endl;
 
         for (auto &road : roads) {
             road.buildSegmentationByInterval((vehicleTemplate.len + vehicleTemplate.minGap) * MAX_NUM_CARS_ON_SEGMENT);
         }
-        std::cerr << "buildSegmentationByInterval ok" << std::endl;
+        //std::cerr << "buildSegmentationByInterval ok" << std::endl;
 
         for (auto &road : roads) {
             auto &roadLanes = road.getLanePointers();
             lanes.insert(lanes.end(), roadLanes.begin(), roadLanes.end());
             drivables.insert(drivables.end(), roadLanes.begin(), roadLanes.end());
         }
-        std::cerr << "roads inserted" << std::endl;
+        //std::cerr << "roads inserted" << std::endl;
         for (auto &intersection : intersections) {
             auto &intersectionLaneLinks = intersection.getLaneLinks();
             laneLinks.insert(laneLinks.end(), intersectionLaneLinks.begin(), intersectionLaneLinks.end());
             drivables.insert(drivables.end(), intersectionLaneLinks.begin(), intersectionLaneLinks.end());
         }
-        std::cerr << "intersections inserted" << std::endl;
+        //std::cerr << "intersections inserted" << std::endl;
         return true;
         //end overflow
     }
