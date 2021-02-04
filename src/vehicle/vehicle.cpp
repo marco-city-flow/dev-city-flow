@@ -56,7 +56,7 @@ namespace CityFlow {
             for (int i = 0; drivable && dis > drivable->getLength(); ++i) {
                 dis -= drivable->getLength();
                 Drivable *nextDrivable = controllerInfo.router.getNextDrivable(i);
-                if (nextDrivable == nullptr) {
+                if (nextDrivable == nullptr) {//修改，此处不一定删除
                     assert(controllerInfo.router.isLastRoad(drivable));
                     setEnd(true);
                 }

@@ -36,7 +36,7 @@ namespace CityFlow {
         }
     }
 
-    Drivable *Router::getNextDrivable(size_t i) const {
+    Drivable *Router::getNextDrivable(size_t i) const {//考虑nextdrivable如果进入其他模块，planned似乎从不清空
         if (i < planned.size()) {
             return planned[i];
         } else {
