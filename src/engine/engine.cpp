@@ -274,17 +274,24 @@ namespace CityFlow {
                                   std::vector<Intersection *> &intersections,
                                   std::vector<Drivable *> &drivables) {
         while (!finished) {
+            std::cerr << "controller while start" << std::endl;
             threadPlanRoute(roads);
+            std::cerr << "threadplanroute done" << std::endl;
             if (laneChange) {
                 threadInitSegments(roads);
                 threadPlanLaneChange(vehicles);
                 threadUpdateLeaderAndGap(drivables);
             }
             threadNotifyCross(intersections);
+            std::cerr << "threadnotifycross done" << std::endl;
             threadGetAction(vehicles);
+            std::cerr << "threadgetaction done" << std::endl;
             threadUpdateLocation(drivables);
+            std::cerr << "threadupdatelocation done" << std::endl;
             threadUpdateAction(vehicles);
+            std::cerr << "threadupdateaction done" << std::endl;
             threadUpdateLeaderAndGap(drivables);
+            std::cerr << "threadupdateleaderandgap done" << std::endl;
         }
     }
 
@@ -589,11 +596,11 @@ namespace CityFlow {
         std::cerr << "next1" << std::endl;
         for (auto &flow : flows)
             flow.nextStep(interval);
-        //std::cerr << "flow nextstep done" << std::endl;
+        std::cerr << "flow nextstep done" << std::endl;
         planRoute();
-        //std::cerr << "planroute done" << std::endl;
+        std::cerr << "planroute done" << std::endl;
         handleWaiting();//handle all waiting vehicles in the buffer of lanes
-        //std::cerr << "handlewaiting done" << std::endl;
+        std::cerr << "handlewaiting done" << std::endl;
 
         if (laneChange) {
             initSegments();
@@ -602,19 +609,19 @@ namespace CityFlow {
         }
 
         notifyCross();//nothing happens
-        //std::cerr << "notifycross done" << std::endl;
+        std::cerr << "notifycross done" << std::endl;
 
         getAction();//nothing happens
         //std::cerr << "getaction done" << std::endl;
 
         updateLocation();
-        //std::cerr << "updatelocation done" << std::endl;
+        std::cerr << "updatelocation done" << std::endl;
 
         updateAction();
-        //std::cerr << "updateaction done" << std::endl;
+        std::cerr << "updateaction done" << std::endl;
 
         updateLeaderAndGap();//nothing happens
-        //std::cerr << "updateleaderandgap done" << std::endl;
+        std::cerr << "updateleaderandgap done" << std::endl;
 
 
         if (!rlTrafficLight) {
@@ -623,14 +630,14 @@ namespace CityFlow {
             for (auto &intersection : intersections)
                 intersection.getTrafficLight().passTime(interval);
         }
-        //std::cerr << "passtime done" << std::endl;
+        std::cerr << "passtime done" << std::endl;
 
         if (saveReplay) {
             updateLog();
         }
 
         step += 1;
-        //std::cerr << "next2" << std::endl;
+        std::cerr << "next2" << std::endl;
     }
 
     void Engine::initSegments() {

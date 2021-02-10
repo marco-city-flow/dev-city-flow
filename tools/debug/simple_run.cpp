@@ -10,7 +10,7 @@
 using namespace CityFlow;
 
 int main(int argc, char const *argv[]) {
-    multiprocessor engine1;
-    engine1.nextStepPro();
+    Engine engine1("./../../build/10_10_1/config_10_10.json",1);
+    engine1.nextStep();
     return 0;
 }
