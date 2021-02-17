@@ -114,7 +114,7 @@ namespace CityFlow {
     public:
         std::mt19937 rnd;
 
-        Engine(const std::string &configFile, int threadNum);
+        Engine(const std::string &configFile, int threadNum, multiprocessor* multiprocessor);
 
         double getInterval() const { return interval; }
 
@@ -169,7 +169,7 @@ namespace CityFlow {
         void setVehicleSpeed(const std::string &id, double speed);
 
         void setRandomSeed(int seed) { rnd.seed(seed); }
-        
+
         void reset(bool resetRnd = false);
 
         // archive

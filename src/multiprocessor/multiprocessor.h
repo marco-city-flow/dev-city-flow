@@ -18,8 +18,6 @@ namespace CityFlow {
         private:
         RoadNet roadnet;//整个地图 用于规划路径 或者查找？
         std::vector<Engine *> engines;
-        ThreadPool pool;
-        //Barrier startBarrier, endBarrier;
         public:
         multiprocessor();//读取核心文件并进行切分 这里暂且省略直接用假数据
         void nextStepPro();

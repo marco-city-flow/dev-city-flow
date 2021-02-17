@@ -1,15 +1,15 @@
 #include "multiprocessor/multiprocessor.h"
 #include <unistd.h>
 namespace CityFlow{
-    multiprocessor::multiprocessor():pool(4)
+    multiprocessor::multiprocessor()
     {
-        Engine* engine = new Engine("./10_10_1/config_10_10.json",10);
+        Engine* engine = new Engine("./10_10_1/config_10_10.json", 10, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_2/config_10_10.json",10);
+        engine = new Engine("./10_10_2/config_10_10.json", 10, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_3/config_10_10.json",10);
+        engine = new Engine("./10_10_3/config_10_10.json", 10, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_4/config_10_10.json",10);
+        engine = new Engine("./10_10_4/config_10_10.json", 10, this);
         engines.push_back(engine);
         std::cout << "end of init" << std::endl;
     }
