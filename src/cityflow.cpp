@@ -8,10 +8,14 @@ namespace py = pybind11;
 using namespace py::literals;
 
 PYBIND11_MODULE(cityflow, m) {
+    py::class_<CityFlow::multiprocessor>(m,"multiprocessor")
+        .def(py::init<>())
+        .def("next_step_pro",&CityFlow::multiprocessor::nextStepPro);
     py::class_<CityFlow::Engine>(m, "Engine")
-        .def(py::init<const std::string&, int>(),
+        .def(py::init<const std::string&, int, CityFlow::multiprocessor*>(),
             "config_file"_a,
-            "thread_num"_a=1
+            "thread_num"_a=1,
+            "multiprocessor"_a = nullptr
         )
         .def("next_step", &CityFlow::Engine::nextStep)
         .def("get_vehicle_count", &CityFlow::Engine::getVehicleCount)
@@ -41,9 +45,6 @@ PYBIND11_MODULE(cityflow, m) {
         .def(py::init<const CityFlow::Engine&>())
         .def("dump", &CityFlow::Archive::dump, "path"_a);
 
-    py::class_<CityFlow::multiprocessor>(m,"multiprocessor")
-        .def(py::init<>())
-        .def("next_step_pro",&CityFlow::multiprocessor::nextStepPro);
 #ifdef VERSION
     m.attr("__version__") = VERSION;
 #else

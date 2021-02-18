@@ -70,7 +70,7 @@ namespace CityFlow {
     inline double min2double(double x, double y) {
         return x < y ? x : y;
     }
-    
+
     inline std::string double2string(double x) {
         char ret[20];
         dtoa_milo(x, ret);

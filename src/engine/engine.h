@@ -5,6 +5,7 @@
 #include "roadnet/roadnet.h"
 #include "engine/archive.h"
 #include "utility/barrier.h"
+#include "multiprocessor/multiprocessor.h"
 
 #include <mutex>
 #include <thread>
@@ -14,7 +15,7 @@
 
 
 namespace CityFlow {
-
+    class multiprocessor;
     class Engine {
         friend class Archive;
     private:
@@ -57,6 +58,8 @@ namespace CityFlow {
 
         int finishedVehicleCnt = 0;
         double cumulativeTravelTime = 0;
+        double maxspeed = 0;
+        double maxdeltadistance = 0;
 
     private:
         void vehicleControl(Vehicle &vehicle, std::vector<std::pair<Vehicle *, double>> &buffer);

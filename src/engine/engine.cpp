@@ -238,7 +238,14 @@ namespace CityFlow {
         }
         vehicle.setSpeed(nextSpeed);
         vehicle.setDeltaDistance(deltaDis);
-
+        if (nextSpeed > maxspeed)
+        {
+            maxspeed = nextSpeed;
+        }
+        if (deltaDis > maxdeltadistance)
+        {
+            maxdeltadistance = deltaDis;
+        }
         if (laneChange) {
             if (!vehicle.isReal() && vehicle.getChangedDrivable() != nullptr) {
                 vehicle.abortLaneChange();
@@ -296,16 +303,13 @@ namespace CityFlow {
     }
 
     void Engine::threadPlanRoute(const std::vector<Road *> &roads) {
-        //std::cerr << "Plan route1" << std::endl;
         startBarrier.wait();
         for (auto &road : roads) {
             for (auto &vehicle : road->getPlanRouteBuffer()) {
                 vehicle->updateRoute();
             }
         }
-        //std::cerr << "Plan route2" << std::endl;
         endBarrier.wait();
-        //std::cerr << "Plan route3" << std::endl;
     }
 
     void Engine::threadUpdateLocation(const std::vector<Drivable *> &drivables) {
@@ -593,7 +597,6 @@ namespace CityFlow {
     }
 
     void Engine::nextStep() {
-        //std::cerr << "next1" << std::endl;
         for (auto &flow : flows)
             flow.nextStep(interval);
         //std::cerr << "flow nextstep done" << std::endl;
@@ -635,9 +638,9 @@ namespace CityFlow {
         if (saveReplay) {
             updateLog();
         }
-
-        step += 1;
-        //std::cerr << "next2" << std::endl;
+        //std::cerr << "maxspeed:" << maxspeed << " ";
+        //std::cerr << "maxdeltadis:" << maxdeltadistance << std::endl;
+        step += 1; 
     }
 
     void Engine::initSegments() {
