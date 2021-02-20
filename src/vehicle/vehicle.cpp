@@ -52,13 +52,17 @@ namespace CityFlow {
             unSetDrivable();
             buffer.deltaDis = dis;
             dis = dis + controllerInfo.dis;
-            Drivable *drivable = getCurDrivable();
+            Drivable *drivable, *drivableRecord = getCurDrivable();
             for (int i = 0; drivable && dis > drivable->getLength(); ++i) {
                 dis -= drivable->getLength();
                 Drivable *nextDrivable = controllerInfo.router.getNextDrivable(i);
-                if (nextDrivable == nullptr) {//修改，此处不一定删除
-                    assert(controllerInfo.router.isLastRoad(drivable));
+                if (nextDrivable == nullptr) {
+                    //assert(controllerInfo.router.isLastRoad(drivable));
                     setEnd(true);
+                }
+                if (nextDrivable->getId() == drivableRecord->getId() && nextDrivable->getBelongEngine() != drivableRecord->getBelongEngine())
+                {
+                    setChangeEngine(true);
                 }
                 drivable = nextDrivable;
                 setDrivable(drivable);

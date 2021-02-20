@@ -60,6 +60,7 @@ namespace CityFlow {
             bool isEnterLaneLinkTimeSet = false;
             bool isBlockerSet = false;
             bool isCustomSpeedSet = false;
+            bool isChangeEngine = false;
             double dis;
             double deltaDis;
             double speed;
@@ -149,6 +150,11 @@ namespace CityFlow {
         double getBufferSpeed() const { return buffer.speed; };
 
         bool hasSetEnd() const { return buffer.isEndSet; }
+
+        void setChangeEngine(bool change)
+        {
+            buffer.isChangeEngine = change;
+        }
 
         void setEnd(bool end) {
             buffer.end = end;

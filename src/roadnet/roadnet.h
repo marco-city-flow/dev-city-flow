@@ -177,6 +177,7 @@ namespace CityFlow {
 
     private:
         std::string id;
+        std::string belongEngineId = "";
         Intersection *startIntersection = nullptr;
         Intersection *endIntersection = nullptr;
         std::vector<Lane> lanes;
@@ -190,6 +191,8 @@ namespace CityFlow {
 
     public:
         std::string getId() const { return id; }
+
+        std::string getBelongEngine() { return belongEngineId; }
 
         const Intersection &getStartIntersection() const { return *(this->startIntersection); }
 
@@ -288,6 +291,7 @@ namespace CityFlow {
         void popVehicle() { vehicles.pop_front(); }
 
         virtual std::string getId() const = 0;
+        virtual std::string getBelongEngine() const = 0;
     };
 
     class Lane : public Drivable {
@@ -323,6 +327,8 @@ namespace CityFlow {
         std::string getId() const override{
             return belongRoad->getId() + '_' + std::to_string(getLaneIndex());
         }
+
+        std::string getBelongEngine() const { return belongRoad->getBelongEngine(); }
 
         Road *getBelongRoad() const { return this->belongRoad; }
 
@@ -464,6 +470,8 @@ namespace CityFlow {
         const std::vector<Cross *> &getCrosses() const { return this->crosses; }
 
         std::vector<Cross *> &getCrosses() { return this->crosses; }
+
+        std::string getBelongEngine() const { return startLane->getBelongEngine(); }
 
         Lane *getStartLane() const { return startLane; }
 

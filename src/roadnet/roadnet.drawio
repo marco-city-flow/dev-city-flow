@@ -1,122 +1,140 @@
-<mxfile host="65bd71144e" modified="2021-01-28T15:06:33.517Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.51.1 Chrome/83.0.4103.122 Electron/9.3.3 Safari/537.36" version="13.10.0" etag="X2gRrK5no01KMZDQI6wA" type="embed">
+<mxfile host="65bd71144e" modified="2021-02-20T05:01:36.742Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.53.2 Chrome/87.0.4280.141 Electron/11.2.1 Safari/537.36" etag="wlwpGJ3ctuR12mq7v_1b" version="14.2.4" type="embed">
     <diagram id="uoX_vzd0wBdqhIChG_T8" name="Page-1">
-        <mxGraphModel dx="1202" dy="1368" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1484" dy="1602" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="3" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="3" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="-670" y="440" width="1429" height="120" as="geometry"/>
                 </mxCell>
-                <mxCell id="7" value="" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" vertex="1" parent="1">
+                <mxCell id="7" value="" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" parent="1" vertex="1">
                     <mxGeometry x="839" y="-1070" width="120" height="1430" as="geometry"/>
                 </mxCell>
-                <mxCell id="13" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="13" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="-670" y="440" width="1429" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="15" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="15" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="-670" y="470" width="1429" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="16" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="16" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="-670" y="500" width="1429" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="17" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="17" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="-670" y="530" width="1429" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="18" value="" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" vertex="1" parent="1">
+                <mxCell id="18" value="" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" parent="1" vertex="1">
                     <mxGeometry x="839" y="-1069" width="30" height="1429" as="geometry"/>
                 </mxCell>
-                <mxCell id="19" value="" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" vertex="1" parent="1">
+                <mxCell id="19" value="" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" parent="1" vertex="1">
                     <mxGeometry x="869" y="-1069.5" width="30" height="1429" as="geometry"/>
                 </mxCell>
-                <mxCell id="20" value="" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" vertex="1" parent="1">
+                <mxCell id="20" value="" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" parent="1" vertex="1">
                     <mxGeometry x="899" y="-1069" width="30" height="1429" as="geometry"/>
                 </mxCell>
-                <mxCell id="21" value="" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" vertex="1" parent="1">
+                <mxCell id="21" value="" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" parent="1" vertex="1">
                     <mxGeometry x="929" y="-1069" width="30" height="1429" as="geometry"/>
                 </mxCell>
-                <mxCell id="25" value="" style="endArrow=none;html=1;entryX=1;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1">
+                <mxCell id="25" value="" style="endArrow=none;html=1;entryX=1;entryY=1;entryDx=0;entryDy=0;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="840" y="530" as="sourcePoint"/>
                         <mxPoint x="929" y="439.99999999999636" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="31" value="Roadlink" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;" vertex="1" parent="1">
+                <mxCell id="31" value="Roadlink" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="909" y="505" width="60" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="32" value="&lt;font style=&quot;font-size: 8px&quot;&gt;Lanelink&lt;/font&gt;" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;rotation=-45;" vertex="1" parent="1">
+                <mxCell id="32" value="&lt;font style=&quot;font-size: 8px&quot;&gt;Lanelink&lt;/font&gt;" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;rotation=-45;" parent="1" vertex="1">
                     <mxGeometry x="861" y="487" width="50" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="39" value="" style="endArrow=none;html=1;" edge="1" parent="1">
+                <mxCell id="39" value="" style="endArrow=none;html=1;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="840" y="500" as="sourcePoint"/>
                         <mxPoint x="899" y="440" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="40" value="" style="endArrow=none;html=1;" edge="1" parent="1">
+                <mxCell id="40" value="" style="endArrow=none;html=1;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="840" y="470" as="sourcePoint"/>
                         <mxPoint x="869" y="440.0000000000002" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="41" value="" style="endArrow=none;html=1;" edge="1" parent="1">
+                <mxCell id="41" value="" style="endArrow=none;html=1;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="840" y="560" as="sourcePoint"/>
                         <mxPoint x="958.5" y="440.0000000000002" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="42" value="" style="endArrow=none;html=1;" edge="1" parent="1">
+                <mxCell id="42" value="" style="endArrow=none;html=1;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="840" y="560" as="sourcePoint"/>
                         <mxPoint x="840" y="440" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="43" value="" style="endArrow=none;html=1;" edge="1" parent="1">
+                <mxCell id="43" value="" style="endArrow=none;html=1;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="960" y="440" as="sourcePoint"/>
                         <mxPoint x="840" y="440" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="44" value="&lt;font style=&quot;font-size: 8px&quot;&gt;Lane&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="44" value="&lt;font style=&quot;font-size: 8px&quot;&gt;Lane&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="650" y="442" width="40" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="45" value="Road" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="45" value="Road" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="620" y="410" width="40" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="46" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="780" y="440" width="40" height="120" as="geometry"/>
+                <mxCell id="46" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="719" y="440" width="40" height="120" as="geometry"/>
                 </mxCell>
-                <mxCell id="47" value="" style="rounded=0;whiteSpace=wrap;html=1;rotation=90;" vertex="1" parent="1">
+                <mxCell id="47" value="" style="rounded=0;whiteSpace=wrap;html=1;rotation=90;" parent="1" vertex="1">
                     <mxGeometry x="880" y="340" width="40" height="120" as="geometry"/>
                 </mxCell>
-                <mxCell id="48" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="780" y="440" width="40" height="30" as="geometry"/>
+                <mxCell id="48" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="719" y="440" width="40" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="49" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="780" y="470" width="40" height="30" as="geometry"/>
+                <mxCell id="49" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="719" y="470" width="40" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="50" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="780" y="500" width="40" height="30" as="geometry"/>
+                <mxCell id="50" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="719" y="500" width="40" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="51" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="780" y="530" width="40" height="30" as="geometry"/>
+                <mxCell id="51" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="719" y="530" width="40" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="53" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="53" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="839" y="380" width="31" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="54" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="54" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="870" y="380" width="30" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="55" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="55" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="900" y="380" width="30" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="56" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="56" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="930" y="380" width="30" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="57" value="&lt;font style=&quot;font-size: 8px&quot;&gt;waitbuffer&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-                    <mxGeometry x="780" y="443" width="40" height="20" as="geometry"/>
+                <mxCell id="57" value="&lt;font style=&quot;font-size: 8px&quot;&gt;waitbuffer&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="719" y="443" width="40" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="58" value="Buffer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-                    <mxGeometry x="780" y="410" width="40" height="20" as="geometry"/>
+                <mxCell id="58" value="Buffer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="719" y="410" width="40" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="62" value="&lt;div style=&quot;color: rgb(212 , 212 , 212) ; background-color: rgb(30 , 30 , 30) ; font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; font-size: 14px ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;Road&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div&gt;        std::&lt;span style=&quot;color: #4ec9b0&quot;&gt;string&lt;/span&gt; id;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;Intersection&lt;/span&gt; *startIntersection = &lt;span style=&quot;color: #569cd6&quot;&gt;nullptr&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;Intersection&lt;/span&gt; *endIntersection = &lt;span style=&quot;color: #569cd6&quot;&gt;nullptr&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;        std::&lt;span style=&quot;color: #4ec9b0&quot;&gt;vector&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;Lane&lt;/span&gt;&amp;gt; lanes;&lt;/div&gt;&lt;div&gt;        std::&lt;span style=&quot;color: #4ec9b0&quot;&gt;vector&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;Point&lt;/span&gt;&amp;gt; points;&lt;/div&gt;&lt;br&gt;&lt;div&gt;        std::&lt;span style=&quot;color: #4ec9b0&quot;&gt;vector&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;Lane&lt;/span&gt; *&amp;gt; lanePointers;&lt;/div&gt;&lt;br&gt;&lt;div&gt;        std::&lt;span style=&quot;color: #4ec9b0&quot;&gt;vector&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;Vehicle&lt;/span&gt; *&amp;gt; planRouteBuffer;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="-560" y="100" width="360" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="63" target="64">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="63" value="&lt;div style=&quot;color: rgb(212 , 212 , 212) ; background-color: rgb(30 , 30 , 30) ; font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; font-size: 14px ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;Drivable&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div&gt;        &lt;span style=&quot;color: #569cd6&quot;&gt;double&lt;/span&gt; length;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #569cd6&quot;&gt;double&lt;/span&gt; width;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #569cd6&quot;&gt;double&lt;/span&gt; maxSpeed;&lt;/div&gt;&lt;div&gt;        std::&lt;span style=&quot;color: #4ec9b0&quot;&gt;list&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;Vehicle&lt;/span&gt; *&amp;gt; vehicles;&lt;/div&gt;&lt;div&gt;        std::&lt;span style=&quot;color: #4ec9b0&quot;&gt;vector&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;Point&lt;/span&gt;&amp;gt; points;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;DrivableType&lt;/span&gt; drivableType;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="-107.5" y="-90" width="260" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="64" value="&lt;div style=&quot;color: rgb(212 , 212 , 212) ; background-color: rgb(30 , 30 , 30) ; font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; font-size: 14px ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;Lane&lt;/span&gt; : &lt;span style=&quot;color: #569cd6&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;Drivable&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div&gt;        &lt;span style=&quot;color: #569cd6&quot;&gt;int&lt;/span&gt; laneIndex;&lt;/div&gt;&lt;div&gt;        std::&lt;span style=&quot;color: #4ec9b0&quot;&gt;vector&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;Segment&lt;/span&gt;&amp;gt; segments;&lt;/div&gt;&lt;div&gt;        std::&lt;span style=&quot;color: #4ec9b0&quot;&gt;vector&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;LaneLink&lt;/span&gt; *&amp;gt; laneLinks;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;Road&lt;/span&gt; *belongRoad = &lt;span style=&quot;color: #569cd6&quot;&gt;nullptr&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;        std::&lt;span style=&quot;color: #4ec9b0&quot;&gt;deque&lt;/span&gt;&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;Vehicle&lt;/span&gt; *&amp;gt; waitingBuffer;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="-130" y="110" width="305" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="65" value="&lt;div style=&quot;color: rgb(212 , 212 , 212) ; background-color: rgb(30 , 30 , 30) ; font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; font-size: 14px ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;RoadNet&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;Road&amp;gt; roads;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;Intersection&amp;gt; intersections;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::map&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::string, Road *&amp;gt; roadMap;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::map&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::string, Intersection *&amp;gt; interMap;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::map&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::string, Drivable *&amp;gt; drivableMap;&lt;/div&gt;&lt;br&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;Lane *&amp;gt; lanes;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;LaneLink *&amp;gt; laneLinks;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;Drivable *&amp;gt; drivables;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;Point&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa&quot;&gt;getPoint&lt;/span&gt;(&lt;span style=&quot;color: #569cd6&quot;&gt;const&lt;/span&gt; &lt;span style=&quot;color: #b8d7a3&quot;&gt;Point&lt;/span&gt; &lt;span style=&quot;color: #569cd6&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&quot;color: #9cdcfe&quot;&gt;p1&lt;/span&gt;, &lt;span style=&quot;color: #569cd6&quot;&gt;const&lt;/span&gt; &lt;span style=&quot;color: #b8d7a3&quot;&gt;Point&lt;/span&gt; &lt;span style=&quot;color: #569cd6&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&quot;color: #9cdcfe&quot;&gt;p2&lt;/span&gt;, &lt;span style=&quot;color: #569cd6&quot;&gt;double&lt;/span&gt; &lt;span style=&quot;color: #9cdcfe&quot;&gt;a&lt;/span&gt;);&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="240" y="115" width="500" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="69" value="&lt;div style=&quot;color: rgb(212 , 212 , 212) ; background-color: rgb(30 , 30 , 30) ; font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; font-size: 14px ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;class&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;Engine&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div style=&quot;font-family: &amp;#34;droid sans mono&amp;#34; , monospace , monospace , &amp;#34;droid sans fallback&amp;#34; ; line-height: 19px&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::map&amp;lt;&lt;span style=&quot;color: #569cd6&quot;&gt;int&lt;/span&gt;, &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::pair&amp;lt;Vehicle *, &lt;span style=&quot;color: #569cd6&quot;&gt;int&lt;/span&gt;&amp;gt;&amp;gt; vehiclePool;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::map&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::string, Vehicle *&amp;gt; vehicleMap;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::set&amp;lt;Vehicle *&amp;gt;&amp;gt; threadVehiclePool;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;Road *&amp;gt;&amp;gt; threadRoadPool;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;Intersection *&amp;gt;&amp;gt; threadIntersectionPool;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;Drivable *&amp;gt;&amp;gt; threadDrivablePool;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;Flow&amp;gt; flows;&lt;/div&gt;&lt;div&gt;        RoadNet roadnet;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #569cd6&quot;&gt;int&lt;/span&gt; threadNum;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #569cd6&quot;&gt;double&lt;/span&gt; interval;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::pair&amp;lt;Vehicle *, &lt;span style=&quot;color: #569cd6&quot;&gt;double&lt;/span&gt;&amp;gt;&amp;gt; pushBuffer;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;Vehicle *&amp;gt; laneChangeNotifyBuffer;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::set&amp;lt;Vehicle *&amp;gt; vehicleRemoveBuffer;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::string stepLog;&lt;/div&gt;&lt;br&gt;&lt;div&gt;        &lt;span style=&quot;color: #569cd6&quot;&gt;size_t&lt;/span&gt; step = &lt;span style=&quot;color: #b5cea8&quot;&gt;0&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #569cd6&quot;&gt;size_t&lt;/span&gt; activeVehicleCount = &lt;span style=&quot;color: #b5cea8&quot;&gt;0&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::mutex lock;&lt;/div&gt;&lt;div&gt;        Barrier startBarrier, endBarrier;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::vector&amp;lt;&lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::thread&amp;gt; threadPool;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #569cd6&quot;&gt;bool&lt;/span&gt; finished = &lt;span style=&quot;color: #569cd6&quot;&gt;false&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::string dir;&lt;/div&gt;&lt;div&gt;        &lt;span style=&quot;color: #4ec9b0&quot;&gt;std&lt;/span&gt;::ofstream logOut;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="230" y="-400" width="550" height="470" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

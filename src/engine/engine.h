@@ -77,7 +77,7 @@ namespace CityFlow {
         void planLaneChange();
 
 
-        void threadController(std::set<Vehicle *> &vehicles, 
+        void threadController(std::set<Vehicle *> &vehicles,
                               std::vector<Road *> &roads,
                               std::vector<Intersection *> &intersections,
                               std::vector<Drivable *> &drivables);
