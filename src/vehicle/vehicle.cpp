@@ -27,7 +27,7 @@ namespace CityFlow {
 
     Vehicle::Vehicle(const Vehicle &vehicle, const std::string &id, Engine *engine, Flow *flow)
         : vehicleInfo(vehicle.vehicleInfo), controllerInfo(this, vehicle.controllerInfo),
-          laneChangeInfo(vehicle.laneChangeInfo), buffer(vehicle.buffer), 
+          laneChangeInfo(vehicle.laneChangeInfo), buffer(vehicle.buffer),
           id(id), engine(engine), laneChange(std::make_shared<SimpleLaneChange>(this)),
           flow(flow){
         while (engine->checkPriority(priority = engine->rnd()));
@@ -60,12 +60,12 @@ namespace CityFlow {
                     //assert(controllerInfo.router.isLastRoad(drivable));
                     setEnd(true);
                 }
-                if (nextDrivable->getId() == drivableRecord->getId() && nextDrivable->getBelongEngine() != drivableRecord->getBelongEngine())
-                {
-                    setChangeEngine(true);
-                }
                 drivable = nextDrivable;
                 setDrivable(drivable);
+            }
+            if (drivable->getBelongEngine(controllerInfo.dis) != drivableRecord->getBelongEngine(dis))
+            {
+                setEngine(drivable->getBelongEngine(controllerInfo.dis));
             }
             setDis(dis);
         }

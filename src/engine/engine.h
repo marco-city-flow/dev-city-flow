@@ -37,6 +37,8 @@ namespace CityFlow {
         bool saveReplayInConfig; // saveReplay option in config json
         bool warnings;
         std::vector<std::pair<Vehicle *, double>> pushBuffer;
+        std::vector<std::pair<Vehicle *, double>> changeEnginePopBuffer;
+        std::vector<std::pair<Vehicle *, double>> changeEnginePushBuffer;
         std::vector<Vehicle *> laneChangeNotifyBuffer;
         std::set<Vehicle *> vehicleRemoveBuffer;
         rapidjson::Document jsonRoot;
@@ -62,7 +64,7 @@ namespace CityFlow {
         double maxdeltadistance = 0;
 
     private:
-        void vehicleControl(Vehicle &vehicle, std::vector<std::pair<Vehicle *, double>> &buffer);
+        void vehicleControl(Vehicle &vehicle, std::vector<std::pair<Vehicle *, double>> &buffer, std::vector<std::pair<Vehicle *, double>> &changeEngineBuffer);
 
         void planRoute();
 

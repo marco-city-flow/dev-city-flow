@@ -10,6 +10,8 @@
 #include <iostream>
 
 namespace CityFlow {
+    class Engine;
+
     class RoadNet;
 
     class Intersection;
@@ -178,6 +180,7 @@ namespace CityFlow {
     private:
         std::string id;
         std::string belongEngineId = "";
+        Engine *belongEngine;
         Intersection *startIntersection = nullptr;
         Intersection *endIntersection = nullptr;
         std::vector<Lane> lanes;
@@ -192,7 +195,9 @@ namespace CityFlow {
     public:
         std::string getId() const { return id; }
 
-        std::string getBelongEngine() { return belongEngineId; }
+        //std::string getBelongEngine(double dis) { return belongEngineId; }
+
+        Engine* getBelongEngine(double dis) {return belongEngine;}
 
         const Intersection &getStartIntersection() const { return *(this->startIntersection); }
 
@@ -291,7 +296,7 @@ namespace CityFlow {
         void popVehicle() { vehicles.pop_front(); }
 
         virtual std::string getId() const = 0;
-        virtual std::string getBelongEngine() const = 0;
+        virtual Engine* getBelongEngine(double) const = 0;
     };
 
     class Lane : public Drivable {
@@ -328,7 +333,9 @@ namespace CityFlow {
             return belongRoad->getId() + '_' + std::to_string(getLaneIndex());
         }
 
-        std::string getBelongEngine() const { return belongRoad->getBelongEngine(); }
+        //std::string getBelongEngine(double dis) const { return belongRoad->getBelongEngine(dis); }
+
+        Engine* getBelongEngine(double dis) const { return belongRoad->getBelongEngine(dis); }
 
         Road *getBelongRoad() const { return this->belongRoad; }
 
@@ -471,7 +478,9 @@ namespace CityFlow {
 
         std::vector<Cross *> &getCrosses() { return this->crosses; }
 
-        std::string getBelongEngine() const { return startLane->getBelongEngine(); }
+        //std::string getBelongEngine(double dis) const { return startLane->getBelongEngine(dis); }
+
+        Engine* getBelongEngine(double dis) const { return startLane->getBelongEngine(dis); }
 
         Lane *getStartLane() const { return startLane; }
 

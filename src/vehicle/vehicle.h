@@ -66,6 +66,7 @@ namespace CityFlow {
             double speed;
             double customSpeed;
             Drivable *drivable;
+            Engine *engine;
             std::vector<Vehicle *> notifiedVehicles;
             bool end;
             Vehicle *blocker = nullptr;
@@ -151,10 +152,18 @@ namespace CityFlow {
 
         bool hasSetEnd() const { return buffer.isEndSet; }
 
+        bool hasChangeEngine() const { return buffer.isChangeEngine; };
+
         void setChangeEngine(bool change)
         {
             buffer.isChangeEngine = change;
         }
+
+        void setEngine(Engine *engine)
+        {
+            buffer.engine = engine;
+            buffer.isChangeEngine = true;
+        };
 
         void setEnd(bool end) {
             buffer.end = end;
