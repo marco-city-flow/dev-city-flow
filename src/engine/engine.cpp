@@ -204,7 +204,7 @@ namespace CityFlow {
         return result;
     }
 
-    void Engine::vehicleControl(Vehicle &vehicle, std::vector<std::pair<Vehicle *, double>> &buffer) {
+    void Engine::vehicleControl(Vehicle &vehicle, std::vector<std::pair<Vehicle *, double>> &buffer, std::vector<std::pair<Vehicle *, double>> &changeEngineBuffer) {
         double nextSpeed;
         if (vehicle.hasSetSpeed())
             nextSpeed = vehicle.getBufferSpeed();
@@ -270,10 +270,14 @@ namespace CityFlow {
         }
 
 
-        if (!vehicle.hasSetEnd() && vehicle.hasSetDrivable()) {
+        if (!vehicle.hasSetEnd() && vehicle.hasSetDrivable() && !vehicle.hasChangeEngine()) {
             buffer.emplace_back(&vehicle, vehicle.getBufferDis());
         }
 
+        if (!vehicle.hasSetEnd() && vehicle.hasChangeEngine())
+        {
+            changeEngineBuffer.emplace_back(&vehicle, vehicle.getBufferDis());
+        }
     }
 
     void Engine::threadController(std::set<Vehicle *> &vehicles,
@@ -435,12 +439,14 @@ namespace CityFlow {
     void Engine::threadGetAction(std::set<Vehicle *> &vehicles) {
         startBarrier.wait();
         std::vector<std::pair<Vehicle *, double>> buffer;
+        std::vector<std::pair<Vehicle *, double>> changeEngineBuffer;
         for (auto vehicle: vehicles)
             if (vehicle->isRunning())
-                vehicleControl(*vehicle, buffer);
+                vehicleControl(*vehicle, buffer, changeEngineBuffer);
         {
             std::lock_guard<std::mutex> guard(lock);
             pushBuffer.insert(pushBuffer.end(), buffer.begin(), buffer.end());
+            changeEnginePopBuffer.insert(changeEnginePopBuffer.end(), changeEngineBuffer.begin(), changeEngineBuffer.end());
         }
         endBarrier.wait();
     }
@@ -512,6 +518,20 @@ namespace CityFlow {
         endBarrier.wait();
         std::sort(pushBuffer.begin(), pushBuffer.end(), vehicleCmp);
         for (auto &vehiclePair : pushBuffer) {
+            Vehicle *vehicle = vehiclePair.first;
+            Drivable *drivable = vehicle->getChangedDrivable();
+            if (drivable != nullptr) {
+                drivable->pushVehicle(vehicle);
+                if (drivable->isLaneLink()) {
+                    vehicle->setEnterLaneLinkTime(step);
+                } else {
+                    vehicle->setEnterLaneLinkTime(std::numeric_limits<int>::max());
+                }
+            }
+        }
+
+        std::sort(changeEnginePopBuffer.begin(), changeEnginePopBuffer.end(), vehicleCmp);
+        for (auto &vehiclePair : changeEnginePopBuffer) {
             Vehicle *vehicle = vehiclePair.first;
             Drivable *drivable = vehicle->getChangedDrivable();
             if (drivable != nullptr) {
@@ -640,7 +660,7 @@ namespace CityFlow {
         }
         //std::cerr << "maxspeed:" << maxspeed << " ";
         //std::cerr << "maxdeltadis:" << maxdeltadistance << std::endl;
-        step += 1; 
+        step += 1;
     }
 
     void Engine::initSegments() {
