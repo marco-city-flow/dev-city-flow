@@ -147,6 +147,10 @@ namespace CityFlow {
 
         size_t getVehicleCount() const;
 
+        std::vector<std::pair<Vehicle *, double>>  getChangeEnginePopBuffer() const { return changeEnginePopBuffer; };
+
+        void clearChangeEnginePopBuffer() { changeEnginePopBuffer.clear(); };
+
         std::vector<std::string> getVehicles(bool includeWaiting = false) const;
 
         std::map<std::string, int> getLaneVehicleCount() const;

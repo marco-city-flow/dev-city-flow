@@ -29,5 +29,27 @@ namespace CityFlow{
         {
             threads[i].join();
         }
+        exchangeVehicle();
+    }
+
+    void multiprocessor::exchangeVehicle()
+    {
+        for (auto &engine : engines)
+        {
+            for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
+            {
+                Vehicle *vehicle = vehiclePair.first;
+                Drivable *drivable = vehicle->getChangedDrivable();
+                Vehicle * tail = drivable->getLastVehicle();
+                if (drivable != nullptr)
+                {
+                    drivable->pushVehicle(vehicle);
+                    vehicle->updateLeaderAndGap(tail);
+                    vehicle->update();
+                    vehicle->clearSignal();
+                }
+            }
+            engine->clearChangeEnginePopBuffer();
+        }
     }
 }

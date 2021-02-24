@@ -529,20 +529,8 @@ namespace CityFlow {
                 }
             }
         }
-
         std::sort(changeEnginePopBuffer.begin(), changeEnginePopBuffer.end(), vehicleCmp);
-        for (auto &vehiclePair : changeEnginePopBuffer) {
-            Vehicle *vehicle = vehiclePair.first;
-            Drivable *drivable = vehicle->getChangedDrivable();
-            if (drivable != nullptr) {
-                drivable->pushVehicle(vehicle);
-                if (drivable->isLaneLink()) {
-                    vehicle->setEnterLaneLinkTime(step);
-                } else {
-                    vehicle->setEnterLaneLinkTime(std::numeric_limits<int>::max());
-                }
-            }
-        }
+
         pushBuffer.clear();
     }
 
