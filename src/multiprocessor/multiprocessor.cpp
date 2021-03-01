@@ -25,6 +25,7 @@ namespace CityFlow{
             {
                 std::string id = roads[i].getId();
                 std::string col,row;
+                int coli,rowi,diri;
                 if (id.substr(6,1) >= "0" && id.substr(6,1) <= "9")
                 {
                     col = id.substr(5,2);
@@ -50,21 +51,58 @@ namespace CityFlow{
                     }
                 }
 
-                if (atoi(col.c_str())>=6 && atoi(row.c_str())>=6)
+                coli = atoi(col.c_str());
+                rowi = atoi(row.c_str());
+                diri = atoi(id.substr(id.size()-1).c_str());
+                if (coli>=6 && rowi>=6)
                 {
                     roads[i].initEngine(engines[0]);
                 }
-                if (atoi(col.c_str())<6 && atoi(row.c_str())>=6)
+                if (coli<6 && rowi>=6)
                 {
                     roads[i].initEngine(engines[1]);
                 }
-                if (atoi(col.c_str())<6 && atoi(row.c_str())<6)
+                if (coli<6 && rowi<6)
                 {
                     roads[i].initEngine(engines[2]);
                 }
-                if (atoi(col.c_str())>=6 && atoi(row.c_str())<6)
+                if (coli>=6 && rowi<6)
                 {
                     roads[i].initEngine(engines[3]);
+                }
+
+                if (coli==6 && rowi>=6 && diri==2)
+                {
+                    roads[i].initEngine(engines[0], engines[2]);
+                }
+                if (coli==6 && rowi<6 && diri==2)
+                {
+                    roads[i].initEngine(engines[2], engines[3]);
+                }
+                if (coli==5 && rowi>=6 && diri==0)
+                {
+                    roads[i].initEngine(engines[1], engines[0]);
+                }
+                if (coli==5 && rowi<6 && diri==0)
+                {
+                    roads[i].initEngine(engines[3], engines[2]);
+                }
+
+                if (rowi==6 && coli>=6 && diri==3)
+                {
+                    roads[i].initEngine(engines[0], engines[3]);
+                }
+                if (rowi==6 && coli<6 && diri==3)
+                {
+                    roads[i].initEngine(engines[1], engines[2]);
+                }
+                if (rowi==5 && coli>=6 && diri==1)
+                {
+                    roads[i].initEngine(engines[3], engines[0]);
+                }
+                if (rowi==5 && coli<6 && diri==1)
+                {
+                    roads[i].initEngine(engines[2], engines[1]);
                 }
             }
         }

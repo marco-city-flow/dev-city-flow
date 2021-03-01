@@ -180,7 +180,8 @@ namespace CityFlow {
     private:
         std::string id;
         std::string belongEngineId = "";
-        Engine *belongEngine;
+        Engine *belongEngine1;
+        Engine *belongEngine2;
         Intersection *startIntersection = nullptr;
         Intersection *endIntersection = nullptr;
         std::vector<Lane> lanes;
@@ -193,13 +194,15 @@ namespace CityFlow {
         void initLanesPoints();
 
     public:
-        void initEngine(Engine *engine) { belongEngine = engine; };
+        void initEngine(Engine *engine) { belongEngine1 = belongEngine2 = engine; };
+
+        void initEngine(Engine *engine1, Engine *engine2) { belongEngine1 = engine1; belongEngine2 = engine2; };
 
         std::string getId() const { return id; }
 
         //std::string getBelongEngine(double dis) { return belongEngineId; }
 
-        Engine* getBelongEngine(double dis) {return belongEngine;}
+        Engine* getBelongEngine(int num) { return (num==1?belongEngine1:belongEngine2); }
 
         const Intersection &getStartIntersection() const { return *(this->startIntersection); }
 
@@ -298,7 +301,7 @@ namespace CityFlow {
         void popVehicle() { vehicles.pop_front(); }
 
         virtual std::string getId() const = 0;
-        virtual Engine* getBelongEngine(double) const = 0;
+        virtual Engine* getBelongEngine(double) = 0;
     };
 
     class Lane : public Drivable {
@@ -337,7 +340,10 @@ namespace CityFlow {
 
         //std::string getBelongEngine(double dis) const { return belongRoad->getBelongEngine(dis); }
 
-        Engine* getBelongEngine(double dis) const { return belongRoad->getBelongEngine(dis); }
+        Engine* getBelongEngine(double dis)
+        {
+            return dis < length/2 ? belongRoad->getBelongEngine(1) : belongRoad->getBelongEngine(2);
+        }
 
         Road *getBelongRoad() const { return this->belongRoad; }
 
@@ -482,7 +488,7 @@ namespace CityFlow {
 
         //std::string getBelongEngine(double dis) const { return startLane->getBelongEngine(dis); }
 
-        Engine* getBelongEngine(double dis) const { return startLane->getBelongEngine(dis); }
+        Engine* getBelongEngine(double dis) { return NULL; }
 
         Lane *getStartLane() const { return startLane; }
 
