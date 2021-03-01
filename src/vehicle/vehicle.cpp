@@ -52,20 +52,25 @@ namespace CityFlow {
             unSetDrivable();
             buffer.deltaDis = dis;
             dis = dis + controllerInfo.dis;
-            Drivable *drivable, *drivableRecord = getCurDrivable();
+            Drivable *drivable = getCurDrivable();
+            Drivable *drivableRecord = getCurDrivable();
             for (int i = 0; drivable && dis > drivable->getLength(); ++i) {
                 dis -= drivable->getLength();
                 Drivable *nextDrivable = controllerInfo.router.getNextDrivable(i);
                 if (nextDrivable == nullptr) {
-                    //assert(controllerInfo.router.isLastRoad(drivable));
+                    assert(controllerInfo.router.isLastRoad(drivable));
                     setEnd(true);
                 }
                 drivable = nextDrivable;
                 setDrivable(drivable);
             }
-            if (drivable->getBelongEngine(controllerInfo.dis) != drivableRecord->getBelongEngine(dis))
+            //std::cerr << "setDrivable in setdis" << std::endl;
+            if (drivable != nullptr)
             {
-                setEngine(drivable->getBelongEngine(controllerInfo.dis));
+                if (drivable->getBelongEngine(controllerInfo.dis) != drivableRecord->getBelongEngine(dis))
+                {
+                    setEngine(drivable->getBelongEngine(controllerInfo.dis));
+                }
             }
             setDis(dis);
         }

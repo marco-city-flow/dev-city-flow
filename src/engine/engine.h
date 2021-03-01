@@ -123,6 +123,8 @@ namespace CityFlow {
 
         double getInterval() const { return interval; }
 
+        RoadNet getRoadNet() { return this->roadnet; }
+
         bool hasLaneChange() const { return laneChange; }
 
         bool loadConfig(const std::string &configFile);

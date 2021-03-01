@@ -193,6 +193,8 @@ namespace CityFlow {
         void initLanesPoints();
 
     public:
+        void initEngine(Engine *engine) { belongEngine = engine; };
+
         std::string getId() const { return id; }
 
         //std::string getBelongEngine(double dis) { return belongEngineId; }

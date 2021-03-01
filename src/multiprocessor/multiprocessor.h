@@ -12,6 +12,7 @@
 #include <thread>
 #include <set>
 #include <fstream>
+#include <string>
 
 namespace CityFlow {
     class multiprocessor{
@@ -19,6 +20,7 @@ namespace CityFlow {
         RoadNet roadnet;//整个地图 用于规划路径 或者查找？
         std::vector<Engine *> engines;
         std::mutex lock;
+        void initEngineRoad();
         // std::map<Engine *, std::vector<std::pair<Vehicle *, double>>> enginePushBuffer;
 
         public:
