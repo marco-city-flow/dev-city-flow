@@ -18,6 +18,7 @@ namespace CityFlow {
     class multiprocessor;
     class Engine {
         friend class Archive;
+        friend class multiprocessor;
     private:
         static bool vehicleCmp(const std::pair<Vehicle *, double> &a, const std::pair<Vehicle *, double> &b) {
             return a.second > b.second;
@@ -120,6 +121,8 @@ namespace CityFlow {
         std::mt19937 rnd;
 
         Engine(const std::string &configFile, int threadNum, multiprocessor* multiprocessor);
+
+        void startThread();
 
         double getInterval() const { return interval; }
 

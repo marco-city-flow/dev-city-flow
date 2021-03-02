@@ -342,7 +342,7 @@ namespace CityFlow {
 
         Engine* getBelongEngine(double dis)
         {
-            return dis < length/2 ? belongRoad->getBelongEngine(1) : belongRoad->getBelongEngine(2);
+            return (dis < length/2 ? belongRoad->getBelongEngine(1) : belongRoad->getBelongEngine(2));
         }
 
         Road *getBelongRoad() const { return this->belongRoad; }

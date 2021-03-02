@@ -1,34 +1,48 @@
 #include "multiprocessor/multiprocessor.h"
 #include <unistd.h>
+#include <ctime>
 namespace CityFlow{
     multiprocessor::multiprocessor()
     {
         Engine* engine = new Engine("./10_10_1/config_10_10.json", 1, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_2/config_10_10.json", 10, this);
+        engine = new Engine("./10_10_2/config_10_10.json", 1, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_3/config_10_10.json", 10, this);
+        engine = new Engine("./10_10_3/config_10_10.json", 1, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_4/config_10_10.json", 10, this);
+        engine = new Engine("./10_10_4/config_10_10.json", 1, this);
         engines.push_back(engine);
         std::cout << "end of initengines" << std::endl;
         initEngineRoad();
         std::cout << "end of initroads" << std::endl;
+        for (size_t i = 0; i < engines.size(); ++i)
+        {
+            engines[i]->startThread();
+        }
     }
 
     void multiprocessor::initEngineRoad()
     {
+        // if ( engines[0]->getRoadNet().getRoadById("road_1_0_1")!=nullptr )
+        // {
+        //     std::cerr << engines[0]->getRoadNet().getRoadById("road_1_0_1")->getId() << std::endl;
+        // }
         for (size_t j = 0; j < engines.size(); ++j)
         {
-            std::vector<Road> roads = engines[j]->getRoadNet().getRoads();
+            std::vector<Road> &roads = (engines[j])->roadnet.getRoads();
+            //std::cout << "end of roads" << std::endl;
+
             for (size_t i = 0; i < roads.size(); i++)
             {
-                std::string id = roads[i].getId();
+                std::string id =  (roads[i]).getId();
+                //std::cout << id << std::endl;
+
                 std::string col,row;
                 int coli,rowi,diri;
                 if (id.substr(6,1) >= "0" && id.substr(6,1) <= "9")
                 {
                     col = id.substr(5,2);
+
                     if (id.substr(9,1) >= "0" && id.substr(9,1) <= "9")
                     {
                         row = id.substr(8,2);
@@ -50,6 +64,7 @@ namespace CityFlow{
                         row = id.substr(7,1);
                     }
                 }
+                //std::cout << "end of roads1" << std::endl;
 
                 coli = atoi(col.c_str());
                 rowi = atoi(row.c_str());
@@ -104,6 +119,8 @@ namespace CityFlow{
                 {
                     roads[i].initEngine(engines[2], engines[1]);
                 }
+                //std::cout << "end of roads2" << std::endl;
+
             }
         }
     }

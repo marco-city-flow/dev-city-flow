@@ -22,12 +22,10 @@ namespace CityFlow {
         if (!success) {
             std::cerr << "load config failed!" << std::endl;
         }
-        else
-        {
-            std::cout << "load config success!" << std::endl;
-        }
+    }
 
-
+    void Engine::startThread()
+    {
         for (int i = 0; i < threadNum; i++) {
             threadPool.emplace_back(&Engine::threadController, this,
                                     std::ref(threadVehiclePool[i]),
@@ -36,7 +34,6 @@ namespace CityFlow {
                                     std::ref(threadDrivablePool[i]));
         }
     }
-
 
     bool Engine::loadConfig(const std::string &configFile) {
         rapidjson::Document document;
@@ -286,22 +283,22 @@ namespace CityFlow {
                                   std::vector<Drivable *> &drivables) {
         while (!finished) {
             threadPlanRoute(roads);
-            // std::cerr << "threadplanroute done" << std::endl;
+            std::cerr << "threadplanroute done" << std::endl;
             if (laneChange) {
                 threadInitSegments(roads);
                 threadPlanLaneChange(vehicles);
                 threadUpdateLeaderAndGap(drivables);
             }
             threadNotifyCross(intersections);
-            // std::cerr << "threadnotifycross done" << std::endl;
+            std::cerr << "threadnotifycross done" << std::endl;
             threadGetAction(vehicles);
-            // std::cerr << "threadgetaction done" << std::endl;
+            std::cerr << "threadgetaction done" << std::endl;
             threadUpdateLocation(drivables);
-            // std::cerr << "threadupdatelocation done" << std::endl;
+            std::cerr << "threadupdatelocation done" << std::endl;
             threadUpdateAction(vehicles);
-            // std::cerr << "threadupdateaction done" << std::endl;
+            std::cerr << "threadupdateaction done" << std::endl;
             threadUpdateLeaderAndGap(drivables);
-            // std::cerr << "threadupdateleaderandgap done" << std::endl;
+            std::cerr << "threadupdateleaderandgap done" << std::endl;
         }
     }
 
@@ -445,6 +442,10 @@ namespace CityFlow {
         {
             std::lock_guard<std::mutex> guard(lock);
             pushBuffer.insert(pushBuffer.end(), buffer.begin(), buffer.end());
+            if (changeEngineBuffer.size()!=0)
+            {
+                std::cerr << changeEngineBuffer.size() << std::endl;
+            }
             changeEnginePopBuffer.insert(changeEnginePopBuffer.end(), changeEngineBuffer.begin(), changeEngineBuffer.end());
         }
         endBarrier.wait();
