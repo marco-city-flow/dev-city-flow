@@ -16,6 +16,7 @@
 
 namespace CityFlow {
     class multiprocessor{
+        friend class Engine;
         private:
         RoadNet roadnet;//整个地图 用于规划路径 或者查找？
         std::vector<Engine *> engines;

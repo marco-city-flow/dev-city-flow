@@ -67,9 +67,13 @@ namespace CityFlow {
             //std::cerr << "setDrivable in setdis" << std::endl;
             if (drivable != nullptr)
             {
-                if (drivable->getBelongEngine(controllerInfo.dis) != drivableRecord->getBelongEngine(dis))
+                if (drivable->getDrivableType() != 1 && drivableRecord->getDrivableType() != 1)
                 {
-                    setEngine(drivable->getBelongEngine(controllerInfo.dis));
+                    if (drivable->getBelongEngine(dis) != drivableRecord->getBelongEngine(controllerInfo.dis))
+                    {
+                        setEngine(drivable->getBelongEngine(controllerInfo.dis));
+                        setDrivable(drivable);
+                    }
                 }
             }
             setDis(dis);
