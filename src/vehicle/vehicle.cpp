@@ -16,6 +16,16 @@ namespace CityFlow {
         router.setVehicle(vehicle);
     }
 
+    // Vehicle::Vehicle(const Vehicle &vehicle, Engine *engine, Flow *flow)
+    //     : vehicleInfo(vehicle.vehicleInfo), controllerInfo(this, vehicle.controllerInfo),id(vehicle.id), engine(engine),
+    //       laneChangeInfo(vehicle.laneChangeInfo), buffer(vehicle.buffer),
+    //       laneChange(std::make_shared<SimpleLaneChange>(this, *vehicle.laneChange)),flow(flow)
+    //       {
+    //             while (engine->checkPriority(priority = engine->rnd()));
+    //             controllerInfo.router.setVehicle(this);
+    //             enterTime = vehicle.enterTime;
+    //       }
+
     Vehicle::Vehicle(const Vehicle &vehicle, Flow *flow)
         : vehicleInfo(vehicle.vehicleInfo), controllerInfo(this, vehicle.controllerInfo),
           laneChangeInfo(vehicle.laneChangeInfo), buffer(vehicle.buffer), priority(vehicle.priority),

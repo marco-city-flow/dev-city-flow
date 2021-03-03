@@ -199,7 +199,7 @@ namespace CityFlow {
         return result;
     }
 
-    void Engine::vehicleControl(Vehicle &vehicle, std::vector<std::pair<Vehicle *, double>> &buffer, std::vector<std::pair<Vehicle *, double>> &changeEngineBuffer) {
+    void Engine::vehicleControl(Vehicle &vehicle, std::vector<std::pair<Vehicle *, double>> &buffer, std::vector<std::pair<Vehicle, double>> &changeEngineBuffer) {
         double nextSpeed;
         if (vehicle.hasSetSpeed())
             nextSpeed = vehicle.getBufferSpeed();
@@ -273,7 +273,7 @@ namespace CityFlow {
 
         if (!vehicle.hasSetEnd() && vehicle.hasChangeEngine())
         {
-            changeEngineBuffer.emplace_back(&vehicle, vehicle.getBufferDis());
+            changeEngineBuffer.emplace_back(vehicle, vehicle.getBufferDis());
         }
     }
 
@@ -320,7 +320,7 @@ namespace CityFlow {
             while (vehicleItr != vehicles.end()) {
                 Vehicle *vehicle = *vehicleItr;
 
-                if (((vehicle->getChangedDrivable()) != nullptr && !(vehicle->hasChangeEngine())) || vehicle->hasSetEnd()) {
+                if (((vehicle->getChangedDrivable()) != nullptr && (!vehicle->hasChangeEngine())) || vehicle->hasSetEnd()) {
                     vehicleItr = vehicles.erase(vehicleItr);
                 }else{
                     vehicleItr++;
@@ -435,7 +435,7 @@ namespace CityFlow {
     void Engine::threadGetAction(std::set<Vehicle *> &vehicles) {
         startBarrier.wait();
         std::vector<std::pair<Vehicle *, double>> buffer;
-        std::vector<std::pair<Vehicle *, double>> changeEngineBuffer;
+        std::vector<std::pair<Vehicle, double>> changeEngineBuffer;
         for (auto vehicle: vehicles)
             if (vehicle->isRunning())
                 vehicleControl(*vehicle, buffer, changeEngineBuffer);
@@ -478,6 +478,36 @@ namespace CityFlow {
             }
             if (drivable->isLane()){
                 static_cast<Lane *>(drivable)->updateHistory();
+            }
+        }
+        for (Drivable *drivable : drivables) {
+            auto &vehicles   = drivable->getVehicles();
+            auto vehicleItr = vehicles.begin();
+            while (vehicleItr != vehicles.end()) {
+                Vehicle *vehicle = *vehicleItr;
+
+                if (vehicle->hasChangeEngine()) {
+                    vehicleItr = vehicles.erase(vehicleItr);
+                }else{
+                    vehicleItr++;
+                }
+
+                if (vehicle->hasChangeEngine()) {
+                    std::lock_guard<std::mutex> guard(lock);
+                    vehicleRemoveBuffer.insert(vehicle);
+                    if (!vehicle->getLaneChange()->hasFinished()) {
+                        vehicleMap.erase(vehicle->getId());
+                        finishedVehicleCnt += 1;
+                        cumulativeTravelTime += getCurrentTime() - vehicle->getEnterTime();
+                    }
+                    auto iter = vehiclePool.find(vehicle->getPriority());
+                    threadVehiclePool[iter->second.second].erase(vehicle);
+//                    assert(vehicle->getPartner() == nullptr);
+                    delete vehicle;
+                    vehiclePool.erase(iter);
+                    activeVehicleCount--;
+                }
+
             }
         }
         endBarrier.wait();
@@ -532,7 +562,6 @@ namespace CityFlow {
                 }
             }
         }
-        std::sort(changeEnginePopBuffer.begin(), changeEnginePopBuffer.end(), vehicleCmp);
 
         pushBuffer.clear();
     }

@@ -117,6 +117,8 @@ namespace CityFlow {
 
         bool isStraightHold = false;
 
+        // Vehicle(const Vehicle &vehicle, Engine *engine, Flow *flow);
+
         Vehicle(const Vehicle &vehicle, Flow *flow = nullptr);
 
         Vehicle(const Vehicle &vehicle, const std::string &id, Engine *engine, Flow *flow = nullptr);
