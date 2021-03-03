@@ -11,3 +11,5 @@ CMakeSettings.json
 cmake-build-*
 
 frontend/replay/*
+tools/generator/output/*
+tools/generator/*.json
