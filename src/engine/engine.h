@@ -174,6 +174,8 @@ namespace CityFlow {
 
         double getAverageTravelTime() const;
 
+        void deleteVehicle(Vehicle *vehicle);
+
         void setTrafficLightPhase(const std::string &id, int phaseIndex);
 
         void setReplayLogFile(const std::string &logFile);

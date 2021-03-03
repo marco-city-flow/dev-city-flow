@@ -192,6 +192,10 @@ namespace CityFlow {
 
         inline std::string getId() const { return id; }
 
+        Engine* getBufferEngine() const { return buffer.engine; }
+
+        Engine* getEngine() const { return this->engine; }
+
         inline double getSpeed() const { return vehicleInfo.speed; }
 
         inline double getLen() const { return vehicleInfo.len; }

@@ -71,8 +71,8 @@ namespace CityFlow {
                 {
                     if (drivable->getBelongEngine(dis) != drivableRecord->getBelongEngine(controllerInfo.dis))
                     {
-                        setEngine(drivable->getBelongEngine(controllerInfo.dis));
-                        setDrivable(drivable);
+                        setEngine(drivable->getBelongEngine(dis));
+                        setDrivable(drivable->getBelongEngine(dis)->getRoadNet().getDrivableById(drivable->getId()));
                     }
                 }
             }
@@ -138,6 +138,11 @@ namespace CityFlow {
             controllerInfo.drivable = buffer.drivable;
             buffer.isDrivableSet = false;
             controllerInfo.router.update();
+        }
+        if (buffer.isChangeEngine)
+        {
+            this->engine = buffer.engine;
+            buffer.isChangeEngine = false;
         }
         if (buffer.isEnterLaneLinkTimeSet) {
             controllerInfo.enterLaneLinkTime = buffer.enterLaneLinkTime;

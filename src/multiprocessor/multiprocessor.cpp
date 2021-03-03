@@ -145,23 +145,34 @@ namespace CityFlow{
 
     void multiprocessor::exchangeVehicle()
     {
-        for (auto &engine : engines)
+        for (auto engine : engines)
         {
             for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
             {
                 Vehicle *vehicle = vehiclePair.first;
+                // std::cerr << "vehicle" << vehicle << std::endl;
                 Drivable *drivable = vehicle->getChangedDrivable();
-                Drivable *predrivable = vehicle->getCurDrivable();
-                Vehicle *tail = drivable->getLastVehicle();
-                Vehicle *head = predrivable->getFirstVehicle();
+                //std::cerr << "drivable" << drivable << std::endl;
+                //Drivable *predrivable = vehicle->getCurDrivable();
+                //std::cerr << "predi" << predrivable << std::endl;
                 if (drivable != nullptr)
                 {
+                    Vehicle *forward = drivable->getLastVehicle();
                     drivable->pushVehicle(vehicle);
-                    vehicle->updateLeaderAndGap(tail);
-                    head->updateLeaderAndGap(vehicle);
+                    vehicle->getBufferEngine()->pushVehicle(vehicle, false);
+                    vehicle->updateLeaderAndGap(forward);
+                    // Vehicle *back = predrivable->getFirstVehicle();
+                    // back->updateLeaderAndGap(vehicle);
+                    vehicle->getEngine()->deleteVehicle(vehicle);
                     vehicle->update();
                     vehicle->clearSignal();
+                    // std::cerr << "not null" << std::endl;
+
                 }
+                // else
+                // {
+                //     std::cerr << "null" << vehicle->hasChangeEngine() << std::endl;
+                // }
             }
             engine->clearChangeEnginePopBuffer();
         }
