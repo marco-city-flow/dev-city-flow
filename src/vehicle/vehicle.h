@@ -125,6 +125,10 @@ namespace CityFlow {
 
         Vehicle(const VehicleInfo &init, const std::string &id, Engine *engine, Flow *flow = nullptr);
 
+        void setControllInfo(ControllerInfo info) { controllerInfo = info; };
+
+        void setBuffer(Buffer buff) { buffer = buff; };
+
         void setDeltaDistance(double dis);
 
         void setSpeed(double speed);
@@ -279,6 +283,10 @@ namespace CityFlow {
         void updateLeaderAndGap(Vehicle *leader);
 
         Vehicle *getLeader() const { return controllerInfo.leader; }
+
+        ControllerInfo getControllerInfo() const { return controllerInfo; }
+
+        Buffer getBuffer() const { return buffer; };
 
         inline double getEnterLaneLinkTime() const { return controllerInfo.enterLaneLinkTime; }
 

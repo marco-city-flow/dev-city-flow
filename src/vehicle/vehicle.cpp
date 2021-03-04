@@ -14,6 +14,15 @@ namespace CityFlow {
 
     Vehicle::ControllerInfo::ControllerInfo(Vehicle *vehicle, const Vehicle::ControllerInfo &other): ControllerInfo(other) {
         router.setVehicle(vehicle);
+        if (vehicle->hasChangeEngine())
+        {
+            router.resetAnchorPoints(vehicle->getChangedDrivable()->getBelongRoad(), vehicle->getBufferEngine());
+            std::cerr << "reset" << std::endl;
+        }
+        else
+        {
+            std::cerr << "notreset" << std::endl;
+        }
     }
 
     // Vehicle::Vehicle(const Vehicle &vehicle, Engine *engine, Flow *flow)
@@ -453,7 +462,6 @@ namespace CityFlow {
 
     void Vehicle::updateRoute() {
         routeValid = controllerInfo.router.updateShortestPath();
-        // std::cerr << routeValid << std::endl;
     }
 
     bool Vehicle::setRoute(const std::vector<Road *> &anchor) {

@@ -4,13 +4,13 @@
 namespace CityFlow{
     multiprocessor::multiprocessor()
     {
-        Engine* engine = new Engine("./10_10_1/config_10_10.json", 6, this);
+        Engine* engine = new Engine("./10_10_1/config_10_10.json", 1, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_2/config_10_10.json", 6, this);
+        engine = new Engine("./10_10_2/config_10_10.json", 1, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_3/config_10_10.json", 6, this);
+        engine = new Engine("./10_10_3/config_10_10.json", 1, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_4/config_10_10.json", 6, this);
+        engine = new Engine("./10_10_4/config_10_10.json", 1, this);
         engines.push_back(engine);
         std::cout << "end of initengines" << std::endl;
         initEngineRoad();
@@ -140,8 +140,9 @@ namespace CityFlow{
         {
             threads[i].join();
         }
+        std::cerr << "pro next start" << std::endl;
         exchangeVehicle();
-        // std::cerr << "pro next end" << std::endl;
+        std::cerr << "pro next end" << std::endl;
     }
 
     void multiprocessor::exchangeVehicle()
@@ -150,39 +151,22 @@ namespace CityFlow{
         {
             for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
             {
-                Vehicle *vehicle = new Vehicle(vehiclePair.first, nullptr);
-                // std::cerr << "vehi created" << std::endl;
-                Drivable *drivable = vehicle->getChangedDrivable();
-                if (drivable != nullptr)
-                {
-                    Vehicle *forward = drivable->getLastVehicle();
-
-                    int priority = vehicle->getPriority();
-                    Engine* bufferEngine = vehicle->getBufferEngine();
-                    while (bufferEngine->checkPriority(priority)) priority = bufferEngine->rnd();
-                    vehicle->setPriority(priority);
-
-                    vehicle->updateRoute();
-                    drivable->pushVehicle(vehicle);
-                    // vehicle->getBufferEngine()->activeVehicleCount += 1;
-                    vehicle->getBufferEngine()->pushVehicle(vehicle, false);
-                    vehicle->updateLeaderAndGap(forward);
-                    vehicle->update();
-                    vehicle->clearSignal();
-                }
-                // std::cerr << "dealed" << std::endl;
-
-                // Vehicle* vehicle = new Vehicle(vehiclePair.first, vehiclePair.first.getFlow());
-                // std::cerr << "create vehicle" << std::endl;
-                // bufferEngine->pushVehicle(vehicle, false);
-                // vehicle->updateRoute();
-                // std::cerr << "route update" << std::endl;
-                // Drivable *lane = vehicle->getChangedDrivable();
-                // vehicle->setRunning(true);
-                // engine->activeVehicleCount += 1;
-                // Vehicle * tail = lane->getLastVehicle();
-                // lane->pushVehicle(vehicle);
-                // vehicle->updateLeaderAndGap(tail);
+                Vehicle oldVehicle = vehiclePair.first;
+                // std::cerr << &oldVehicle << std::endl;
+                // oldVehicle.getFlow();
+                // std::cerr << "flow" << std::endl;
+                // oldVehicle.getFlow()->vehicleTemplate;
+                // std::cerr << "template" << std::endl;
+                // oldVehicle.getId();
+                // std::cerr << "id" << std::endl;
+                // oldVehicle.getBufferEngine();
+                // std::cerr << "engine" << std::endl;
+                // Vehicle *vehicle = new Vehicle(oldVehicle.getFlow()->vehicleTemplate, oldVehicle.getId(), oldVehicle.getBufferEngine(), oldVehicle.getFlow());
+                std::cerr << "start create" << std::endl;
+                Vehicle *vehicle = new Vehicle(oldVehicle, oldVehicle.getId(), oldVehicle.getBufferEngine(), nullptr);
+                std::cerr << "vehi created" << std::endl;
+                vehicle->updateRoute();
+                engine->pushVehicle(vehicle, false);
             }
             engine->clearChangeEnginePopBuffer();
         }

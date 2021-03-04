@@ -2,6 +2,7 @@
 #include "vehicle/vehicle.h"
 #include "flow/route.h"
 #include "roadnet/roadnet.h"
+#include "engine/engine.h"
 
 #include <limits>
 #include <queue>
@@ -18,6 +19,17 @@ namespace CityFlow {
         assert(this->anchorPoints.size() > 0);
         this->route = route->getRoute();
         iCurRoad = this->route.begin();
+    }
+
+    void Router::resetAnchorPoints(Road* firstRoad, Engine* engine) {
+        if (anchorPoints[0]->getBelongEngine(1) != engine)
+        {
+            std::string lastRoadId = anchorPoints[anchorPoints.size() - 1]->getId();
+            anchorPoints.clear();
+            anchorPoints.push_back(firstRoad);
+            anchorPoints.push_back(engine->getRoadNet().getRoadById(lastRoadId));
+        }
+        return;
     }
 
     Drivable *Router::getFirstDrivable() const {

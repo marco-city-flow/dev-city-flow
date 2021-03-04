@@ -283,22 +283,22 @@ namespace CityFlow {
                                   std::vector<Drivable *> &drivables) {
         while (!finished) {
             threadPlanRoute(roads);
-            //std::cerr << "threadplanroute done" << std::endl;
+            std::cerr << "threadplanroute done" << std::endl;
             if (laneChange) {
                 threadInitSegments(roads);
                 threadPlanLaneChange(vehicles);
                 threadUpdateLeaderAndGap(drivables);
             }
             threadNotifyCross(intersections);
-            //std::cerr << "threadnotifycross done" << std::endl;
+            std::cerr << "threadnotifycross done" << std::endl;
             threadGetAction(vehicles);
-            //std::cerr << "threadgetaction done" << std::endl;
+            std::cerr << "threadgetaction done" << std::endl;
             threadUpdateLocation(drivables);
-            //std::cerr << "threadupdatelocation done" << std::endl;
+            std::cerr << "threadupdatelocation done" << std::endl;
             threadUpdateAction(vehicles);
-            //std::cerr << "threadupdateaction done" << std::endl;
+            std::cerr << "threadupdateaction done" << std::endl;
             threadUpdateLeaderAndGap(drivables);
-            //std::cerr << "threadupdateleaderandgap done" << std::endl;
+            std::cerr << "threadupdateleaderandgap done" << std::endl;
         }
     }
 
@@ -442,10 +442,10 @@ namespace CityFlow {
         {
             std::lock_guard<std::mutex> guard(lock);
             pushBuffer.insert(pushBuffer.end(), buffer.begin(), buffer.end());
-            // if (changeEngineBuffer.size()!=0)
-            // {
-            //     std::cerr << changeEngineBuffer.size() << std::endl;
-            // }
+            if (changeEngineBuffer.size()!=0)
+            {
+                std::cerr << changeEngineBuffer.size() << std::endl;
+            }
             changeEnginePopBuffer.insert(changeEnginePopBuffer.end(), changeEngineBuffer.begin(), changeEngineBuffer.end());
         }
         endBarrier.wait();

@@ -13,6 +13,7 @@ namespace CityFlow {
 
     class Flow {
         friend class Archive;
+        friend class multiprocessor;
     private:
         VehicleInfo vehicleTemplate;
         std::shared_ptr<const Route> route;
@@ -28,7 +29,7 @@ namespace CityFlow {
 
     public:
         Flow(const VehicleInfo &vehicleTemplate, double timeInterval,
-            Engine *engine, int startTime, int endTime, const std::string &id) 
+            Engine *engine, int startTime, int endTime, const std::string &id)
             : vehicleTemplate(vehicleTemplate), interval(timeInterval),
               startTime(startTime), endTime(endTime), engine(engine), id(id) {
             assert(timeInterval >= 1 || (startTime == endTime));
@@ -40,6 +41,8 @@ namespace CityFlow {
         std::string getId() const;
 
         bool isValid() const { return this->valid; }
+
+        VehicleInfo getTemplate() const { return vehicleTemplate; }
 
         void setValid(const bool valid) {
             if (this->valid && !valid)

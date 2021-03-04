@@ -302,6 +302,7 @@ namespace CityFlow {
 
         virtual std::string getId() const = 0;
         virtual Engine* getBelongEngine(double) = 0;
+        virtual Road *getBelongRoad() const = 0;
     };
 
     class Lane : public Drivable {
@@ -477,6 +478,8 @@ namespace CityFlow {
             maxSpeed = 10000; //TODO
             drivableType = LANELINK;
         }
+
+        Road *getBelongRoad() const { return nullptr; }
 
         RoadLink *getRoadLink() const { return this->roadLink; }
 

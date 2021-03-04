@@ -17,6 +17,8 @@ namespace CityFlow {
         explicit Route(const std::vector<Road *> &route) : route(route) { }
 
         std::vector<Road *> getRoute() const { return route; }
+
+        void resetRoute() { route.clear(); }
     };
 }
 #endif //CITYFLOW_ROUTE_H
