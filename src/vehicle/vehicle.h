@@ -284,7 +284,7 @@ namespace CityFlow {
 
         Vehicle *getLeader() const { return controllerInfo.leader; }
 
-        ControllerInfo getControllerInfo() const { return controllerInfo; }
+        ControllerInfo *getControllerInfo() { return &controllerInfo; };
 
         Buffer getBuffer() const { return buffer; };
 

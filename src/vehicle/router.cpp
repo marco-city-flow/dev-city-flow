@@ -22,14 +22,12 @@ namespace CityFlow {
     }
 
     void Router::resetAnchorPoints(Road* firstRoad, Engine* engine) {
-        if (anchorPoints[0]->getBelongEngine(1) != engine)
-        {
-            std::string lastRoadId = anchorPoints[anchorPoints.size() - 1]->getId();
-            anchorPoints.clear();
-            anchorPoints.push_back(firstRoad);
-            anchorPoints.push_back(engine->getRoadNet().getRoadById(lastRoadId));
-        }
-        return;
+        std::string lastRoadId = (anchorPoints[anchorPoints.size() - 1])->getId();
+        // std::cerr << "id get" << std::endl;
+        anchorPoints.clear();
+        anchorPoints.push_back(firstRoad);
+        anchorPoints.push_back(engine->getRoadNet().getRoadById(lastRoadId));
+
     }
 
     Drivable *Router::getFirstDrivable() const {

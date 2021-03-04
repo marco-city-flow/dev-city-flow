@@ -152,19 +152,9 @@ namespace CityFlow{
             for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
             {
                 Vehicle oldVehicle = vehiclePair.first;
-                // std::cerr << &oldVehicle << std::endl;
-                // oldVehicle.getFlow();
-                // std::cerr << "flow" << std::endl;
-                // oldVehicle.getFlow()->vehicleTemplate;
-                // std::cerr << "template" << std::endl;
-                // oldVehicle.getId();
-                // std::cerr << "id" << std::endl;
-                // oldVehicle.getBufferEngine();
-                // std::cerr << "engine" << std::endl;
-                // Vehicle *vehicle = new Vehicle(oldVehicle.getFlow()->vehicleTemplate, oldVehicle.getId(), oldVehicle.getBufferEngine(), oldVehicle.getFlow());
-                std::cerr << "start create" << std::endl;
                 Vehicle *vehicle = new Vehicle(oldVehicle, oldVehicle.getId(), oldVehicle.getBufferEngine(), nullptr);
-                std::cerr << "vehi created" << std::endl;
+                // std::cerr << "vehi created" << std::endl;
+                vehicle->getControllerInfo()->router.resetAnchorPoints(oldVehicle.getChangedDrivable()->getBelongRoad(), oldVehicle.getBufferEngine());
                 vehicle->updateRoute();
                 engine->pushVehicle(vehicle, false);
             }
