@@ -453,6 +453,7 @@ namespace CityFlow {
 
     void Vehicle::updateRoute() {
         routeValid = controllerInfo.router.updateShortestPath();
+        // std::cerr << routeValid << std::endl;
     }
 
     bool Vehicle::setRoute(const std::vector<Road *> &anchor) {

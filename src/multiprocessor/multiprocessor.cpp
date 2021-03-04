@@ -88,11 +88,11 @@ namespace CityFlow{
 
                 if (coli==6 && rowi>=6 && diri==2)
                 {
-                    roads[i].initEngine(engines[0], engines[2]);
+                    roads[i].initEngine(engines[0], engines[1]);
                 }
                 if (coli==6 && rowi<6 && diri==2)
                 {
-                    roads[i].initEngine(engines[2], engines[3]);
+                    roads[i].initEngine(engines[3], engines[2]);
                 }
                 if (coli==5 && rowi>=6 && diri==0)
                 {
@@ -100,7 +100,7 @@ namespace CityFlow{
                 }
                 if (coli==5 && rowi<6 && diri==0)
                 {
-                    roads[i].initEngine(engines[3], engines[2]);
+                    roads[i].initEngine(engines[2], engines[3]);
                 }
 
                 if (rowi==6 && coli>=6 && diri==3)
@@ -141,8 +141,7 @@ namespace CityFlow{
             threads[i].join();
         }
         exchangeVehicle();
-        //std::cerr << "pro nect end" << std::endl;
-
+        // std::cerr << "pro next end" << std::endl;
     }
 
     void multiprocessor::exchangeVehicle()
@@ -151,47 +150,41 @@ namespace CityFlow{
         {
             for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
             {
-                Vehicle* vehicle = new Vehicle(vehiclePair.first, vehiclePair.first.getFlow());
-                //std::cerr << "create vehicle" << std::endl;
-                int priority = vehicle->getPriority();
-                Engine* bufferEngine = vehicle->getBufferEngine();
-                while (bufferEngine->checkPriority(priority)) priority = bufferEngine->rnd();
-                vehicle->setPriority(priority);
-                bufferEngine->pushVehicle(vehicle, false);
-                vehicle->updateRoute();
-                //std::cerr << "route update" << std::endl;
-                Drivable *lane = vehicle->getChangedDrivable();
-                vehicle->setRunning(true);
-                engine->activeVehicleCount += 1;
-                Vehicle * tail = lane->getLastVehicle();
-                lane->pushVehicle(vehicle);
-                vehicle->updateLeaderAndGap(tail);
+                Vehicle *vehicle = new Vehicle(vehiclePair.first, nullptr);
+                // std::cerr << "vehi created" << std::endl;
+                Drivable *drivable = vehicle->getChangedDrivable();
+                if (drivable != nullptr)
+                {
+                    Vehicle *forward = drivable->getLastVehicle();
+
+                    int priority = vehicle->getPriority();
+                    Engine* bufferEngine = vehicle->getBufferEngine();
+                    while (bufferEngine->checkPriority(priority)) priority = bufferEngine->rnd();
+                    vehicle->setPriority(priority);
+
+                    vehicle->updateRoute();
+                    drivable->pushVehicle(vehicle);
+                    // vehicle->getBufferEngine()->activeVehicleCount += 1;
+                    vehicle->getBufferEngine()->pushVehicle(vehicle, false);
+                    vehicle->updateLeaderAndGap(forward);
+                    vehicle->update();
+                    vehicle->clearSignal();
+                }
+                // std::cerr << "dealed" << std::endl;
+
+                // Vehicle* vehicle = new Vehicle(vehiclePair.first, vehiclePair.first.getFlow());
+                // std::cerr << "create vehicle" << std::endl;
+                // bufferEngine->pushVehicle(vehicle, false);
+                // vehicle->updateRoute();
+                // std::cerr << "route update" << std::endl;
+                // Drivable *lane = vehicle->getChangedDrivable();
+                // vehicle->setRunning(true);
+                // engine->activeVehicleCount += 1;
+                // Vehicle * tail = lane->getLastVehicle();
+                // lane->pushVehicle(vehicle);
+                // vehicle->updateLeaderAndGap(tail);
             }
             engine->clearChangeEnginePopBuffer();
         }
-
-
-
-                // if (drivable != nullptr)
-                // {
-                //     drivable->pushVehicle(&vehicle);
-                //     if (drivable->isLaneLink()) {
-                //         vehicle->setEnterLaneLinkTime(engine->getStep()-1);
-                //     }
-                //     else {
-                //         vehicle->setEnterLaneLinkTime(std::numeric_limits<int>::max());
-                //     }
-                // }
-
-                // if (drivable != nullptr)
-                // {
-                //     Vehicle *forward = drivable->getLastVehicle();
-                //     drivable->pushVehicle(vehicle);
-                //     vehicle->getBufferEngine()->pushVehicle(vehicle, false);
-                //     vehicle->updateLeaderAndGap(forward);
-                //     vehicle->getEngine()->deleteVehicle(vehicle);
-                //     vehicle->update();
-                //     vehicle->clearSignal();
-                // }
     }
 }

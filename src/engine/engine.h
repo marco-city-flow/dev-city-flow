@@ -156,7 +156,8 @@ namespace CityFlow {
 
         std::vector<std::pair<Vehicle, double>>  getChangeEnginePopBuffer() const { return changeEnginePopBuffer; };
 
-        void clearChangeEnginePopBuffer() { changeEnginePopBuffer.clear(); };
+        void clearChangeEnginePopBuffer() {
+            changeEnginePopBuffer.clear(); };
 
         std::vector<std::string> getVehicles(bool includeWaiting = false) const;
 
