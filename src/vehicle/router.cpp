@@ -25,6 +25,8 @@ namespace CityFlow {
         std::string lastRoadId = (anchorPoints[anchorPoints.size() - 1])->getId();
         // std::cerr << "id get" << std::endl;
         anchorPoints.clear();
+        // std::cerr << firstRoad->getId();
+        // std::cerr << lastRoadId << std::endl;
         anchorPoints.push_back(firstRoad);
         anchorPoints.push_back(engine->getRoadNet().getRoadById(lastRoadId));
 
