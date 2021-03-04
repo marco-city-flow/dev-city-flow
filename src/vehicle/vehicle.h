@@ -117,6 +117,8 @@ namespace CityFlow {
 
         bool isStraightHold = false;
 
+        // Vehicle(const Vehicle &vehicle, Engine *engine, Flow *flow);
+
         Vehicle(const Vehicle &vehicle, Flow *flow = nullptr);
 
         Vehicle(const Vehicle &vehicle, const std::string &id, Engine *engine, Flow *flow = nullptr);
@@ -191,6 +193,10 @@ namespace CityFlow {
         void setPriority(int priority) { this->priority = priority; }
 
         inline std::string getId() const { return id; }
+
+        Engine* getBufferEngine() const { return buffer.engine; }
+
+        Engine* getEngine() const { return this->engine; }
 
         inline double getSpeed() const { return vehicleInfo.speed; }
 
