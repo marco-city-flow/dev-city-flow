@@ -140,9 +140,9 @@ namespace CityFlow{
         {
             threads[i].join();
         }
-        std::cerr << "pro next start" << std::endl;
+        // std::cerr << "pro next start" << std::endl;
         exchangeVehicle();
-        std::cerr << "pro next end" << std::endl;
+        // std::cerr << "pro next end" << std::endl;
     }
 
     void multiprocessor::exchangeVehicle()
@@ -152,11 +152,21 @@ namespace CityFlow{
             for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
             {
                 Vehicle oldVehicle = vehiclePair.first;
-                Vehicle *vehicle = new Vehicle(oldVehicle, oldVehicle.getId(), oldVehicle.getBufferEngine(), nullptr);
+                Engine* bufferEngine = oldVehicle.getBufferEngine();
+                Vehicle *vehicle = new Vehicle(oldVehicle, oldVehicle.getId(), bufferEngine, nullptr);
                 // std::cerr << "vehi created" << std::endl;
-                vehicle->getControllerInfo()->router.resetAnchorPoints(oldVehicle.getChangedDrivable()->getBelongRoad(), oldVehicle.getBufferEngine());
+                vehicle->getControllerInfo()->router.resetAnchorPoints(oldVehicle.getChangedDrivable()->getBelongRoad(), bufferEngine);
+                bufferEngine->pushVehicle(vehicle, false);
                 vehicle->updateRoute();
-                engine->pushVehicle(vehicle, false);
+
+
+                vehicle->setFirstDrivable();
+                Lane *lane = (Lane *)(vehicle->getChangedDrivable());
+                Vehicle * tail = lane->getLastVehicle();
+                lane->pushVehicle(vehicle);
+                vehicle->updateLeaderAndGap(tail);
+                vehicle->update();
+                vehicle->clearSignal();
             }
             engine->clearChangeEnginePopBuffer();
         }

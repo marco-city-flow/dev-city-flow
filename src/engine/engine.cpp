@@ -442,10 +442,10 @@ namespace CityFlow {
         {
             std::lock_guard<std::mutex> guard(lock);
             pushBuffer.insert(pushBuffer.end(), buffer.begin(), buffer.end());
-            if (changeEngineBuffer.size()!=0)
-            {
-                std::cerr << changeEngineBuffer.size() << std::endl;
-            }
+            // if (changeEngineBuffer.size()!=0)
+            // {
+            //     std::cerr << changeEngineBuffer.size() << std::endl;
+            // }
             changeEnginePopBuffer.insert(changeEnginePopBuffer.end(), changeEngineBuffer.begin(), changeEngineBuffer.end());
         }
         endBarrier.wait();
