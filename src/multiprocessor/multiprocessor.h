@@ -30,6 +30,7 @@ namespace CityFlow {
         void engineNext(int);
         void pushVehicle(Vehicle *);
         void exchangeVehicle();
+        void generateVehicle(Vehicle);
     };
 }
 

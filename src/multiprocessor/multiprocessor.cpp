@@ -140,35 +140,50 @@ namespace CityFlow{
         {
             threads[i].join();
         }
-        // std::cerr << "pro next start" << std::endl;
+        std::cerr << "pro next start" << std::endl;
         exchangeVehicle();
-        // std::cerr << "pro next end" << std::endl;
+        std::cerr << "pro next end" << std::endl;
     }
 
     void multiprocessor::exchangeVehicle()
     {
+        std::vector<std::thread> threads;
         for (auto engine : engines)
         {
             for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
             {
-                Vehicle oldVehicle = vehiclePair.first;
-                Engine* bufferEngine = oldVehicle.getBufferEngine();
-                Vehicle *vehicle = new Vehicle(oldVehicle, oldVehicle.getId(), bufferEngine, nullptr);
-                // std::cerr << "vehi created" << std::endl;
-                vehicle->getControllerInfo()->router.resetAnchorPoints(oldVehicle.getChangedDrivable()->getBelongRoad(), bufferEngine);
-                bufferEngine->pushVehicle(vehicle, false);
-                vehicle->updateRoute();
-
-
-                vehicle->setFirstDrivable();
-                Lane *lane = (Lane *)(vehicle->getChangedDrivable());
-                Vehicle * tail = lane->getLastVehicle();
-                lane->pushVehicle(vehicle);
-                vehicle->updateLeaderAndGap(tail);
-                vehicle->update();
-                vehicle->clearSignal();
+                threads.emplace_back(std::thread(&multiprocessor::generateVehicle, this,vehiclePair.first));
             }
+        }
+        for (size_t i = 0; i < threads.size(); i++)
+        {
+            threads[i].join();
+        }
+
+        for (auto engine : engines)
+        {
             engine->clearChangeEnginePopBuffer();
         }
+    }
+
+    void multiprocessor::generateVehicle(Vehicle oldVehicle)
+    {
+        Engine* bufferEngine = oldVehicle.getBufferEngine();
+        Vehicle *vehicle = new Vehicle(oldVehicle, oldVehicle.getId(), bufferEngine, nullptr);
+        // std::cerr << "vehi created" << std::endl;
+        vehicle->getControllerInfo()->router.resetAnchorPoints(oldVehicle.getChangedDrivable()->getBelongRoad(), bufferEngine);
+        // std::cerr << "route reset" << std::endl;
+        bufferEngine->pushVehicle(vehicle, false);
+        vehicle->updateRoute();
+        // std::cerr << "route update" << std::endl;
+
+        vehicle->setFirstDrivable();
+        Lane *lane = (Lane *)(vehicle->getChangedDrivable());
+        Vehicle * tail = lane->getLastVehicle();
+        lane->pushVehicle(vehicle);
+        vehicle->updateLeaderAndGap(tail);
+        // std::cerr << "leaderandgap update" << std::endl;
+        vehicle->update();
+        vehicle->clearSignal();
     }
 }
