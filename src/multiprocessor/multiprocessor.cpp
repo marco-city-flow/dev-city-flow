@@ -140,6 +140,10 @@ namespace CityFlow{
         {
             threads[i].join();
         }
+        // for (size_t i = 0; i < engines.size(); i++)
+        // {
+        //     engineNext(i);
+        // }
         std::cerr << "pro next start" << std::endl;
         exchangeVehicle();
         std::cerr << "pro next end" << std::endl;
@@ -160,6 +164,14 @@ namespace CityFlow{
             threads[i].join();
         }
 
+        // for (auto engine : engines)
+        // {
+        //     for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
+        //     {
+        //         generateVehicle(vehiclePair.first);
+        //     }
+        // }
+
         for (auto engine : engines)
         {
             engine->clearChangeEnginePopBuffer();
@@ -169,10 +181,13 @@ namespace CityFlow{
     void multiprocessor::generateVehicle(Vehicle oldVehicle)
     {
         Engine* bufferEngine = oldVehicle.getBufferEngine();
-        Vehicle *vehicle = new Vehicle(oldVehicle, oldVehicle.getId(), bufferEngine, nullptr);
+        Vehicle *vehicle = new Vehicle(oldVehicle, oldVehicle.getId() + "_CE", bufferEngine, nullptr);
         // std::cerr << "vehi created" << std::endl;
         vehicle->getControllerInfo()->router.resetAnchorPoints(oldVehicle.getChangedDrivable()->getBelongRoad(), bufferEngine);
         // std::cerr << "route reset" << std::endl;
+        int priority = vehicle->getPriority();
+        while (bufferEngine->checkPriority(priority)) priority = bufferEngine->rnd();
+        vehicle->setPriority(priority);
         bufferEngine->pushVehicle(vehicle, false);
         vehicle->updateRoute();
         // std::cerr << "route update" << std::endl;
