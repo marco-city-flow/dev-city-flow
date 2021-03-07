@@ -12,9 +12,9 @@ namespace CityFlow{
         engines.push_back(engine);
         engine = new Engine("./10_10_4/config_10_10.json", 1, this);
         engines.push_back(engine);
-        std::cout << "end of initengines" << std::endl;
+        // std::cout << "end of initengines" << std::endl;
         initEngineRoad();
-        std::cout << "end of initroads" << std::endl;
+        // std::cout << "end of initroads" << std::endl;
         for (size_t i = 0; i < engines.size(); ++i)
         {
             engines[i]->startThread();
