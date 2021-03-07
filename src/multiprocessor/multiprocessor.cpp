@@ -4,13 +4,13 @@
 namespace CityFlow{
     multiprocessor::multiprocessor()
     {
-        Engine* engine = new Engine("./10_10_1/config_10_10.json", 1, this);
+        Engine* engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_1/config_10_10.json", 1, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_2/config_10_10.json", 1, this);
+        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_2/config_10_10.json", 1, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_3/config_10_10.json", 1, this);
+        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_3/config_10_10.json", 1, this);
         engines.push_back(engine);
-        engine = new Engine("./10_10_4/config_10_10.json", 1, this);
+        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_4/config_10_10.json", 1, this);
         engines.push_back(engine);
         // std::cout << "end of initengines" << std::endl;
         initEngineRoad();

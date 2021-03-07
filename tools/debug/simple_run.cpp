@@ -13,5 +13,9 @@ int main(int argc, char const *argv[]) {
     // Engine engine1("./../../build/10_10_1/config_10_10.json",1);
     // engine1.nextStep();
     // return 0;
-    multiprocessor multi();
+    multiprocessor multi;
+    for (size_t i = 0; i < 1000; i++)
+    {
+        multi.nextStepPro();
+    }
 }
