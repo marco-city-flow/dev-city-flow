@@ -39,7 +39,6 @@ namespace CityFlow {
         bool warnings;
         std::vector<std::pair<Vehicle *, double>> pushBuffer;
         std::vector<std::pair<Vehicle, double>> changeEnginePopBuffer;
-        std::vector<std::pair<Vehicle, double>> changeEnginePushBuffer;
         std::vector<Vehicle *> laneChangeNotifyBuffer;
         std::set<Vehicle *> vehicleRemoveBuffer;
         rapidjson::Document jsonRoot;
@@ -145,6 +144,8 @@ namespace CityFlow {
         void setLogFile(const std::string &jsonFile, const std::string &logFile);
 
         void initSegments();
+
+        void updateHistory();
 
         ~Engine();
 

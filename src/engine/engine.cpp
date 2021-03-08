@@ -273,7 +273,7 @@ namespace CityFlow {
 
         if (!vehicle.hasSetEnd() && vehicle.hasChangeEngine())
         {
-            changeEngineBuffer.emplace_back(vehicle, vehicle.getBufferDis());
+            changeEngineBuffer.emplace_back(vehicle, 0);
         }
     }
 
@@ -283,22 +283,22 @@ namespace CityFlow {
                                   std::vector<Drivable *> &drivables) {
         while (!finished) {
             threadPlanRoute(roads);
-            std::cerr << "threadPlanRoute done" << std::endl;
+            // std::cerr << "threadPlanRoute done" << std::endl;
             if (laneChange) {
                 threadInitSegments(roads);
                 threadPlanLaneChange(vehicles);
                 threadUpdateLeaderAndGap(drivables);
             }
             threadNotifyCross(intersections);
-            std::cerr << "threadNotifyCross done" << std::endl;
+            // std::cerr << "threadNotifyCross done" << std::endl;
             threadGetAction(vehicles);
-            std::cerr << "threadGetAction done" << std::endl;
+            // std::cerr << "threadGetAction done" << std::endl;
             threadUpdateLocation(drivables);
-            std::cerr << "threadUpdateLocation done" << std::endl;
+            // std::cerr << "threadUpdateLocation done" << std::endl;
             threadUpdateAction(vehicles);
-            std::cerr << "threadUpdateAction done" << std::endl;
+            // std::cerr << "threadUpdateAction done" << std::endl;
             threadUpdateLeaderAndGap(drivables);
-            std::cerr << "threadUpdateLeaderAndGap done" << std::endl;
+            // std::cerr << "threadUpdateLeaderAndGap done" << std::endl;
         }
     }
 
@@ -480,9 +480,6 @@ namespace CityFlow {
                 vehicle->updateLeaderAndGap(leader);
                 leader = vehicle;
             }
-            if (drivable->isLane()){
-                static_cast<Lane *>(drivable)->updateHistory();
-            }
         }
         for (Drivable *drivable : drivables) {
             auto &vehicles   = drivable->getVehicles();
@@ -520,6 +517,16 @@ namespace CityFlow {
         startBarrier.wait();
         endBarrier.wait();
         scheduleLaneChange();
+    }
+
+    void Engine::updateHistory()
+    {
+        for (Drivable *drivable : roadnet.getDrivables())
+        {
+            if (drivable->isLane()){
+                static_cast<Lane *>(drivable)->updateHistory();
+            }
+        }
     }
 
     void Engine::planRoute() {
@@ -642,11 +649,11 @@ namespace CityFlow {
     void Engine::nextStep() {
         for (auto &flow : flows)
             flow.nextStep(interval);
-        std::cerr << "flow nextstep done" << std::endl;
+        // std::cerr << "flow nextstep done" << std::endl;
         planRoute();
-        std::cerr << "planroute done" << std::endl;
+        // std::cerr << "planroute done" << std::endl;
         handleWaiting();
-        std::cerr << "handlewaiting done" << std::endl;
+        // std::cerr << "handlewaiting done" << std::endl;
 
         if (laneChange) {
             initSegments();
@@ -655,19 +662,19 @@ namespace CityFlow {
         }
 
         notifyCross();//nothing happens
-        std::cerr << "notifycross done" << std::endl;
+        // std::cerr << "notifycross done" << std::endl;
 
         getAction();//nothing happens
-        std::cerr << "getaction done" << std::endl;
+        // std::cerr << "getaction done" << std::endl;
 
         updateLocation();
-        std::cerr << "updatelocation done" << std::endl;
+        // std::cerr << "updatelocation done" << std::endl;
 
         updateAction();
-        std::cerr << "updateaction done" << std::endl;
+        // std::cerr << "updateaction done" << std::endl;
 
         updateLeaderAndGap();//nothing happens
-        std::cerr << "updateleaderandgap done" << std::endl;
+        // std::cerr << "updateleaderandgap done" << std::endl;
 
 
         if (!rlTrafficLight) {
