@@ -145,6 +145,8 @@ namespace CityFlow {
 
         void initSegments();
 
+        void updateHistory();
+
         ~Engine();
 
         // RL related api

@@ -4,13 +4,13 @@
 namespace CityFlow{
     multiprocessor::multiprocessor()
     {
-        Engine* engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_1/config_10_10.json", 1, this);
+        Engine* engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_1/config_10_10.json", 6, this);
         engines.push_back(engine);
-        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_2/config_10_10.json", 1, this);
+        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_2/config_10_10.json", 6, this);
         engines.push_back(engine);
-        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_3/config_10_10.json", 1, this);
+        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_3/config_10_10.json", 6, this);
         engines.push_back(engine);
-        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_4/config_10_10.json", 1, this);
+        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_4/config_10_10.json", 6, this);
         engines.push_back(engine);
         // std::cout << "end of initengines" << std::endl;
         initEngineRoad();
@@ -144,9 +144,13 @@ namespace CityFlow{
         // {
         //     engineNext(i);
         // }
-        std::cerr << "pro next start" << std::endl;
+        // std::cerr << "pro next start" << std::endl;
         exchangeVehicle();
-        std::cerr << "pro next end" << std::endl;
+        // std::cerr << "pro next end" << std::endl;
+        for (size_t i = 0; i < engines.size(); i++)
+        {
+            engines[i]->updateHistory();
+        }
     }
 
     void multiprocessor::exchangeVehicle()
@@ -189,6 +193,7 @@ namespace CityFlow{
         while (bufferEngine->checkPriority(priority)) priority = bufferEngine->rnd();
         vehicle->setPriority(priority);
         bufferEngine->pushVehicle(vehicle, false);
+        bufferEngine->activeVehicleCount++;
         vehicle->updateRoute();
         // std::cerr << "route update" << std::endl;
 

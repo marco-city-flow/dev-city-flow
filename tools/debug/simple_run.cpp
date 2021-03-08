@@ -14,8 +14,9 @@ int main(int argc, char const *argv[]) {
     // engine1.nextStep();
     // return 0;
     multiprocessor multi;
-    for (size_t i = 0; i < 1000; i++)
+    for (size_t i = 0; i < 2000; i++)
     {
         multi.nextStepPro();
+        std::cout << i << std::endl;
     }
 }

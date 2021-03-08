@@ -283,22 +283,22 @@ namespace CityFlow {
                                   std::vector<Drivable *> &drivables) {
         while (!finished) {
             threadPlanRoute(roads);
-            std::cerr << "threadPlanRoute done" << std::endl;
+            // std::cerr << "threadPlanRoute done" << std::endl;
             if (laneChange) {
                 threadInitSegments(roads);
                 threadPlanLaneChange(vehicles);
                 threadUpdateLeaderAndGap(drivables);
             }
             threadNotifyCross(intersections);
-            std::cerr << "threadNotifyCross done" << std::endl;
+            // std::cerr << "threadNotifyCross done" << std::endl;
             threadGetAction(vehicles);
-            std::cerr << "threadGetAction done" << std::endl;
+            // std::cerr << "threadGetAction done" << std::endl;
             threadUpdateLocation(drivables);
-            std::cerr << "threadUpdateLocation done" << std::endl;
+            // std::cerr << "threadUpdateLocation done" << std::endl;
             threadUpdateAction(vehicles);
-            std::cerr << "threadUpdateAction done" << std::endl;
+            // std::cerr << "threadUpdateAction done" << std::endl;
             threadUpdateLeaderAndGap(drivables);
-            std::cerr << "threadUpdateLeaderAndGap done" << std::endl;
+            // std::cerr << "threadUpdateLeaderAndGap done" << std::endl;
         }
     }
 
@@ -480,9 +480,6 @@ namespace CityFlow {
                 vehicle->updateLeaderAndGap(leader);
                 leader = vehicle;
             }
-            if (drivable->isLane()){
-                static_cast<Lane *>(drivable)->updateHistory();
-            }
         }
         for (Drivable *drivable : drivables) {
             auto &vehicles   = drivable->getVehicles();
@@ -520,6 +517,16 @@ namespace CityFlow {
         startBarrier.wait();
         endBarrier.wait();
         scheduleLaneChange();
+    }
+
+    void Engine::updateHistory()
+    {
+        for (Drivable *drivable : roadnet.getDrivables())
+        {
+            if (drivable->isLane()){
+                static_cast<Lane *>(drivable)->updateHistory();
+            }
+        }
     }
 
     void Engine::planRoute() {
