@@ -3,10 +3,13 @@ import json
 import os
 import math
 import heapq
-# from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans
 import pandas as pd
 import matplotlib.pyplot as plt
 import random
+import tqdm
+import time
+from rich.progress import track
 
 # --roadnetFile Shuanglong.json --dir .\tools\generator
 # --roadnetFile roadnet_10_10.json --dir .\tools\generator
@@ -79,7 +82,7 @@ def group_intersections_by_point(intersections, n):
 
 
 def polygonize(load_dict):
-    for intersection in load_dict['intersections']:
+    for intersection in track(load_dict['intersections']):
         point = intersection['point']
         ix = point['x']
         iy = point['y']
@@ -184,15 +187,18 @@ if __name__ == '__main__':
             print(pd.DataFrame(data=load_dict['roads'], columns=[
                 'id', 'engine1', 'engine2', 'midpoint', 'length']))
     '''
-
+    # Cluster by point
+    print('K-Means Clustering by point...')
     index_list_intersections = group_intersections_by_point(
         load_dict['intersections'], number_of_engines)
 
     # Save engine information of each engine
+    print('Saving engine information to dict...')
     for _ in range(len(load_dict['intersections'])):
         load_dict['intersections'][_]['engine'] = index_list_intersections[_]
 
     # Assign each road to 1 or 2 engine(s), based on grouping of connected intersections
+    print('Assigning engines to each road...')
     for road in load_dict['roads']:
         for _ in range(len(load_dict['intersections'])):
             __ = load_dict['intersections'][_]
@@ -214,6 +220,7 @@ if __name__ == '__main__':
         save_f = open(os.path.join(args.dir, 'output', args.roadnetFile), "w")
     json.dump(load_dict, save_f, indent=2)
 
+    print('Distance sum of each intersection:')
     print(distance_sum(load_dict['intersections'], number_of_engines))
 
     # Scatter intersections
