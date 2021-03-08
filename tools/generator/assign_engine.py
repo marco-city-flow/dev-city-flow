@@ -6,15 +6,18 @@ import heapq
 # from sklearn.cluster import KMeans
 import pandas as pd
 import matplotlib.pyplot as plt
+import random
 
 # --roadnetFile Shuanglong.json --dir .\tools\generator
 # --roadnetFile roadnet_10_10.json --dir .\tools\generator
+# --roadnetFile nanjingmega.json --dir .\tools\generator --engineNum 200
 
-z
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--rowNum", type=int)
     parser.add_argument("--colNum", type=int)
+    parser.add_argument("--engineNum", type=int, default=4)
     parser.add_argument("--roadnetFile", type=str)
     parser.add_argument("--dir", type=str, default="./")
     parser.add_argument("--output", type=str)
@@ -108,8 +111,11 @@ def group_intersections_by_length(intersections, n):
 def scatter_intersections(intersections):
     fig = plt.figure()
     ax = plt.subplot()
-    colors = ['red', 'green', 'blue', 'yellow',
-              'cyan', 'gray', 'purple', 'orange']
+    # colors = ['red', 'green', 'blue', 'yellow',
+    #          'cyan', 'gray', 'purple', 'orange']
+    def get_colors(n): return list(map(lambda i: "#" + "%06x" %
+                                       random.randint(0, 0xFFFFFF), range(n)))
+    colors = get_colors(number_of_engines)
     for intersection in intersections:
         x = intersection['point']['x']
         y = intersection['point']['y']
@@ -127,8 +133,8 @@ def distance_sum(intersections, n):
 
 
 if __name__ == '__main__':
-    # The number of engines available
-    number_of_engines = 4
+    # The number of engines available, now given from arguments
+    # number_of_engines = 200
 
     # Get arguments
     args = parse_args()
@@ -138,6 +144,7 @@ if __name__ == '__main__':
                 args.rowNum, args.colNum, "_turn" if args.turn else "")
         else:
             raise Exception('Invalid arguments for input file!')
+    number_of_engines = args.engineNum
     with open(os.path.join(args.dir, args.roadnetFile), "r") as load_f:
         load_dict = json.load(load_f)  # JSON read as dictionary
         load_f.close()
@@ -152,6 +159,7 @@ if __name__ == '__main__':
             road['midpoint'] = {'x': mx, 'y': my}
 
     # Polygonize each intersection
+    print('Polygonizing intersections...')
     polygonize(load_dict)
 
     #index_list_intersections, list_polygon = group_intersections_by_length(load_dict['intersections'], number_of_engines)
@@ -199,6 +207,7 @@ if __name__ == '__main__':
         #print(road['id'], engine1, engine2)
 
     # Save JSON file
+    print('Saving JSON file...')
     if args.output:
         save_f = open(os.path.join(args.dir, args.output), "w")
     else:
@@ -208,4 +217,5 @@ if __name__ == '__main__':
     print(distance_sum(load_dict['intersections'], number_of_engines))
 
     # Scatter intersections
+    print('Scatterring intersections...')
     scatter_intersections(load_dict['intersections'])
