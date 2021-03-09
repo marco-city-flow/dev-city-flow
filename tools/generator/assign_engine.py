@@ -81,20 +81,34 @@ def group_intersections_by_point(intersections, n):
     return labels
 
 
-def polygonize(load_dict):
-    for intersection in track(load_dict['intersections']):
-        point = intersection['point']
-        ix = point['x']
-        iy = point['y']
-        dis = 0
-        for road in intersection['roads']:
-            for _ in load_dict['roads']:
-                if _['id'] == road:
-                    mx = _['midpoint']['x']
-                    my = _['midpoint']['y']
-                    length = math.sqrt((ix-mx)**2+((iy-my)**2))
-                    dis = dis+length
-        intersection['distanceToMidpoints'] = dis
+def polygonize(load_dict, id_index=''):
+    if id_index:
+        for intersection in track(load_dict['intersections']):
+            point = intersection['point']
+            ix = point['x']
+            iy = point['y']
+            dis = 0
+            for road in intersection['roads']:
+                _ = load_dict['roads'][id_index[road]]
+                mx = _['midpoint']['x']
+                my = _['midpoint']['y']
+                length = math.sqrt((ix-mx)**2+((iy-my)**2))
+                dis = dis+length
+            intersection['distanceToMidpoints'] = dis
+    else:
+        for intersection in track(load_dict['intersections']):
+            point = intersection['point']
+            ix = point['x']
+            iy = point['y']
+            dis = 0
+            for road in intersection['roads']:
+                for _ in load_dict['roads']:
+                    if _['id'] == road:
+                        mx = _['midpoint']['x']
+                        my = _['midpoint']['y']
+                        length = math.sqrt((ix-mx)**2+((iy-my)**2))
+                        dis = dis+length
+            intersection['distanceToMidpoints'] = dis
 
 
 def group_intersections_by_length(intersections, n):
@@ -119,7 +133,7 @@ def scatter_intersections(intersections):
     def get_colors(n): return list(map(lambda i: "#" + "%06x" %
                                        random.randint(0, 0xFFFFFF), range(n)))
     colors = get_colors(number_of_engines)
-    for intersection in intersections:
+    for intersection in track(intersections):
         x = intersection['point']['x']
         y = intersection['point']['y']
         engine = intersection['engine']
@@ -129,7 +143,7 @@ def scatter_intersections(intersections):
 
 def distance_sum(intersections, n):
     distances = [0 for i in range(n)]
-    for intersection in intersections:
+    for intersection in track(intersections):
         distances[intersection['engine']
                   ] = distances[intersection['engine']]+intersection['distanceToMidpoints']
     return distances
@@ -148,6 +162,7 @@ if __name__ == '__main__':
         else:
             raise Exception('Invalid arguments for input file!')
     number_of_engines = args.engineNum
+
     with open(os.path.join(args.dir, args.roadnetFile), "r") as load_f:
         load_dict = json.load(load_f)  # JSON read as dictionary
         load_f.close()
@@ -161,9 +176,16 @@ if __name__ == '__main__':
             road['length'] = length
             road['midpoint'] = {'x': mx, 'y': my}
 
+    print('intersections: ', len(load_dict['intersections']))
+    print('roads: ', len(load_dict['roads']))
+
+    road_id_index = {load_dict['roads'][i]['id']
+        : i for i in range(len(load_dict['roads']))}
+    intersection_id_index = {load_dict['intersections'][i]['id']: i for i in range(
+        len(load_dict['intersections']))}
     # Polygonize each intersection
     print('Polygonizing intersections...')
-    polygonize(load_dict)
+    polygonize(load_dict, id_index=road_id_index)
 
     #index_list_intersections, list_polygon = group_intersections_by_length(load_dict['intersections'], number_of_engines)
 
@@ -200,16 +222,8 @@ if __name__ == '__main__':
     # Assign each road to 1 or 2 engine(s), based on grouping of connected intersections
     print('Assigning engines to each road...')
     for road in load_dict['roads']:
-        for _ in range(len(load_dict['intersections'])):
-            __ = load_dict['intersections'][_]
-            if __['id'] == road['startIntersection']:
-                engine1 = index_list_intersections[_]
-        for _ in range(len(load_dict['intersections'])):
-            __ = load_dict['intersections'][_]
-            if __['id'] == road['endIntersection']:
-                engine2 = index_list_intersections[_]
-        road['engine1'] = engine1
-        road['engine2'] = engine2
+        road['engine1'] = index_list_intersections[intersection_id_index[road['startIntersection']]]
+        road['engine2'] = index_list_intersections[intersection_id_index[road['endIntersection']]]
         #print(road['id'], engine1, engine2)
 
     # Save JSON file
