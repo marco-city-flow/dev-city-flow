@@ -179,7 +179,8 @@ namespace CityFlow {
 
     private:
         std::string id;
-        std::string belongEngineId = "";
+        int belongEngineId1 = 0;
+        int belongEngineId2 = 0;
         Engine *belongEngine1;
         Engine *belongEngine2;
         Intersection *startIntersection = nullptr;
@@ -199,8 +200,6 @@ namespace CityFlow {
         void initEngine(Engine *engine1, Engine *engine2) { belongEngine1 = engine1; belongEngine2 = engine2; };
 
         std::string getId() const { return id; }
-
-        //std::string getBelongEngine(double dis) { return belongEngineId; }
 
         Engine* getBelongEngine(int num) { return (num==1?belongEngine1:belongEngine2); }
 

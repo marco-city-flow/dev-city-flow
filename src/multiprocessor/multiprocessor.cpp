@@ -27,6 +27,10 @@ namespace CityFlow{
         // {
         //     std::cerr << engines[0]->getRoadNet().getRoadById("road_1_0_1")->getId() << std::endl;
         // }
+
+        
+
+        /* ------------------------------
         for (size_t j = 0; j < engines.size(); ++j)
         {
             std::vector<Road> &roads = (engines[j])->roadnet.getRoads();
@@ -123,6 +127,7 @@ namespace CityFlow{
 
             }
         }
+        */
     }
 
     void multiprocessor::engineNext(int i){

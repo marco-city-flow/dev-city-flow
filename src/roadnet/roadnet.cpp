@@ -1,7 +1,7 @@
 #include "roadnet/roadnet.h"
 #include "utility/config.h"
 #include "vehicle/vehicle.h"
-
+#include "multiprocessor/multiprocessor.h"
 #include "rapidjson/document.h"
 #include "rapidjson/filereadstream.h"
 
@@ -86,12 +86,19 @@ namespace CityFlow {
                 if (!curRoadValue.IsObject()) {
                     throw JsonTypeError("road[" + std::to_string(i) + "]", "object");
                 }
+                roads[i].belongEngineId1 = std::atoi(getJsonMember<const char*>("engine1", curRoadValue));
+                roads[i].belongEngineId2 = std::atoi(getJsonMember<const char*>("engine2", curRoadValue));
+                auto t = multiprocessor::engines[roads[i].belongEngineId1];
+                roads[i].belongEngine1 =multiprocessor::engines[roads[i].belongEngineId1];
+                roads[i].belongEngine2 =multiprocessor::engines[roads[i].belongEngineId2];
                 roads[i].startIntersection = interMap[getJsonMember<const char*>("startIntersection", curRoadValue)];
                 roads[i].endIntersection = interMap[getJsonMember<const char*>("endIntersection", curRoadValue)];
 
                 // Check
                 if (!roads[i].startIntersection) throw JsonFormatError("startIntersection does not exist.");
                 if (!roads[i].endIntersection) throw JsonFormatError("endIntersection does not exist.");
+                if (!roads[i].belongEngine1) throw JsonFormatError("belongEngine1 does not exist.");
+                if (!roads[i].belongEngine2) throw JsonFormatError("belongEngine2 does not exist.");
 
                 //  read lanes
                 const auto &lanesValue = getJsonMemberArray("lanes", curRoadValue);
