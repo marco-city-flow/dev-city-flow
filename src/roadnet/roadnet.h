@@ -199,6 +199,8 @@ namespace CityFlow {
 
         void initEngine(Engine *engine1, Engine *engine2) { belongEngine1 = engine1; belongEngine2 = engine2; };
 
+        void initEnginePointer();
+
         std::string getId() const { return id; }
 
         Engine* getBelongEngine(int num) { return (num==1?belongEngine1:belongEngine2); }
@@ -533,6 +535,13 @@ namespace CityFlow {
         const std::vector<Intersection> &getIntersections() const { return this->intersections; }
 
         std::vector<Intersection> &getIntersections() { return this->intersections; }
+
+        void initEnginePointer() {
+        for (size_t i = 0; i < roads.size(); ++i)
+        {
+            roads[i].initEnginePointer();
+        }
+        }
 
         Road *getRoadById(const std::string &id) const {
             return roadMap.count(id) > 0 ? roadMap.at(id) : nullptr;

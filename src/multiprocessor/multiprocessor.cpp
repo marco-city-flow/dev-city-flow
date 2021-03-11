@@ -2,27 +2,29 @@
 #include <unistd.h>
 #include <ctime>
 namespace CityFlow{
+    std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
     multiprocessor::multiprocessor()
     {
         Engine* engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_1/config_10_10.json", 6, this);
-        engines.push_back(engine);
+        multiprocessor::engines.push_back(engine);
         engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_2/config_10_10.json", 6, this);
-        engines.push_back(engine);
+        multiprocessor::engines.push_back(engine);
         engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_3/config_10_10.json", 6, this);
-        engines.push_back(engine);
+        multiprocessor::engines.push_back(engine);
         engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_4/config_10_10.json", 6, this);
-        engines.push_back(engine);
+        multiprocessor::engines.push_back(engine);
         // std::cout << "end of initengines" << std::endl;
-        initEngineRoad();
+        //initEngineRoad();
         // std::cout << "end of initroads" << std::endl;
-        for (size_t i = 0; i < engines.size(); ++i)
+
+        for (size_t i = 0; i < multiprocessor::engines.size(); ++i)
         {
-            engines[i]->startThread();
+            multiprocessor::engines[i]->roadnet.initEnginePointer();
+            multiprocessor::engines[i]->startThread();
         }
     }
 
-    void multiprocessor::initEngineRoad()
-    {
+    //void multiprocessor::initEngineRoad(){
         // if ( engines[0]->getRoadNet().getRoadById("road_1_0_1")!=nullptr )
         // {
         //     std::cerr << engines[0]->getRoadNet().getRoadById("road_1_0_1")->getId() << std::endl;
@@ -128,16 +130,16 @@ namespace CityFlow{
             }
         }
         */
-    }
+    //}
 
     void multiprocessor::engineNext(int i){
-        engines[i]->nextStep();
+        multiprocessor::engines[i]->nextStep();
     }
 
     void multiprocessor::nextStepPro()
     {
         std::vector<std::thread> threads;
-        for(size_t i = 0; i < engines.size(); i++)
+        for(size_t i = 0; i < multiprocessor::engines.size(); i++)
         {
             threads.emplace_back(std::thread(&multiprocessor::engineNext,this,i));
         }
@@ -152,16 +154,16 @@ namespace CityFlow{
         // std::cerr << "pro next start" << std::endl;
         exchangeVehicle();
         // std::cerr << "pro next end" << std::endl;
-        for (size_t i = 0; i < engines.size(); i++)
+        for (size_t i = 0; i < multiprocessor::engines.size(); i++)
         {
-            engines[i]->updateHistory();
+            multiprocessor::multiprocessor::engines[i]->updateHistory();
         }
     }
 
     void multiprocessor::exchangeVehicle()
     {
         std::vector<std::thread> threads;
-        for (auto engine : engines)
+        for (auto engine : multiprocessor::engines)
         {
             for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
             {
@@ -173,7 +175,7 @@ namespace CityFlow{
             threads[i].join();
         }
 
-        // for (auto engine : engines)
+        // for (auto engine : multiprocessor::engines)
         // {
         //     for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
         //     {
@@ -181,7 +183,7 @@ namespace CityFlow{
         //     }
         // }
 
-        for (auto engine : engines)
+        for (auto engine : multiprocessor::engines)
         {
             engine->clearChangeEnginePopBuffer();
         }

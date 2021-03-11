@@ -86,19 +86,15 @@ namespace CityFlow {
                 if (!curRoadValue.IsObject()) {
                     throw JsonTypeError("road[" + std::to_string(i) + "]", "object");
                 }
-                roads[i].belongEngineId1 = std::atoi(getJsonMember<const char*>("engine1", curRoadValue));
-                roads[i].belongEngineId2 = std::atoi(getJsonMember<const char*>("engine2", curRoadValue));
-                auto t = multiprocessor::engines[roads[i].belongEngineId1];
-                roads[i].belongEngine1 =multiprocessor::engines[roads[i].belongEngineId1];
-                roads[i].belongEngine2 =multiprocessor::engines[roads[i].belongEngineId2];
+                roads[i].belongEngineId1 = getJsonMember<int>("engine1", curRoadValue);
+                roads[i].belongEngineId2 = getJsonMember<int>("engine2", curRoadValue);
                 roads[i].startIntersection = interMap[getJsonMember<const char*>("startIntersection", curRoadValue)];
                 roads[i].endIntersection = interMap[getJsonMember<const char*>("endIntersection", curRoadValue)];
+
 
                 // Check
                 if (!roads[i].startIntersection) throw JsonFormatError("startIntersection does not exist.");
                 if (!roads[i].endIntersection) throw JsonFormatError("endIntersection does not exist.");
-                if (!roads[i].belongEngine1) throw JsonFormatError("belongEngine1 does not exist.");
-                if (!roads[i].belongEngine2) throw JsonFormatError("belongEngine2 does not exist.");
 
                 //  read lanes
                 const auto &lanesValue = getJsonMemberArray("lanes", curRoadValue);
@@ -723,6 +719,8 @@ FOUND:;
     void Road::reset() {
         for (auto &lane : lanes) lane.reset();
     }
+
+    void Road::initEnginePointer() { belongEngine1 = multiprocessor::engines[belongEngineId1]; belongEngine2 = multiprocessor::engines[belongEngineId2]; }
 
     void Road::buildSegmentationByInterval(double interval) {
         size_t numSegs = std::max((size_t) ceil(getLengthOfPoints(this->points) / interval), (size_t) 1);
