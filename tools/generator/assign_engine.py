@@ -151,8 +151,23 @@ def distance_sum(intersections, n):
     return distances
 
 
-def to_adjacenccy_list(intersections, road_id_index):
-    return [np.array([road_id_index[road["id"]] for road in intersection["roads"]]) for intersection in track(intersections)]
+def to_adjacenccy_list(intersections, roads, road_id_index,intersection_id_index):
+    adjacenccy_list = []
+    for intersection in track(intersections):
+        cur_list = []
+        for road in intersection['roads']:
+            _ = roads[road_id_index[road]]
+            if _['startIntersection'] is not intersection['id']:
+                cur_list.append(
+                    intersection_id_index[_['startIntersection']])
+            elif _['endIntersection'] is not intersection['id']:
+                cur_list.append(
+                    intersection_id_index[_['endIntersection']])
+            else:
+                raise Exception(
+                    'start- and endIntersection both the same as ', intersection['id'])
+        adjacenccy_list.append(np.array(cur_list))
+    return adjacenccy_list
 
 
 if __name__ == '__main__':
@@ -185,7 +200,7 @@ if __name__ == '__main__':
     print('intersections: ', len(load_dict['intersections']))
     print('roads: ', len(load_dict['roads']))
 
-    road_id_index = {load_dict['roads'][i]['id']                     : i for i in range(len(load_dict['roads']))}
+    road_id_index = {load_dict['roads'][i]['id']: i for i in range(len(load_dict['roads']))}
     intersection_id_index = {load_dict['intersections'][i]['id']: i for i in range(
         len(load_dict['intersections']))}
     # Polygonize each intersection
@@ -216,9 +231,12 @@ if __name__ == '__main__':
     '''
 
     # To adjacency list
-    adjacency_list = to_adjacenccy_list(load_dict['intersections'],road_id_index)
-    n_cuts, membership = pymetis.part_graph(number_of_engines, adjacency=adjacency_list)
-    nodes_part = [np.argwhere(np.array(membership) == i).ravel()  for _ in range(number_of_engines)]
+    adjacency_list = to_adjacenccy_list(
+        load_dict['intersections'], load_dict['roads'], road_id_index, intersection_id_index)
+    n_cuts, membership = pymetis.part_graph(
+        number_of_engines, adjacency=adjacency_list)
+    nodes_part = [np.argwhere(np.array(membership) == i).ravel()
+                  for _ in range(number_of_engines)]
     for _ in nodes_part:
         print(_)
 
