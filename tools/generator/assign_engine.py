@@ -5,12 +5,9 @@ import math
 import heapq
 from sklearn.cluster import KMeans
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import random
-import tqdm
 import time
-import pymetis
 from rich.progress import track
 
 # --roadnetFile Shuanglong.json --dir .\tools\generator
@@ -151,25 +148,6 @@ def distance_sum(intersections, n):
     return distances
 
 
-def to_adjacenccy_list(intersections, roads, road_id_index,intersection_id_index):
-    adjacenccy_list = []
-    for intersection in track(intersections):
-        cur_list = []
-        for road in intersection['roads']:
-            _ = roads[road_id_index[road]]
-            if _['startIntersection'] is not intersection['id']:
-                cur_list.append(
-                    intersection_id_index[_['startIntersection']])
-            elif _['endIntersection'] is not intersection['id']:
-                cur_list.append(
-                    intersection_id_index[_['endIntersection']])
-            else:
-                raise Exception(
-                    'start- and endIntersection both the same as ', intersection['id'])
-        adjacenccy_list.append(np.array(cur_list))
-    return adjacenccy_list
-
-
 if __name__ == '__main__':
     # The number of engines available, now given from arguments
     # number_of_engines = 200
@@ -200,7 +178,8 @@ if __name__ == '__main__':
     print('intersections: ', len(load_dict['intersections']))
     print('roads: ', len(load_dict['roads']))
 
-    road_id_index = {load_dict['roads'][i]['id']: i for i in range(len(load_dict['roads']))}
+    road_id_index = {load_dict['roads'][i]['id']
+        : i for i in range(len(load_dict['roads']))}
     intersection_id_index = {load_dict['intersections'][i]['id']: i for i in range(
         len(load_dict['intersections']))}
     # Polygonize each intersection
@@ -229,23 +208,12 @@ if __name__ == '__main__':
             print(pd.DataFrame(data=load_dict['roads'], columns=[
                 'id', 'engine1', 'engine2', 'midpoint', 'length']))
     '''
-
-    # To adjacency list
-    adjacency_list = to_adjacenccy_list(
-        load_dict['intersections'], load_dict['roads'], road_id_index, intersection_id_index)
-    n_cuts, membership = pymetis.part_graph(
-        number_of_engines, adjacency=adjacency_list)
-    nodes_part = [np.argwhere(np.array(membership) == i).ravel()
-                  for _ in range(number_of_engines)]
-    for _ in nodes_part:
-        print(_)
-
     # Cluster by point
     print('K-Means Clustering by point...')
     index_list_intersections = group_intersections_by_point(
         load_dict['intersections'], number_of_engines)
 
-    # Save engine information of each engine
+    # Save engine information of each intersection
     print('Saving engine information to dict...')
     for _ in range(len(load_dict['intersections'])):
         load_dict['intersections'][_]['engine'] = index_list_intersections[_]
