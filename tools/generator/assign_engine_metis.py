@@ -27,6 +27,35 @@ def parse_args():
     return parser.parse_args()
 
 
+def polygonize(load_dict, id_index=''):
+    if id_index:
+        for intersection in track(load_dict['intersections']):
+            point = intersection['point']
+            ix = point['x']
+            iy = point['y']
+            dis = 0
+            for road in intersection['roads']:
+                _ = load_dict['roads'][id_index[road]]
+                mx = _['midpoint']['x']
+                my = _['midpoint']['y']
+                length = math.sqrt((ix-mx)**2+((iy-my)**2))
+                dis = dis+length
+            intersection['distanceToMidpoints'] = dis
+    else:
+        for intersection in track(load_dict['intersections']):
+            point = intersection['point']
+            ix = point['x']
+            iy = point['y']
+            dis = 0
+            for road in intersection['roads']:
+                for _ in load_dict['roads']:
+                    if _['id'] == road:
+                        mx = _['midpoint']['x']
+                        my = _['midpoint']['y']
+                        length = math.sqrt((ix-mx)**2+((iy-my)**2))
+                        dis = dis+length
+            intersection['distanceToMidpoints'] = dis
+
 def scatter_intersections(intersections):
     fig = plt.figure()
     ax = plt.subplot()
@@ -46,8 +75,7 @@ def scatter_intersections(intersections):
 def distance_sum(intersections, n):
     distances = [0 for i in range(n)]
     for intersection in track(intersections):
-        distances[intersection['engine']
-                  ] = distances[intersection['engine']]+intersection['distanceToMidpoints']
+        distances[intersection['engine']] += intersection['distanceToMidpoints']
     return distances
 
 
@@ -100,6 +128,7 @@ if __name__ == '__main__':
     road_id_index = {load_dict['roads'][i]['id']: i for i in range(len(load_dict['roads']))}
     intersection_id_index = {load_dict['intersections'][i]['id']: i for i in range(
         len(load_dict['intersections']))}
+
     # Polygonize each intersection
     print('Polygonizing intersections...')
     polygonize(load_dict, id_index=road_id_index)
@@ -109,22 +138,22 @@ if __name__ == '__main__':
         load_dict['intersections'], load_dict['roads'], road_id_index, intersection_id_index)
     n_cuts, membership = pymetis.part_graph(
         number_of_engines, adjacency=adjacency_list)
-    nodes_part = [np.argwhere(np.array(membership) == i).ravel()
+    nodes_part = [np.argwhere(np.array(membership) == _).ravel()
                   for _ in range(number_of_engines)]
     for _ in nodes_part:
         print(_)
 
-    # Save engine information of each engine
+    # Save engine information of each intersection
     print('Saving engine information to dict...')
-    for _ in range(len(adjacency_list)):
-        for intersection in adjacency_list[_]:
-            intersection['engine'] = i
+    for _ in range(len(nodes_part)):
+        for intersection in nodes_part[_]:
+            load_dict['intersections'][intersection]['engine'] = _
 
     # Assign each road to 1 or 2 engine(s), based on grouping of connected intersections
     print('Assigning engines to each road...')
     for road in load_dict['roads']:
-        road['engine1'] = index_list_intersections[intersection_id_index[road['startIntersection']]]
-        road['engine2'] = index_list_intersections[intersection_id_index[road['endIntersection']]]
+        road['engine1'] = load_dict['intersections'][intersection_id_index[road['startIntersection']]]['engine']
+        road['engine2'] = load_dict['intersections'][intersection_id_index[road['endIntersection']]]['engine']
         #print(road['id'], engine1, engine2)
 
     # Save JSON file
