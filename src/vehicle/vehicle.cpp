@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <random>
+#include <time.h>
 
 namespace CityFlow {
 
@@ -64,18 +65,22 @@ namespace CityFlow {
                 drivable = nextDrivable;
                 setDrivable(drivable);
             }
-            //std::cerr << "setDrivable in setdis" << std::endl;
+            // std::cerr << "setDrivable: " << now - start << std::endl;
+
             if (drivable != nullptr)
             {
                 if (drivable->getDrivableType() != 1 && drivableRecord->getDrivableType() != 1)
                 {
-                    if (drivable->getBelongEngine(dis) != drivableRecord->getBelongEngine(controllerInfo.dis))
+                    Engine *nextEngine = drivable->getBelongEngine(dis);
+                    Engine *curEngine = drivableRecord->getBelongEngine(controllerInfo.dis);
+                    if (nextEngine != curEngine)
                     {
-                        setEngine(drivable->getBelongEngine(dis));
-                        setDrivable(drivable->getBelongEngine(dis)->getRoadNet().getDrivableById(drivable->getId()));
+                        setEngine(nextEngine);
+                        setDrivable(((Lane *)drivableRecord)->getNextHalfLane());
                     }
                 }
             }
+            // std::cerr << "setEngine: " << now - start << std::endl;
             setDis(dis);
         }
     }

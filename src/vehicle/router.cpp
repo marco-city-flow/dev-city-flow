@@ -29,7 +29,6 @@ namespace CityFlow {
         // std::cerr << lastRoadId << std::endl;
         anchorPoints.push_back(firstRoad);
         anchorPoints.push_back(engine->getRoadNet().getRoadById(lastRoadId));
-
     }
 
     Drivable *Router::getFirstDrivable() const {

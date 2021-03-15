@@ -1,6 +1,8 @@
 #include "multiprocessor/multiprocessor.h"
 #include <unistd.h>
-#include <ctime>
+// #include <ctime>
+#include <time.h>
+
 namespace CityFlow{
     std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
     multiprocessor::multiprocessor()
@@ -29,8 +31,6 @@ namespace CityFlow{
         // {
         //     std::cerr << engines[0]->getRoadNet().getRoadById("road_1_0_1")->getId() << std::endl;
         // }
-
-        
 
         /* ------------------------------
         for (size_t j = 0; j < engines.size(); ++j)
@@ -138,26 +138,42 @@ namespace CityFlow{
 
     void multiprocessor::nextStepPro()
     {
-        std::vector<std::thread> threads;
+        clock_t start, now;
+        start = clock();
+        std::vector<std::thread> threads1;
         for(size_t i = 0; i < multiprocessor::engines.size(); i++)
         {
-            threads.emplace_back(std::thread(&multiprocessor::engineNext,this,i));
+            threads1.emplace_back(std::thread(&multiprocessor::engineNext,this,i));
         }
-        for (size_t i = 0; i < threads.size(); i++)
+        for (size_t i = 0; i < threads1.size(); i++)
         {
-            threads[i].join();
+            threads1[i].join();
         }
-        // for (size_t i = 0; i < engines.size(); i++)
-        // {
-        //     engineNext(i);
-        // }
-        // std::cerr << "pro next start" << std::endl;
+        now = clock();
+        // std::cout << "engineNext:" << now - start << std::endl;
+
+        start = clock();
         exchangeVehicle();
-        // std::cerr << "pro next end" << std::endl;
+        now = clock();
+        std::cout << "exchangeVehicle:" << now - start << std::endl;
+
+        start = clock();
+        std::vector<std::thread> threads2;
         for (size_t i = 0; i < multiprocessor::engines.size(); i++)
         {
-            multiprocessor::multiprocessor::engines[i]->updateHistory();
+            threads2.emplace_back(std::thread(&multiprocessor::updateHistory,this,i));
         }
+        for (size_t i = 0; i < threads2.size(); i++)
+        {
+            threads2[i].join();
+        }
+        now = clock();
+        // std::cout << "updateHistory:" << now - start << std::endl;
+    }
+
+    void multiprocessor::updateHistory(int i)
+    {
+        multiprocessor::engines[i]->updateHistory();
     }
 
     void multiprocessor::exchangeVehicle()
@@ -191,25 +207,38 @@ namespace CityFlow{
 
     void multiprocessor::generateVehicle(Vehicle oldVehicle)
     {
+        clock_t start, now;
+        start = clock();
         Engine* bufferEngine = oldVehicle.getBufferEngine();
         Vehicle *vehicle = new Vehicle(oldVehicle, oldVehicle.getId() + "_CE", bufferEngine, nullptr);
-        // std::cerr << "vehi created" << std::endl;
-        vehicle->getControllerInfo()->router.resetAnchorPoints(oldVehicle.getChangedDrivable()->getBelongRoad(), bufferEngine);
-        // std::cerr << "route reset" << std::endl;
+        now = clock();
+        std::cerr << "vehi created" << now - start << std::endl;
+
+        Road * belongRoad = oldVehicle.getChangedDrivable()->getBelongRoad();
+        start = clock();
+        vehicle->getControllerInfo()->router.resetAnchorPoints(belongRoad, bufferEngine);
+        now = clock();
+        std::cerr << "route reset" << now - start << std::endl;
+
+        start = clock();
         int priority = vehicle->getPriority();
         while (bufferEngine->checkPriority(priority)) priority = bufferEngine->rnd();
         vehicle->setPriority(priority);
         bufferEngine->pushVehicle(vehicle, false);
         bufferEngine->activeVehicleCount++;
-        vehicle->updateRoute();
-        // std::cerr << "route update" << std::endl;
+        // vehicle->updateRoute();
+        now = clock();
+        std::cerr << "route update" << now - start << std::endl;
 
+        start = clock();
         vehicle->setFirstDrivable();
         Lane *lane = (Lane *)(vehicle->getChangedDrivable());
         Vehicle * tail = lane->getLastVehicle();
         lane->pushVehicle(vehicle);
         vehicle->updateLeaderAndGap(tail);
-        // std::cerr << "leaderandgap update" << std::endl;
+        now = clock();
+        std::cerr << "leaderandgap update" << now - start << std::endl;
+
         vehicle->update();
         vehicle->clearSignal();
     }

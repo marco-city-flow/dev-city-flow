@@ -720,7 +720,24 @@ FOUND:;
         for (auto &lane : lanes) lane.reset();
     }
 
-    void Road::initEnginePointer() { belongEngine1 = multiprocessor::engines[belongEngineId1]; belongEngine2 = multiprocessor::engines[belongEngineId2]; }
+    void Road::initEnginePointer() {
+        belongEngine1 = multiprocessor::engines[belongEngineId1];
+        belongEngine2 = multiprocessor::engines[belongEngineId2];
+        if (belongEngine1 == belongEngine2)
+        {
+            for (size_t i = 0; i < lanes.size(); ++i)
+            {
+                lanes[i].nextHalfLane = &lanes[i];
+            }
+        }
+        else
+        {
+            for (size_t i = 0; i < lanes.size(); ++i)
+            {
+                lanes[i].nextHalfLane = belongEngine2->getRoadNet().getDrivableById(lanes[i].getId());
+            }
+        }
+    }
 
     void Road::buildSegmentationByInterval(double interval) {
         size_t numSegs = std::max((size_t) ceil(getLengthOfPoints(this->points) / interval), (size_t) 1);

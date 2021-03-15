@@ -33,6 +33,7 @@ namespace CityFlow {
         void pushVehicle(Vehicle *);
         void exchangeVehicle();
         void generateVehicle(Vehicle);
+        void updateHistory(int);
 
         static std::vector<Engine *> engines;
     };

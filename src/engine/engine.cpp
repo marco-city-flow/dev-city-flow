@@ -6,8 +6,8 @@
 #include <limits>
 #include <iostream>
 #include <memory>
+#include <time.h>
 
-#include <ctime>
 namespace CityFlow {
 
     Engine::Engine(const std::string &configFile, int threadNum, multiprocessor* multiprocessor) : threadNum(threadNum), startBarrier(threadNum + 1),
@@ -234,7 +234,8 @@ namespace CityFlow {
         vehicle.setSpeed(nextSpeed);
         // std::cerr << "setSpeed: " << nextSpeed << " ";
         vehicle.setDeltaDistance(deltaDis);
-        // std::cerr << "set delta distance: " << deltaDis << std::endl;
+        // std::cerr << "changeEngine: " << vehicle.hasChangeEngine() << " time: " << now - start << std::endl;
+
         if (nextSpeed > maxspeed)
         {
             maxspeed = nextSpeed;
@@ -647,13 +648,23 @@ namespace CityFlow {
     }
 
     void Engine::nextStep() {
+        // clock_t start, now;
+
+        // start = clock();
         for (auto &flow : flows)
             flow.nextStep(interval);
-        // std::cerr << "flow nextstep done" << std::endl;
+        // now = clock();
+        // std::cerr << "flow nextstep done" << now - start << std::endl;
+
+        // start = clock();
         planRoute();
-        // std::cerr << "planroute done" << std::endl;
+        // now = clock();
+        // std::cerr << "planroute done" << now - start << std::endl;
+
+        // start = clock();
         handleWaiting();
-        // std::cerr << "handlewaiting done" << std::endl;
+        // now = clock();
+        // std::cerr << "handlewaiting done" << now - start << std::endl;
 
         if (laneChange) {
             initSegments();
@@ -661,20 +672,30 @@ namespace CityFlow {
             updateLeaderAndGap();
         }
 
-        notifyCross();//nothing happens
-        // std::cerr << "notifycross done" << std::endl;
+        // start = clock();
+        notifyCross();
+        // now = clock();
+        // std::cerr << "notifycross done" << now - start << std::endl;
 
-        getAction();//nothing happens
-        // std::cerr << "getaction done" << std::endl;
+        // start = clock();
+        getAction();
+        // now = clock();
+        // std::cerr << "getaction done" << now - start << std::endl;
 
+        // start = clock();
         updateLocation();
-        // std::cerr << "updatelocation done" << std::endl;
+        // now = clock();
+        // std::cerr << "updatelocation done" << now - start << std::endl;
 
+        // start = clock();
         updateAction();
-        // std::cerr << "updateaction done" << std::endl;
+        // now = clock();
+        // std::cerr << "updateaction done" << now - start << std::endl;
 
-        updateLeaderAndGap();//nothing happens
-        // std::cerr << "updateleaderandgap done" << std::endl;
+        // start = clock();
+        updateLeaderAndGap();
+        // now = clock();
+        // std::cerr << "updateleaderandgap done" << now - start << std::endl;
 
 
         if (!rlTrafficLight) {

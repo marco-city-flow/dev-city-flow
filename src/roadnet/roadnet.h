@@ -317,6 +317,7 @@ namespace CityFlow {
         std::vector<Segment> segments;
         std::vector<LaneLink *> laneLinks;
         Road *belongRoad = nullptr;
+        Drivable *nextHalfLane = nullptr;
         std::deque<Vehicle *> waitingBuffer;
 
         struct HistoryRecord {
@@ -348,6 +349,8 @@ namespace CityFlow {
         }
 
         Road *getBelongRoad() const { return this->belongRoad; }
+
+        Drivable *getNextHalfLane() const { return this->nextHalfLane; }
 
         bool available(const Vehicle *vehicle) const;
 
