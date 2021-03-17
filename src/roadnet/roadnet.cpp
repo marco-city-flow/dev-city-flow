@@ -716,6 +716,17 @@ FOUND:;
         for (auto &intersection : intersections) intersection.reset();
     }
 
+    void RoadNet::initRoadPointer(std::vector<Engine*> engines)
+    {
+        for (size_t i = 0; i < roads.size(); ++i)
+        {
+            for (size_t j = 0; j < engines.size(); j++)
+            {
+                roads[i].sameNameRoads[j] = &(engines[j]->roadnet.roads[i]);
+            }
+        }
+    }
+
     void Road::reset() {
         for (auto &lane : lanes) lane.reset();
     }

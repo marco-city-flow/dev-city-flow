@@ -19,6 +19,7 @@ namespace CityFlow {
     class Engine {
         friend class Archive;
         friend class multiprocessor;
+        friend class RoadNet;
     private:
         static bool vehicleCmp(const std::pair<Vehicle *, double> &a, const std::pair<Vehicle *, double> &b) {
             return a.second > b.second;
@@ -53,6 +54,7 @@ namespace CityFlow {
         bool finished = false;
         std::string dir;
         std::ofstream logOut;
+        int id;
 
         bool rlTrafficLight;
         bool laneChange;
@@ -64,6 +66,10 @@ namespace CityFlow {
         double maxdeltadistance = 0;
 
     private:
+        void initId(const int i) { id = i; }
+
+        int getId() const { return id; }
+
         void vehicleControl(Vehicle &vehicle, std::vector<std::pair<Vehicle *, double>> &buffer, std::vector<std::pair<Vehicle, double>> &changeEngineBuffer);
 
         void planRoute();

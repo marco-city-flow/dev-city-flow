@@ -185,6 +185,7 @@ namespace CityFlow {
         Engine *belongEngine2;
         Intersection *startIntersection = nullptr;
         Intersection *endIntersection = nullptr;
+        std::map<int, Road*> sameNameRoads;
         std::vector<Lane> lanes;
         std::vector<Point> points;
 
@@ -204,6 +205,10 @@ namespace CityFlow {
         std::string getId() const { return id; }
 
         Engine* getBelongEngine(int num) { return (num==1?belongEngine1:belongEngine2); }
+
+        Road *getSameRoadById(const int &id) const {
+            return sameNameRoads.count(id) > 0 ? sameNameRoads.at(id) : nullptr;
+        }
 
         const Intersection &getStartIntersection() const { return *(this->startIntersection); }
 
@@ -512,7 +517,6 @@ namespace CityFlow {
         }
     };
 
-
     class RoadNet {
     private:
         std::vector<Road> roads;
@@ -540,11 +544,13 @@ namespace CityFlow {
         std::vector<Intersection> &getIntersections() { return this->intersections; }
 
         void initEnginePointer() {
-        for (size_t i = 0; i < roads.size(); ++i)
-        {
-            roads[i].initEnginePointer();
+            for (size_t i = 0; i < roads.size(); ++i)
+            {
+                roads[i].initEnginePointer();
+            }
         }
-        }
+
+        void initRoadPointer(std::vector<Engine*> engines);
 
         Road *getRoadById(const std::string &id) const {
             return roadMap.count(id) > 0 ? roadMap.at(id) : nullptr;

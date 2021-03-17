@@ -21,14 +21,14 @@ namespace CityFlow {
         iCurRoad = this->route.begin();
     }
 
-    void Router::resetAnchorPoints(Road* firstRoad, Engine* engine) {
-        std::string lastRoadId = (anchorPoints[anchorPoints.size() - 1])->getId();
+    void Router::resetAnchorPoints(Road* firstRoad, int engineId) {
+        Road *lastRoad = anchorPoints[anchorPoints.size() - 1];
         // std::cerr << "id get" << std::endl;
         anchorPoints.clear();
         // std::cerr << firstRoad->getId();
         // std::cerr << lastRoadId << std::endl;
         anchorPoints.push_back(firstRoad);
-        anchorPoints.push_back(engine->getRoadNet().getRoadById(lastRoadId));
+        anchorPoints.push_back(lastRoad->getSameRoadById(engineId));
     }
 
     Drivable *Router::getFirstDrivable() const {
@@ -47,7 +47,7 @@ namespace CityFlow {
         }
     }
 
-    Drivable *Router::getNextDrivable(size_t i) const {//考虑nextdrivable如果进入其他模块，planned似乎从不清空
+    Drivable *Router::getNextDrivable(size_t i) const {
         if (i < planned.size()) {
             return planned[i];
         } else {

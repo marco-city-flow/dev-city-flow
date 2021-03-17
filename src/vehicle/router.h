@@ -73,7 +73,7 @@ namespace CityFlow {
             this->vehicle = vehicle;
         }
 
-        void resetAnchorPoints(Road *firstRoad, Engine *engine);
+        void resetAnchorPoints(Road *firstRoad, int engineId);
 
         bool dijkstra(Road *start, Road *end, std::vector<Road *> &buffer);
 
