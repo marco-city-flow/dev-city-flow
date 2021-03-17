@@ -326,12 +326,10 @@ namespace CityFlow {
                 }else{
                     vehicleItr++;
                 }
-            // std::cerr << "threadupdatelocation 1" << std::endl;
 
                 if (vehicle->hasSetEnd()) {
                     std::lock_guard<std::mutex> guard(lock);
                     vehicleRemoveBuffer.insert(vehicle);
-            // std::cerr << "threadupdatelocation 2" << std::endl;
                     if (!vehicle->getLaneChange()->hasFinished()) {
                         vehicleMap.erase(vehicle->getId());
                         finishedVehicleCnt += 1;
@@ -339,11 +337,9 @@ namespace CityFlow {
                     }
                     auto iter = vehiclePool.find(vehicle->getPriority());
                     threadVehiclePool[iter->second.second].erase(vehicle);
-//                    assert(vehicle->getPartner() == nullptr);
                     delete vehicle;
-            // std::cerr << "threadupdatelocation 3" << std::endl;
+//                    assert(vehicle->getPartner() == nullptr);
                     vehiclePool.erase(iter);
-            // std::cerr << "threadupdatelocation 4" << std::endl;
                     activeVehicleCount--;
                 }
             }
@@ -654,17 +650,17 @@ namespace CityFlow {
         for (auto &flow : flows)
             flow.nextStep(interval);
         // now = clock();
-        // std::cerr << "flow nextstep done" << now - start << std::endl;
+        // std::cerr << "flow nextstep done" << std::endl;
 
         // start = clock();
         planRoute();
         // now = clock();
-        // std::cerr << "planroute done" << now - start << std::endl;
+        // std::cerr << "planroute done" << std::endl;
 
         // start = clock();
         handleWaiting();
         // now = clock();
-        // std::cerr << "handlewaiting done" << now - start << std::endl;
+        // std::cerr << "handlewaiting done" << std::endl;
 
         if (laneChange) {
             initSegments();
@@ -675,27 +671,27 @@ namespace CityFlow {
         // start = clock();
         notifyCross();
         // now = clock();
-        // std::cerr << "notifycross done" << now - start << std::endl;
+        // std::cerr << "notifycross done" << std::endl;
 
         // start = clock();
         getAction();
         // now = clock();
-        // std::cerr << "getaction done" << now - start << std::endl;
+        // std::cerr << "getaction done" << std::endl;
 
         // start = clock();
         updateLocation();
         // now = clock();
-        // std::cerr << "updatelocation done" << now - start << std::endl;
+        // std::cerr << "updatelocation done" << std::endl;
 
         // start = clock();
         updateAction();
         // now = clock();
-        // std::cerr << "updateaction done" << now - start << std::endl;
+        // std::cerr << "updateaction done" << std::endl;
 
         // start = clock();
         updateLeaderAndGap();
         // now = clock();
-        // std::cerr << "updateleaderandgap done" << now - start << std::endl;
+        // std::cerr << "updateleaderandgap done" << std::endl;
 
 
         if (!rlTrafficLight) {
@@ -704,7 +700,7 @@ namespace CityFlow {
             for (auto &intersection : intersections)
                 intersection.getTrafficLight().passTime(interval);
         }
-        //std::cerr << "passtime done" << std::endl;
+        // std::cerr << "passtime done" << std::endl;
 
         if (saveReplay) {
             updateLog();
@@ -724,6 +720,7 @@ namespace CityFlow {
     }
 
     void Engine::pushVehicle(Vehicle *const vehicle, bool pushToDrivable) {
+        std::lock_guard<std::mutex> guard(lock);
         size_t threadIndex = rnd() % threadNum;
         vehiclePool.emplace(vehicle->getPriority(), std::make_pair(vehicle, threadIndex));
         vehicleMap.emplace(vehicle->getId(), vehicle);
