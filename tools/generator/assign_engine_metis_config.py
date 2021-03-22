@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 import time
-#import pymetis
+import pymetis
 from rich.progress import track
 
 # --configFile config_10_10.json --dir .\tools\generator
@@ -23,6 +23,7 @@ def parse_args():
     parser.add_argument("--configFile", type=str)
     parser.add_argument("--dir", type=str, default="./")
     parser.add_argument("--turn", action="store_true")
+    parser.add_argument("--output", type=str)
     return parser.parse_args()
 
 
@@ -132,7 +133,8 @@ if __name__ == '__main__':
     print('intersections: ', len(load_dict['intersections']))
     print('roads: ', len(load_dict['roads']))
 
-    road_id_index = {load_dict['roads'][i]['id']: i for i in range(len(load_dict['roads']))}
+    road_id_index = {load_dict['roads'][i]['id']
+        : i for i in range(len(load_dict['roads']))}
     intersection_id_index = {load_dict['intersections'][i]['id']: i for i in range(
         len(load_dict['intersections']))}
 
@@ -167,18 +169,29 @@ if __name__ == '__main__':
     with open(os.path.join(config_dict['dir'], config_dict['flowFile']), "r") as load_f:
         flow_dict = json.load(load_f)  # JSON read as dictionary
         load_f.close()
-    flows = []
+    flows = list([] for _ in range(number_of_engines))
     for flow in flow_dict:
         road = load_dict['roads'][road_id_index[flow['route'][0]]]
-        flows[road['engines1']].append(flow)
+        flows[road['engine1']].append(flow)
     for _ in range(number_of_engines):
-        print('Saving JSON file for engine ' + (_+1) + '...')
+        print('Saving JSON file for engine ' + str(_+1) + '...')
         save_f = open(os.path.join(
             engine_dicts[_]['engineDir'], engine_dicts[_]['flowFile']), "w")
         json.dump(flows[_], save_f, indent=2)
 
     # Generate config file for each engine
-    pass
+    for _ in range(number_of_engines):
+        engine_config = config_dict.copy()
+        engine_config['dir'] = engine_config['engines'][_]['engineDir']
+        engine_config['flowFile'] = engine_config['engines'][_]['flowFile']
+        engine_config['roadnetLogFile'] = engine_config['engines'][_]['roadnetLogFile']
+        engine_config['replayLogFile'] = engine_config['engines'][_]['replayLogFile']
+        del engine_config['engines']
+        print(engine_config)
+        # dir/engineDir/configFile
+        with open(os.path.join(config_dict['dir'], engine_dicts[_]['engineDir'], engine_dicts[_]['configFile']), "w") as config_w:
+            json.dump(engine_config, config_w, indent=2)
+            config_w.close()
 
     # Save roadnet JSON file
     print('Saving roadnet JSON file...')

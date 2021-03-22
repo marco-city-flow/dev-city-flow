@@ -14,6 +14,9 @@ namespace CityFlow{
     std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
     multiprocessor::multiprocessor()
     {
+        loadFromConfig("config_10_10.json");
+
+        /*
         Engine* engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_3/config_10_10.json", 6, this);
         multiprocessor::engines.push_back(engine);
         engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_1/config_10_10.json", 6, this);
@@ -22,6 +25,8 @@ namespace CityFlow{
         multiprocessor::engines.push_back(engine);
         engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_2/config_10_10.json", 6, this);
         multiprocessor::engines.push_back(engine);
+        */
+
         // std::cout << "end of initengines" << std::endl;
         //initEngineRoad();
 
@@ -33,6 +38,41 @@ namespace CityFlow{
             multiprocessor::engines[i]->startThread();
         }
         std::cout << "end of init" << std::endl;
+    }
+
+    bool multiprocessor::loadFromConfig(std::string jsonFileName)   // load engines from an all-in-one config
+    {
+        rapidjson::Document document;
+        if (!readJsonFromFile(jsonFileName, document)) {
+            std::cerr << "cannot open roadnet file" << std::endl;
+            return false;
+        }
+        std::list<std::string> path;
+        if (!document.IsObject())
+            throw JsonTypeError("roadnet config file", "object");
+        try {
+            const rapidjson::Value &engineConfigs = getJsonMemberArray("engines", document);
+
+            //  build mapping
+            engines.resize(engineConfigs.Size());
+            for (rapidjson::SizeType i = 0; i < engines.Size(); i++) {
+                const auto &curEngineConfig = engineConfigs[i];
+                if (!curEngineConfig.IsObject()) {
+                    throw JsonTypeError("engineConfig", "object");
+                    return false;
+                }
+                auto path = getJsonMember<const char*>("engineDir", curEngineConfig) + getJsonMember<const char*>("configFile", curEngineConfig);
+                auto engine = new Engine(path, 6, this);
+                multiprocessor::engines.push_back(engine);
+            }
+        }catch (const JsonFormatError &e) {
+            std::cerr << "Error occurred when reading the roadnet file: " << std::endl;
+            for (const auto &node : path) {
+                std::cerr << "/" << node;
+            }
+            std::cerr << " " << e.what() << std::endl;
+            return false;
+        }
     }
 
     void multiprocessor::engineNext(int i){
