@@ -12,6 +12,7 @@ cmake-build-*
 
 frontend/replay/*
 tools/generator/output/*
-tools/generator/*.json
+tools/generator/*mega.json
+tools/generator/*50_50*
 
 tempCodeRunnerFile.py
