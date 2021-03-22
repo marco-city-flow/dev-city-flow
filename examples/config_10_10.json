@@ -1,0 +1,36 @@
+{
+	"interval": 1.0,
+	"seed": 0,
+	"dir": "./",
+	"roadnetFile": "roadnet_10_10.json",
+	"flowFile": "flow_10_10_1.json",
+	"rlTrafficLight": false,
+	"laneChange": false,
+	"saveReplay": true,
+	"engines": [
+		{
+			"engineDir": "./",
+			"flowFile": "flow_10_10_1.json",
+			"roadnetLogFile": "10_10_replay_roadnet_1.json",
+			"replayLogFile": "10_10_replay_1.txt"
+		},
+		{
+			"engineDir": "./",
+			"flowFile": "flow_10_10_2.json",
+			"roadnetLogFile": "10_10_replay_roadnet_2.json",
+			"replayLogFile": "10_10_replay_2.txt"
+		},
+		{
+			"engineDir": "./",
+			"flowFile": "flow_10_10_3.json",
+			"roadnetLogFile": "10_10_replay_roadnet_3.json",
+			"replayLogFile": "10_10_replay_3.txt"
+		},
+		{
+			"engineDir": "./",
+			"flowFile": "flow_10_10_4.json",
+			"roadnetLogFile": "10_10_replay_roadnet_4.json",
+			"replayLogFile": "10_10_replay_4.txt"
+		}
+	]
+}

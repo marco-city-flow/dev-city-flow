@@ -3,6 +3,13 @@
 #include <ctime>
 #include <time.h>
 
+#include "rapidjson/filereadstream.h"
+#include "rapidjson/filewritestream.h"
+#include "rapidjson/cursorstreamwrapper.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/document.h"
+#include "rapidjson/error/en.h"
+
 namespace CityFlow{
     std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
     multiprocessor::multiprocessor()

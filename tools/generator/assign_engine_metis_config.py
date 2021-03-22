@@ -1,3 +1,6 @@
+# Assign engine for each intersection, road and flow and store them for each engine
+# Input: A single config file in JSON format, which should include the path of all-in-one flow and roadnet
+# Output: Engine-wise flow file and config file, in respective directory
 import argparse
 import json
 import os
@@ -7,22 +10,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 import time
-import pymetis
+#import pymetis
 from rich.progress import track
 
-# --roadnetFile Shuanglong.json --dir .\tools\generator
-# --roadnetFile roadnet_10_10.json --dir .\tools\generator
-# --roadnetFile nanjingmega.json --dir .\tools\generator --engineNum 200
+# --configFile config_10_10.json --dir .\tools\generator
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--rowNum", type=int)
     parser.add_argument("--colNum", type=int)
-    parser.add_argument("--engineNum", type=int, default=4)
-    parser.add_argument("--roadnetFile", type=str)
+    parser.add_argument("--configFile", type=str)
     parser.add_argument("--dir", type=str, default="./")
-    parser.add_argument("--output", type=str)
     parser.add_argument("--turn", action="store_true")
     return parser.parse_args()
 
@@ -56,6 +55,7 @@ def polygonize(load_dict, id_index=''):
                         dis = dis+length
             intersection['distanceToMidpoints'] = dis
 
+
 def scatter_intersections(intersections):
     fig = plt.figure()
     ax = plt.subplot()
@@ -75,11 +75,12 @@ def scatter_intersections(intersections):
 def distance_sum(intersections, n):
     distances = [0 for i in range(n)]
     for intersection in track(intersections):
-        distances[intersection['engine']] += intersection['distanceToMidpoints']
+        distances[intersection['engine']
+                  ] += intersection['distanceToMidpoints']
     return distances
 
 
-def to_adjacency_list(intersections, roads, road_id_index,intersection_id_index):
+def to_adjacency_list(intersections, roads, road_id_index, intersection_id_index):
     adjacenccy_list = []
     for intersection in track(intersections):
         cur_list = []
@@ -101,26 +102,32 @@ def to_adjacency_list(intersections, roads, road_id_index,intersection_id_index)
 if __name__ == '__main__':
     # Get arguments
     args = parse_args()
-    if args.roadnetFile is None:
+    if args.configFile is None:
         if args.rowNum and args.colNum:
-            args.roadnetFile = "roadnet_%d_%d%s.json" % (
+            args.configFile = "config_%d_%d%s.json" % (
                 args.rowNum, args.colNum, "_turn" if args.turn else "")
         else:
             raise Exception('Invalid arguments for input file!')
-    number_of_engines = args.engineNum
 
-    with open(os.path.join(args.dir, args.roadnetFile), "r") as load_f:
+    with open(os.path.join(args.dir, args.configFile), "r") as load_f:
+        config_dict = json.load(load_f)  # JSON read as dictionary
+        load_f.close()
+
+    number_of_engines = len(config_dict['engines'])
+    engine_dicts = config_dict['engines']
+
+    with open(os.path.join(config_dict['dir'], config_dict['roadnetFile']), "r") as load_f:
         load_dict = json.load(load_f)  # JSON read as dictionary
         load_f.close()
-        # Calculate length and midpoint
-        for road in load_dict['roads']:
-            dx = road['points'][0]['x'] - road['points'][1]['x']
-            dy = road['points'][0]['y'] - road['points'][1]['y']
-            mx = (road['points'][0]['x'] + road['points'][1]['x'])/2
-            my = (road['points'][0]['y'] + road['points'][1]['y'])/2
-            length = math.sqrt((dx**2)+(dy**2))
-            road['length'] = length
-            road['midpoint'] = {'x': mx, 'y': my}
+    # Calculate length and midpoint
+    for road in load_dict['roads']:
+        dx = road['points'][0]['x'] - road['points'][1]['x']
+        dy = road['points'][0]['y'] - road['points'][1]['y']
+        mx = (road['points'][0]['x'] + road['points'][1]['x'])/2
+        my = (road['points'][0]['y'] + road['points'][1]['y'])/2
+        length = math.sqrt((dx**2)+(dy**2))
+        road['length'] = length
+        road['midpoint'] = {'x': mx, 'y': my}
 
     print('intersections: ', len(load_dict['intersections']))
     print('roads: ', len(load_dict['roads']))
@@ -156,12 +163,29 @@ if __name__ == '__main__':
         road['engine2'] = load_dict['intersections'][intersection_id_index[road['endIntersection']]]['engine']
         #print(road['id'], engine1, engine2)
 
-    # Save JSON file
-    print('Saving JSON file...')
+    # All-in-one flow file to engine-wise flow files
+    with open(os.path.join(config_dict['dir'], config_dict['flowFile']), "r") as load_f:
+        flow_dict = json.load(load_f)  # JSON read as dictionary
+        load_f.close()
+    flows = []
+    for flow in flow_dict:
+        road = load_dict['roads'][road_id_index[flow['route'][0]]]
+        flows[road['engines1']].append(flow)
+    for _ in range(number_of_engines):
+        print('Saving JSON file for engine ' + (_+1) + '...')
+        save_f = open(os.path.join(
+            engine_dicts[_]['engineDir'], engine_dicts[_]['flowFile']), "w")
+        json.dump(flows[_], save_f, indent=2)
+
+    # Generate config file for each engine
+    pass
+
+    # Save roadnet JSON file
+    print('Saving roadnet JSON file...')
     if args.output:
         save_f = open(os.path.join(args.dir, args.output), "w")
     else:
-        save_f = open(os.path.join(args.dir, 'output', args.roadnetFile), "w")
+        save_f = open(os.path.join(args.dir, 'output', args.configFile), "w")
     json.dump(load_dict, save_f, indent=2)
 
     print('Distance sum of each intersection:')
