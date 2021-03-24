@@ -14,7 +14,7 @@ namespace CityFlow{
     std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
     multiprocessor::multiprocessor()
     {
-        loadFromConfig("config_10_10.json");
+        loadFromConfig("/home/zhj/Desktop/CityFlow/build/10_10_m/config_10_10.json");
 
         /*
         Engine* engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_3/config_10_10.json", 6, this);
@@ -55,14 +55,16 @@ namespace CityFlow{
 
             //  build mapping
             engines.resize(engineConfigs.Size());
-            for (rapidjson::SizeType i = 0; i < engines.Size(); i++) {
+            for (rapidjson::SizeType i = 0; i < engines.size(); i++) {
                 const auto &curEngineConfig = engineConfigs[i];
                 if (!curEngineConfig.IsObject()) {
                     throw JsonTypeError("engineConfig", "object");
                     return false;
                 }
-                auto path = getJsonMember<const char*>("engineDir", curEngineConfig) + getJsonMember<const char*>("configFile", curEngineConfig);
-                auto engine = new Engine(path, 6, this);
+                char* path = strdup(getJsonMember<const char*>("engineDir", curEngineConfig));
+                strcat(path, getJsonMember<const char*>("configFile", curEngineConfig));
+                std::cerr << path << std::endl;
+                Engine *engine = new Engine(path, 6, this);
                 multiprocessor::engines.push_back(engine);
             }
         }catch (const JsonFormatError &e) {
@@ -73,6 +75,7 @@ namespace CityFlow{
             std::cerr << " " << e.what() << std::endl;
             return false;
         }
+        return true;
     }
 
     void multiprocessor::engineNext(int i){

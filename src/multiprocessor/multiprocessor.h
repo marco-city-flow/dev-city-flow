@@ -28,6 +28,7 @@ namespace CityFlow {
         public:
         multiprocessor();//读取核心文件并进行切分 这里暂且省略直接用假数据
 
+        bool loadFromConfig(std::string);
         void nextStepPro();
         void engineNext(int);
         void pushVehicle(Vehicle *);

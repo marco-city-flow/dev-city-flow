@@ -114,6 +114,7 @@ namespace CityFlow {
         }
         jsonRoot.SetObject();
         jsonRoot.AddMember("static", roadnet.convertToJson(jsonRoot.GetAllocator()), jsonRoot.GetAllocator());
+        std::cerr << "roadnet loaded from json end" << std::endl;
         return ans;
     }
 
