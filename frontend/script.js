@@ -84,7 +84,7 @@ var keyDown = new Set();
 var turnSignalTextures = [];
 
 let pauseButton = document.getElementById("pause");
-let nodeCanvas = document.getElementById("simulator-canvas");
+let nodeCanvas = document.getElementById("draw-area");
 let replayControlDom = document.getElementById("replay-control");
 let replaySpeedDom = document.getElementById("replay-speed");
 
@@ -257,7 +257,7 @@ replayControlDom.addEventListener('change', function(e){
 
 document.addEventListener('keydown', function(e) {
     if (e.keyCode == P) {
-        controls.paused = !controls.paused;
+        togglePlayPause();
     } else if (e.keyCode == ONE) {
         updateReplaySpeed(Math.max(controls.replaySpeed / 1.5, controls.replaySpeedMin));
     } else if (e.keyCode == TWO ) {
@@ -274,14 +274,24 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+function togglePlayPause(){
+    if(controls.paused) {
+        pauseButton.textContent = "⏸Pause";
+    }
+    else{
+        pauseButton.textContent = "▶Play";
+    }
+    controls.paused = !controls.paused;
+}
+
 document.addEventListener('keyup', (e) => keyDown.delete(e.keyCode));
 
 nodeCanvas.addEventListener('dblclick', function(e){
-    controls.paused = !controls.paused;
+    togglePlayPause();
 });
 
 pauseButton.addEventListener('click', function(e){
-    controls.paused = !controls.paused;
+    togglePlayPause();
 });
 
 function initCanvas() {
