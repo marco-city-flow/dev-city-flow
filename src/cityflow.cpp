@@ -9,7 +9,9 @@ using namespace py::literals;
 
 PYBIND11_MODULE(cityflow, m) {
     py::class_<CityFlow::multiprocessor>(m,"multiprocessor")
-        .def(py::init<>())
+        .def(py::init<const std::string&>(),
+            "config_file"_a
+        )
         .def("next_step_pro",&CityFlow::multiprocessor::nextStepPro);
     py::class_<CityFlow::Engine>(m, "Engine")
         .def(py::init<const std::string&, int, CityFlow::multiprocessor*>(),

@@ -12,9 +12,9 @@
 
 namespace CityFlow{
     std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
-    multiprocessor::multiprocessor()
+    multiprocessor::multiprocessor(const std::string &configFile)
     {
-        loadFromConfig("/home/zhj/Desktop/CityFlow/build/10_10_m/config_10_10.json");
+        loadFromConfig(configFile);
 
         /*
         Engine* engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_3/config_10_10.json", 6, this);
@@ -64,7 +64,6 @@ namespace CityFlow{
                 std::string path_t = getJsonMember<const char*>("engineDir", curEngineConfig);
                 path_t += getJsonMember<const char*>("configFile", curEngineConfig);
                 std::cerr << path_t << std::endl;
-                int a = 1;
                 Engine *engine = new Engine(path_t, 6, this);
                 multiprocessor::engines.push_back(engine);
             }

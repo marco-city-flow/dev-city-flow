@@ -4,16 +4,8 @@
 import argparse
 import json
 import os
-import math
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import random
-import time
-import pymetis
-from rich.progress import track
 
-# --inConfigFile config_10_10.json --dir .\tools\generator --output all_in_one__config_10_10.json
+# --inConfigFile config_100_100.json --dir ./tools/generator/100_100_m --output all_in_one_config_100_100.json
 
 
 def parse_args():
@@ -57,7 +49,7 @@ if __name__ == '__main__':
     del config_dict['roadnetLogFilePrefix']
     del config_dict['replayLogFilePrefix']
 
-    engines = []
+    engines = [dict() for _ in range(number_of_engines)]
 
     for i in range(number_of_engines):
         engine_dict = dict()
@@ -67,7 +59,7 @@ if __name__ == '__main__':
         engine_dict['roadnetLogFile'] = roadnetLogFilePrefix + \
             "_"+str(i+1)+".json"
         engine_dict['replayLogFile'] = replayLogFilePrefix + \
-            "_"+str(i+1)+".json"
+            "_"+str(i+1)+".txt"
         engines[i] = engine_dict
 
     config_dict['engines'] = engines

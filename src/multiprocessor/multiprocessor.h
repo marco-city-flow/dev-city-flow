@@ -20,13 +20,13 @@ namespace CityFlow {
         friend class RoadNet;
 
         private:
-        RoadNet roadnet;//整个地图 用于规划路径 或者查找？
+        RoadNet roadnet;
         std::mutex lock;
         // void initEngineRoad();
         // std::map<Engine *, std::vector<std::pair<Vehicle *, double>>> enginePushBuffer;
 
         public:
-        multiprocessor();//读取核心文件并进行切分 这里暂且省略直接用假数据
+        multiprocessor(const std::string &configFile);
 
         bool loadFromConfig(std::string);
         void nextStepPro();

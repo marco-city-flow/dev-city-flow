@@ -189,7 +189,7 @@ if __name__ == '__main__':
         del engine_config['engines']
         print(engine_config)
         # dir/engineDir/configFile
-        with open(os.path.join(config_dict['dir'], engine_dicts[_]['engineDir'], engine_dicts[_]['configFile']), "w") as config_w:
+        with open(os.path.join(engine_dicts[_]['engineDir'], engine_dicts[_]['configFile']), "w") as config_w:
             json.dump(engine_config, config_w, indent=2)
             config_w.close()
 
