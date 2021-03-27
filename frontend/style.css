@@ -37,7 +37,7 @@ html, body {
     z-index: 3;
     height: 100vh;
     overflow-y: auto;
-    opacity: 0.4;
+    opacity: 0;
     transition: opacity .75s ease-in-out;;
 }
 
