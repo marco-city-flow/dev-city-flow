@@ -1,0 +1,40 @@
+{
+  "interval": 1.0,
+  "seed": 0,
+  "dir": "./100_100_m/",
+  "roadnetFile": "roadnet_100_100.json",
+  "flowFile": "flow_100_100.json",
+  "rlTrafficLight": false,
+  "laneChange": false,
+  "saveReplay": true,
+  "engines": [
+    {
+      "engineDir": "./100_100_m/",
+      "flowFile": "flow_100_100_1.json",
+      "configFile": "config_100_100_1.json",
+      "roadnetLogFile": "100_100_replay_roadnet_1.json",
+      "replayLogFile": "100_100_replay_1.txt"
+    },
+    {
+      "engineDir": "./100_100_m/",
+      "flowFile": "flow_100_100_2.json",
+      "configFile": "config_100_100_2.json",
+      "roadnetLogFile": "100_100_replay_roadnet_2.json",
+      "replayLogFile": "100_100_replay_2.txt"
+    },
+    {
+      "engineDir": "./100_100_m/",
+      "flowFile": "flow_100_100_3.json",
+      "configFile": "config_100_100_3.json",
+      "roadnetLogFile": "100_100_replay_roadnet_3.json",
+      "replayLogFile": "100_100_replay_3.txt"
+    },
+    {
+      "engineDir": "./100_100_m/",
+      "flowFile": "flow_100_100_4.json",
+      "configFile": "config_100_100_4.json",
+      "roadnetLogFile": "100_100_replay_roadnet_4.json",
+      "replayLogFile": "100_100_replay_4.txt"
+    }
+  ]
+}
