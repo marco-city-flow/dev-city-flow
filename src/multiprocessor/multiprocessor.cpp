@@ -14,30 +14,10 @@ namespace CityFlow{
     std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
     multiprocessor::multiprocessor(const std::string &configFile)
     {
+        // std::string cconfigFile = "/home/zhj/Desktop/CityFlow/build/10_10_m/config_10_10.json";
         loadFromConfig(configFile);
 
-        /*
-        Engine* engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_3/config_10_10.json", 6, this);
-        multiprocessor::engines.push_back(engine);
-        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_1/config_10_10.json", 6, this);
-        multiprocessor::engines.push_back(engine);
-        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_4/config_10_10.json", 6, this);
-        multiprocessor::engines.push_back(engine);
-        engine = new Engine("/home/zhj/Desktop/CityFlow/build/10_10_2/config_10_10.json", 6, this);
-        multiprocessor::engines.push_back(engine);
-        */
-
         // std::cout << "end of initengines" << std::endl;
-        //initEngineRoad();
-
-        // for (size_t i = 0; i < multiprocessor::engines.size(); ++i)
-        // {
-        //     multiprocessor::engines[i]->initId(i);
-        //     multiprocessor::engines[i]->roadnet.initEnginePointer();
-        //     multiprocessor::engines[i]->roadnet.initRoadPointer(engines);
-        //     multiprocessor::engines[i]->startThread();
-        //     std::cout << "init" << i << std::endl;
-        // }
 
         std::vector<std::thread> threads;
         for (size_t i = 0; i < multiprocessor::engines.size(); ++i)
@@ -137,47 +117,63 @@ namespace CityFlow{
 
     void multiprocessor::exchangeVehicle()
     {
-        // std::vector<std::thread> threads;
-        // for (auto engine : multiprocessor::engines)
-        // {
-        //     for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
-        //     {
-        //         threads.emplace_back(std::thread(&multiprocessor::generateVehicle, this,vehiclePair.first));
-        //     }
-        // }
-        // for (size_t i = 0; i < threads.size(); i++)
-        // {
-        //     threads[i].join();
-        // }
-
+        std::vector<std::thread> threads1;
         for (auto engine : multiprocessor::engines)
         {
             for (auto &vehiclePair : engine->getChangeEnginePopBuffer())
             {
-                generateVehicle(vehiclePair.first);
+                threads1.emplace_back(std::thread(&multiprocessor::generateVehicle, this,vehiclePair.first));
             }
+        }
+        for (size_t i = 0; i < threads1.size(); i++)
+        {
+            threads1[i].join();
+        }
+
+        for (size_t i = 0; i < vehiclePushBuffer.size(); i++)
+        {
+            Vehicle* vehicle = vehiclePushBuffer[i];
+            Engine* bufferEngine = vehicle->getBufferEngine();
+            int priority = vehicle->getPriority();
+            while (bufferEngine->checkPriority(priority)) priority = bufferEngine->rnd();
+            vehicle->setPriority(priority);
+            bufferEngine->pushVehicle(vehicle, false);
+        }
+
+        std::vector<std::thread> threads2;
+        for (size_t i = 0; i < vehiclePushBuffer.size(); i++)
+        {
+            threads2.emplace_back(std::thread(&multiprocessor::pushInEngine, this, i));
+        }
+        for (size_t i = 0; i < threads2.size(); i++)
+        {
+            threads2[i].join();
         }
 
         for (auto engine : multiprocessor::engines)
         {
             engine->clearChangeEnginePopBuffer();
         }
+
+        vehiclePushBuffer.clear();
     }
 
     void multiprocessor::generateVehicle(Vehicle oldVehicle)
     {
         Engine* bufferEngine = oldVehicle.getBufferEngine();
         Vehicle *vehicle = new Vehicle(oldVehicle, oldVehicle.getId() + "_CE", bufferEngine, nullptr);
-        // std::cerr << "vehi created" << std::endl;
-
         Road * belongRoad = oldVehicle.getChangedDrivable()->getBelongRoad();
+        // std::cerr << "vehi created" << std::endl;
         vehicle->getControllerInfo()->router.resetAnchorPoints(belongRoad, bufferEngine->getId());
         // std::cerr << "route reset" << std::endl;
+        std::lock_guard<std::mutex> guard(lock);
+        vehiclePushBuffer.push_back(vehicle);
+    }
 
-        int priority = vehicle->getPriority();
-        while (bufferEngine->checkPriority(priority)) priority = bufferEngine->rnd();
-        vehicle->setPriority(priority);
-        bufferEngine->pushVehicle(vehicle, false);
+    void multiprocessor::pushInEngine(int i)
+    {
+        Vehicle* vehicle = vehiclePushBuffer[i];
+        Engine* bufferEngine = vehicle->getBufferEngine();
         bufferEngine->activeVehicleCount++;
         vehicle->updateRoute();
         // std::cerr << "route update" << std::endl;

@@ -13,15 +13,18 @@
 #include <random>
 #include <fstream>
 
-
-namespace CityFlow {
+namespace CityFlow
+{
     class multiprocessor;
-    class Engine {
+    class Engine
+    {
         friend class Archive;
         friend class multiprocessor;
         friend class RoadNet;
+
     private:
-        static bool vehicleCmp(const std::pair<Vehicle *, double> &a, const std::pair<Vehicle *, double> &b) {
+        static bool vehicleCmp(const std::pair<Vehicle *, double> &a, const std::pair<Vehicle *, double> &b)
+        {
             return a.second > b.second;
         }
 
@@ -49,6 +52,8 @@ namespace CityFlow {
         size_t activeVehicleCount = 0;
         int seed;
         std::mutex lock;
+        std::mutex vehiclePoolLock;
+        std::mutex vehicleMapLock;
         Barrier startBarrier, endBarrier;
         std::vector<std::thread> threadPool;
         bool finished = false;
@@ -84,7 +89,6 @@ namespace CityFlow {
 
         void planLaneChange();
 
-
         void threadController(std::set<Vehicle *> &vehicles,
                               std::vector<Road *> &roads,
                               std::vector<Intersection *> &intersections,
@@ -116,7 +120,7 @@ namespace CityFlow {
 
         bool loadFlow(const std::string &jsonFilename);
 
-        std::vector<const Vehicle *> getRunningVehicles(bool includeWaiting=false) const;
+        std::vector<const Vehicle *> getRunningVehicles(bool includeWaiting = false) const;
 
         void scheduleLaneChange();
 
@@ -125,7 +129,7 @@ namespace CityFlow {
     public:
         std::mt19937 rnd;
 
-        Engine(const std::string &configFile, int threadNum, multiprocessor* multiprocessor);
+        Engine(const std::string &configFile, int threadNum, multiprocessor *multiprocessor);
 
         void startThread();
 
@@ -161,10 +165,12 @@ namespace CityFlow {
 
         size_t getVehicleCount() const;
 
-        std::vector<std::pair<Vehicle, double>>  getChangeEnginePopBuffer() const { return changeEnginePopBuffer; };
+        std::vector<std::pair<Vehicle, double>> getChangeEnginePopBuffer() const { return changeEnginePopBuffer; };
 
-        void clearChangeEnginePopBuffer() {
-            changeEnginePopBuffer.clear(); };
+        void clearChangeEnginePopBuffer()
+        {
+            changeEnginePopBuffer.clear();
+        };
 
         std::vector<std::string> getVehicles(bool includeWaiting = false) const;
 

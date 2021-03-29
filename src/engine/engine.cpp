@@ -721,6 +721,10 @@ namespace CityFlow {
     }
 
     void Engine::pushVehicle(Vehicle *const vehicle, bool pushToDrivable) {
+        //std::unique_lock<std::mutex> guardPool(vehiclePoolLock);
+        //std::unique_lock<std::mutex> guardMap(vehicleMapLock);
+        // vehiclePoolLock.lock();
+        // vehicleMapLock.lock();
         std::lock_guard<std::mutex> guard(lock);
         size_t threadIndex = rnd() % threadNum;
         vehiclePool.emplace(vehicle->getPriority(), std::make_pair(vehicle, threadIndex));
@@ -729,6 +733,9 @@ namespace CityFlow {
 
         if (pushToDrivable)
             ((Lane *) vehicle->getCurDrivable())->pushWaitingVehicle(vehicle);
+
+        vehiclePoolLock.unlock();
+        vehicleMapLock.unlock();
     }
 
     size_t Engine::getVehicleCount() const {

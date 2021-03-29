@@ -31,7 +31,7 @@ namespace CityFlow {
           laneChangeInfo(vehicle.laneChangeInfo), buffer(vehicle.buffer),
           id(id), engine(engine), laneChange(std::make_shared<SimpleLaneChange>(this)),
           flow(flow){
-        while (engine->checkPriority(priority = engine->rnd()));
+        // while (engine->checkPriority(priority = engine->rnd()));
         controllerInfo.router.setVehicle(this);
         enterTime = vehicle.enterTime;
     }
