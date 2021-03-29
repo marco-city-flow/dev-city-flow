@@ -35,6 +35,7 @@ namespace CityFlow {
         void exchangeVehicle();
         void generateVehicle(Vehicle);
         void updateHistory(int);
+        void initEngines(int);
 
         static std::vector<Engine *> engines;
         std::vector<Vehicle *> vehiclePushBuffer;

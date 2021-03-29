@@ -5,7 +5,7 @@
 # Input: A single config file in JSON format, which should include number of engines
 #        and prefixes of each config file for each engine
 #        as well as many other fileds... Example can be found in /Examples
-# Output: Engine-wise flow file and config file, in respective directory
+# outRoadnet: Engine-wise flow file and config file, in respective directory
 ######################################################################################
 
 import argparse
@@ -21,7 +21,7 @@ import pymetis
 from rich.progress import track
 
 # cwd: /tools/generator
-# --inConfigFile config_100_100.json --dir ./100_100_m --output all_in_one_config_100_100.json
+# --inConfigFile config_20_20.json --dir ./20_20_m --outRoadnet out_roadnet_20_20.json --outConfigFile out_config_20_20.json
 
 
 def polygonize(load_dict, id_index=''):
@@ -104,7 +104,8 @@ def parse_args():
     parser.add_argument("--inConfigFile", type=str)
     parser.add_argument("--dir", type=str, default="./")
     parser.add_argument("--turn", action="store_true")
-    parser.add_argument("--output", type=str)
+    parser.add_argument("--outRoadnet", type=str)
+    parser.add_argument("--outConfigFile", type=str)
     return parser.parse_args()
 
 
@@ -117,8 +118,9 @@ if __name__ == '__main__':
                 args.rowNum, args.colNum, "_turn" if args.turn else "")
         else:
             raise Exception('Invalid arguments for input file!')
-    if args.output is None:
-        args.output = "all_in_one_%s" % (args.inConfigFile)
+    if args.outConfigFile is None:
+        args.outConfigFile = "out_config_%s" % (args.inConfigFile)
+    # default outRoadnet will be set later...
 
     with open(os.path.join(args.dir, args.inConfigFile), "r") as load_f:
         config_dict = json.load(load_f)  # JSON read as dictionary
@@ -131,6 +133,10 @@ if __name__ == '__main__':
     configFilePrefix = config_dict['configFilePrefix']
     roadnetLogFilePrefix = config_dict['roadnetLogFilePrefix']
     replayLogFilePrefix = config_dict['replayLogFilePrefix']
+
+    if args.outRoadnet is None:
+        args.outRoadnet = "out_%s" % (config_dict['roadnetFile'])
+    config_dict['roadnetFile'] = args.outRoadnet
 
     del config_dict['engineNumber']
     del config_dict['flowFilePrefix']
@@ -152,6 +158,14 @@ if __name__ == '__main__':
         engines[i] = engine_dict
 
     config_dict['engines'] = engines
+
+    # Save config file (will be used by multiprocessor)
+    with open(os.path.join(args.dir, args.outConfigFile), "w") as save_f:
+        json.dump(config_dict, save_f, indent=2)
+        save_f.close()
+
+ ###########################################
+
     number_of_engines = len(config_dict['engines'])
     engine_dicts = config_dict['engines']
 
@@ -171,7 +185,7 @@ if __name__ == '__main__':
     print('intersections: ', len(load_dict['intersections']))
     print('roads: ', len(load_dict['roads']))
 
-    road_id_index = {load_dict['roads'][i]['id']                     : i for i in range(len(load_dict['roads']))}
+    road_id_index = {load_dict['roads'][i]['id']: i for i in range(len(load_dict['roads']))}
     intersection_id_index = {load_dict['intersections'][i]['id']: i for i in range(
         len(load_dict['intersections']))}
 
@@ -232,10 +246,11 @@ if __name__ == '__main__':
 
     # Save roadnet JSON file
     print('Saving roadnet JSON file...')
-    if args.output:
-        save_f = open(os.path.join(args.dir, args.output), "w")
+    if args.outRoadnet:
+        save_f = open(os.path.join(args.dir, args.outRoadnet), "w")
     else:
-        save_f = open(os.path.join(args.dir, 'output', args.configFile), "w")
+        save_f = open(os.path.join(
+            args.dir, 'outRoadnet', args.configFile), "w")
     json.dump(load_dict, save_f, indent=2)
 
     print('Distance sum of each intersection:')

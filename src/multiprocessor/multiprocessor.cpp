@@ -30,14 +30,34 @@ namespace CityFlow{
         // std::cout << "end of initengines" << std::endl;
         //initEngineRoad();
 
+        // for (size_t i = 0; i < multiprocessor::engines.size(); ++i)
+        // {
+        //     multiprocessor::engines[i]->initId(i);
+        //     multiprocessor::engines[i]->roadnet.initEnginePointer();
+        //     multiprocessor::engines[i]->roadnet.initRoadPointer(engines);
+        //     multiprocessor::engines[i]->startThread();
+        //     std::cout << "init" << i << std::endl;
+        // }
+
+        std::vector<std::thread> threads;
         for (size_t i = 0; i < multiprocessor::engines.size(); ++i)
         {
-            multiprocessor::engines[i]->initId(i);
-            multiprocessor::engines[i]->roadnet.initEnginePointer();
-            multiprocessor::engines[i]->roadnet.initRoadPointer(engines);
-            multiprocessor::engines[i]->startThread();
+            threads.emplace_back(std::thread(&multiprocessor::initEngines,this,i));
+        }
+        for (size_t i = 0; i < threads.size(); i++)
+        {
+            threads[i].join();
         }
         std::cout << "end of init" << std::endl;
+    }
+
+    void multiprocessor::initEngines(int i)
+    {
+        multiprocessor::engines[i]->initId(i);
+        multiprocessor::engines[i]->roadnet.initEnginePointer();
+        multiprocessor::engines[i]->roadnet.initRoadPointer(engines);
+        multiprocessor::engines[i]->startThread();
+        std::cout << "init" << i << std::endl;
     }
 
     bool multiprocessor::loadFromConfig(std::string jsonFileName)   // load engines from an all-in-one config
@@ -64,7 +84,7 @@ namespace CityFlow{
                 std::string path_t = getJsonMember<const char*>("engineDir", curEngineConfig);
                 path_t += getJsonMember<const char*>("configFile", curEngineConfig);
                 std::cerr << path_t << std::endl;
-                Engine *engine = new Engine(path_t, 6, this);
+                Engine *engine = new Engine(path_t, 1, this);
                 multiprocessor::engines.push_back(engine);
             }
         }catch (const JsonFormatError &e) {
