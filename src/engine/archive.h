@@ -85,8 +85,11 @@ namespace CityFlow {
     public:
         Archive() = default;
         explicit Archive(const Engine &engine);
+        explicit Archive(const multiprocessor &multiprocessor); //TODO
         Archive(Engine &engine, const std::string &filename);
+        Archive(multiprocessor &multiprocessor, const std::string &filename);   //TODO
         void resume(Engine &engine) const;
+        void resume(multiprocessor &multiprocessor) const;  //TODO
         void dump(const std::string &fileName) const;
     };
 
