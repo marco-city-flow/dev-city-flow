@@ -14,19 +14,23 @@ namespace CityFlow{
     std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
     multiprocessor::multiprocessor(const std::string &configFile)
     {
-        // std::string cconfigFile = "/home/zhj/Desktop/CityFlow/build/10_10_m/config_10_10.json";
-        loadFromConfig(configFile);
+        std::string cconfigFile = "/home/zhj/Desktop/CityFlow/build/10_10_m/config_10_10.json";
+        loadFromConfig(cconfigFile);
 
         // std::cout << "end of initengines" << std::endl;
 
-        std::vector<std::thread> threads;
+        // std::vector<std::thread> threads;
+        // for (size_t i = 0; i < multiprocessor::engines.size(); ++i)
+        // {
+        //     threads.emplace_back(std::thread(&multiprocessor::initEngines,this,i));
+        // }
+        // for (size_t i = 0; i < threads.size(); i++)
+        // {
+        //     threads[i].join();
+        // }
         for (size_t i = 0; i < multiprocessor::engines.size(); ++i)
         {
-            threads.emplace_back(std::thread(&multiprocessor::initEngines,this,i));
-        }
-        for (size_t i = 0; i < threads.size(); i++)
-        {
-            threads[i].join();
+            initEngines(i);
         }
         std::cout << "end of init" << std::endl;
     }
@@ -80,6 +84,43 @@ namespace CityFlow{
 
     void multiprocessor::engineNext(int i){
         multiprocessor::engines[i]->nextStep();
+    }
+
+    void multiprocessor::nextStepPro_F(size_t step){
+        for (size_t j = 0; j < step; j++)
+        {
+            std::vector<std::thread> threads1;
+            for(size_t i = 0; i < multiprocessor::engines.size(); i++)
+            {
+                threads1.emplace_back(std::thread(&multiprocessor::engineNext,this,i));
+            }
+            for (size_t i = 0; i < threads1.size(); i++)
+            {
+                threads1[i].join();
+            }
+
+            if (j % 5 == 0)
+            {
+                // std::vector<std::thread> threads2;
+                // for (size_t i = 0; i < multiprocessor::engines.size(); i++)
+                // {
+                //     threads2.emplace_back(std::thread(&multiprocessor::syncFlow,this,i));
+                // }
+                // for (size_t i = 0; i < threads2.size(); i++)
+                // {
+                //     threads2[i].join();
+                // }
+                for (size_t i = 0; i < multiprocessor::engines.size(); i++)
+                {
+                    syncFlow(i);
+                }
+            }
+            std::cerr << j << std::endl;
+        }
+    }
+
+    void multiprocessor::syncFlow(int i){
+        engines[i]->syncFlow(i);
     }
 
     void multiprocessor::nextStepPro()

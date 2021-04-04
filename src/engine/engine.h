@@ -21,7 +21,6 @@ namespace CityFlow
         friend class Archive;
         friend class multiprocessor;
         friend class RoadNet;
-
     private:
         static bool vehicleCmp(const std::pair<Vehicle *, double> &a, const std::pair<Vehicle *, double> &b)
         {
@@ -35,6 +34,7 @@ namespace CityFlow
         std::vector<std::vector<Intersection *>> threadIntersectionPool;
         std::vector<std::vector<Drivable *>> threadDrivablePool;
         std::vector<Flow> flows;
+        std::vector<Flow*> virtualFlows;
         RoadNet roadnet;
         int threadNum;
         double interval;
@@ -151,17 +151,23 @@ namespace CityFlow
 
         void pushVehicle(Vehicle *const vehicle, bool pushToDrivable = true);
 
+        std::vector<Flow> getFlow() { return flows; }
+
         void setLogFile(const std::string &jsonFile, const std::string &logFile);
 
         void initSegments();
 
         void updateHistory();
 
+        void syncFlow(int engineId);
+
         ~Engine();
 
         // RL related api
 
         void pushVehicle(const std::map<std::string, double> &info, const std::vector<std::string> &roads);
+
+        void pushFlow(Flow *flow);
 
         size_t getVehicleCount() const;
 

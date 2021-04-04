@@ -16,18 +16,25 @@ namespace CityFlow {
         friend class multiprocessor;
     private:
         VehicleInfo vehicleTemplate;
+        VehicleInfo tempInfo;
         std::shared_ptr<const Route> route;
-        double interval;
+        double interval = 2;
         double nowTime = 0;
         double currentTime = 0;
         int startTime = 0;
         int endTime = -1;
         int cnt = 0;
+        bool isVirtual = false;
         Engine *engine;
         std::string id;
         bool valid = true;
+        Lane *lane;
 
     public:
+        Flow(Lane *lane, Engine *engine) : vehicleTemplate(), endTime(0), engine(engine), lane(lane){
+            isVirtual = true;
+        };
+
         Flow(const VehicleInfo &vehicleTemplate, double timeInterval,
             Engine *engine, int startTime, int endTime, const std::string &id)
             : vehicleTemplate(vehicleTemplate), interval(timeInterval),
@@ -40,6 +47,10 @@ namespace CityFlow {
 
         std::string getId() const;
 
+        void setEndTime(int engineId);
+
+        bool getVirtual() const { return isVirtual; }
+
         bool isValid() const { return this->valid; }
 
         VehicleInfo getTemplate() const { return vehicleTemplate; }
@@ -50,8 +61,11 @@ namespace CityFlow {
             this->valid = valid;
         }
 
+        void setTemplate(Vehicle vehicle) { tempInfo = vehicle.getTemplate(); }
+
         void reset();
 
+        void resetRoute(int engineId);
     };
 }
 

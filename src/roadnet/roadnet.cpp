@@ -746,6 +746,7 @@ FOUND:;
             for (size_t i = 0; i < lanes.size(); ++i)
             {
                 lanes[i].nextHalfLane = belongEngine2->getRoadNet().getDrivableById(lanes[i].getId());
+                lanes[i].nextHalfLane->initFlow(belongEngine2);
             }
         }
     }
@@ -881,6 +882,17 @@ FOUND:;
         }
 
         return stack;
+    }
+
+    void Lane::initFlow(Engine* engine)
+    {
+        flow = new Flow(this, engine);
+        engine->pushFlow(flow);
+    }
+
+    void LaneLink::initFlow(Engine* engine)
+    {
+        flow = nullptr;
     }
 
     bool Intersection::isImplicitIntersection() {

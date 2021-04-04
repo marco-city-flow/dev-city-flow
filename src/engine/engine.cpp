@@ -276,6 +276,9 @@ namespace CityFlow {
         if (!vehicle.hasSetEnd() && vehicle.hasChangeEngine())
         {
             changeEngineBuffer.emplace_back(vehicle, 0);
+            vehicle.getChangedDrivable()->addDensity();
+            vehicle.getChangedDrivable()->getFlow()->setTemplate(vehicle);
+            std::cerr << ((Lane *)vehicle.getChangedDrivable())->getBelongRoad()->getId() << std::endl;
         }
     }
 
@@ -650,6 +653,8 @@ namespace CityFlow {
         // start = clock();
         for (auto &flow : flows)
             flow.nextStep(interval);
+        for (auto &flow : virtualFlows)
+            flow->nextStep(interval);
         // now = clock();
         // std::cerr << "flow nextstep done" << std::endl;
 
@@ -814,6 +819,19 @@ namespace CityFlow {
             n++;
         }
         return n == 0 ? 0 : tt / n;
+    }
+
+    void Engine::syncFlow(int engineId)
+    {
+        for (auto &flow : virtualFlows)
+        {
+            flow->setEndTime(engineId);
+        }
+    }
+
+    void Engine::pushFlow(Flow *flow)
+    {
+        virtualFlows.push_back(flow);
     }
 
     void Engine::pushVehicle(const std::map<std::string, double> &info, const std::vector<std::string> &roads) {

@@ -32,13 +32,13 @@ namespace CityFlow {
         double speed = 0;
         double len = 5;
         double width = 2;
-        double maxPosAcc = 4.5;
+        double maxPosAcc = 2.0;
         double maxNegAcc = 4.5;
-        double usualPosAcc = 2.5;
-        double usualNegAcc = 2.5;
-        double minGap = 2;
-        double maxSpeed = 16.66667;
-        double headwayTime = 1;
+        double usualPosAcc = 2.0;
+        double usualNegAcc = 4.5;
+        double minGap = 2.5;
+        double maxSpeed = 16.67;
+        double headwayTime = 1.5;
         double yieldDistance = 5;
         double turnSpeed = 8.3333;
         std::shared_ptr<const Route> route = nullptr;
@@ -201,6 +201,8 @@ namespace CityFlow {
         Engine* getBufferEngine() const { return buffer.engine; }
 
         Engine* getEngine() const { return this->engine; }
+
+        VehicleInfo getTemplate() const { return vehicleInfo; }
 
         inline double getSpeed() const { return vehicleInfo.speed; }
 
