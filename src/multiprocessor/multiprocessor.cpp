@@ -229,4 +229,177 @@ namespace CityFlow{
         vehicle->update();
         vehicle->clearSignal();
     }
+
+    /* APIs */
+    /* getters */
+    size_t multiprocessor::getVehicleCount() const{
+        size_t totalCount = 0;
+        for (auto engine : engines){
+            totalCount += engine->getVehicleCount();
+        }
+        return totalCount;
+    }
+
+    std::vector<std::string> multiprocessor::getVehicles(bool includeWaiting) const {
+        std::vector<std::string> ret;
+        for (auto engine : engines){
+            auto engineVehicles = engine->getVehicles(includeWaiting);
+            ret.insert(ret.end(), engineVehicles.begin(), engineVehicles.end());
+        }
+        return ret;
+    }
+
+    std::map<std::string, int> multiprocessor::getLaneVehicleCount() const{
+        std::map<std::string, int> ret;
+        for (auto engine : engines){
+            auto laneVehicleCount = engine->getLaneVehicleCount();
+            ret.insert(laneVehicleCount.begin(), laneVehicleCount.end());
+        }
+        return ret;
+    }
+
+    std::map<std::string, int> multiprocessor::getLaneWaitingVehicleCount() const{
+        std::map<std::string, int> ret;
+        for (auto engine : engines){
+            auto laneVehicleCount = engine->getLaneWaitingVehicleCount();
+            ret.insert(laneVehicleCount.begin(), laneVehicleCount.end());
+        }
+        return ret;
+    }
+
+    std::map<std::string, std::vector<std::string>> multiprocessor::getLaneVehicles(){
+        std::map<std::string, std::vector<std::string>> ret;
+        for (auto engine : engines){
+            auto laneVehicles = engine->getLaneVehicles();
+            ret.insert(laneVehicles.begin(), laneVehicles.end());
+        }
+        return ret;
+    }
+
+    std::map<std::string, double> multiprocessor::getVehicleSpeed() const{
+        std::map<std::string, double> ret;
+        for (auto engine : engines){
+            auto vehicleSpeed = engine->getVehicleSpeed();
+            ret.insert(vehicleSpeed.begin(), vehicleSpeed.end());
+        }
+        return ret;
+    }
+
+    std::map<std::string, double> multiprocessor::getVehicleDistance() const{
+        std::map<std::string, double> ret;
+        for (auto engine : engines){
+            auto vehicleDistance = engine->getVehicleDistance();
+            ret.insert(vehicleDistance.begin(), vehicleDistance.end());
+        }
+        return ret;
+    }
+
+    std::map<std::string, std::string> multiprocessor::getVehicleInfo(const std::string &id) const{
+        size_t tested = 0;
+        std::map<std::string, std::string> ret;
+        for (auto engine : engines){
+            try{
+                ret = engine -> getVehicleInfo(id);
+                break;  /* break the loop if no exception is thrown, i.e. vehicle #id found */
+            } 
+            catch(std::runtime_error rt_err){
+                tested++;
+            }
+        }
+
+        if(tested == engines.size()){
+            throw std::runtime_error("Vehicle '" + id + "' not found");
+        }
+
+        return ret;
+    }
+
+    std::string multiprocessor::getLeader(const std::string &vehicleId) const {
+        for (auto engine : engines){
+            if (engine -> getLeader(vehicleId) != ""){
+                return engine -> getLeader(vehicleId);
+            }
+        }
+        return "";
+    }
+
+    double multiprocessor::getCurrentTime() const {
+        return engines[0]->step * engines[0]->interval;
+    }
+
+    double multiprocessor::getAverageTravelTime() const {
+        double totalTime = 0.0;
+        int totalN = 0;
+        for (auto engine : engines){
+            totalTime += engine->getAverageTravelTime() * engine->finishedVehicleCnt;
+            totalN += engine->finishedVehicleCnt;
+        }
+        return totalN == 0 ? 0 : totalTime / totalN;
+    }
+
+    /* setters */
+    void multiprocessor::setTrafficLightPhase(const std::string &id, int phaseIndex){
+        size_t tested = 0;
+        for (auto engine : engines){
+            try{
+                engine -> setTrafficLightPhase(id, phaseIndex);
+            } 
+            catch(std::runtime_error rt_err){
+                tested++;
+            }
+        }
+
+        if(tested == engines.size()){
+            throw std::runtime_error("Intersection '" + id + "' not found");
+        }
+    }
+
+    void multiprocessor::setReplayLogFile(const std::string &logFile){
+        for (auto engine : engines){
+            engine -> setReplayLogFile(logFile);
+        }
+    }
+
+    void multiprocessor::setVehicleSpeed(const std::string &id, double speed){
+        size_t tested = 0;
+        for (auto engine : engines){
+            try{
+                engine -> setVehicleSpeed(id, speed);
+            } 
+            catch(std::runtime_error rt_err){
+                tested++;
+            }
+        }
+
+        if(tested == engines.size()){
+            throw std::runtime_error("Vehicle '" + id + "' not found");
+        }
+    }
+
+    void multiprocessor::setSaveReplay(bool open){
+        for (auto engine : engines){
+            engine -> setSaveReplay(open);
+        } 
+    }
+
+    /* others */
+    // TODO: implement engine/archive.cpp
+    void multiprocessor::reset(bool resetRnd) {
+        for (auto engine : engines){
+            engine -> reset(resetRnd);
+        } 
+    }
+
+    void multiprocessor::loadFromFile(const char *fileName) {
+        Archive archive(*this, fileName);
+        archive.resume(*this);
+    }
+
+    bool multiprocessor::setRoute(const std::string &vehicle_id, const std::vector<std::string> &anchor_id){
+        for (auto engine : engines){
+            if(engine -> setRoute(vehicle_id, anchor_id))
+                return true;
+        } 
+        return false;
+    }
 }
