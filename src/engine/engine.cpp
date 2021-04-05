@@ -276,6 +276,9 @@ namespace CityFlow {
         if (!vehicle.hasSetEnd() && vehicle.hasChangeEngine())
         {
             changeEngineBuffer.emplace_back(vehicle, 0);
+            vehicle.getChangedDrivable()->addDensity();
+            vehicle.getChangedDrivable()->getFlow()->setTemplate(vehicle);
+            std::cerr << ((Lane *)vehicle.getChangedDrivable())->getBelongRoad()->getId() << std::endl;
         }
     }
 
@@ -650,6 +653,8 @@ namespace CityFlow {
         // start = clock();
         for (auto &flow : flows)
             flow.nextStep(interval);
+        for (auto &flow : virtualFlows)
+            flow->nextStep(interval);
         // now = clock();
         // std::cerr << "flow nextstep done" << std::endl;
 
@@ -816,6 +821,19 @@ namespace CityFlow {
         return n == 0 ? 0 : tt / n;
     }
 
+    void Engine::syncFlow(int engineId)
+    {
+        for (auto &flow : virtualFlows)
+        {
+            flow->setEndTime(engineId);
+        }
+    }
+
+    void Engine::pushFlow(Flow *flow)
+    {
+        virtualFlows.push_back(flow);
+    }
+
     void Engine::pushVehicle(const std::map<std::string, double> &info, const std::vector<std::string> &roads) {
         VehicleInfo vehicleInfo;
         std::map<std::string, double>::const_iterator it;
@@ -846,7 +864,13 @@ namespace CityFlow {
             std::cerr << "please set rlTrafficLight to true to enable traffic light control" << std::endl;
             return;
         }
-        roadnet.getIntersectionById(id)->getTrafficLight().setPhase(phaseIndex);
+        auto intersection = roadnet.getIntersectionById(id);
+        if(intersection == nullptr){
+            throw std::runtime_error("Intersection '" + id + "' not found");
+        }
+        else{
+            intersection->getTrafficLight().setPhase(phaseIndex);
+        }
     }
 
     void Engine::setReplayLogFile(const std::string &logFile) {

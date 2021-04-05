@@ -12,7 +12,8 @@ PYBIND11_MODULE(cityflow, m) {
         .def(py::init<const std::string&>(),
             "config_file"_a
         )
-        .def("next_step_pro",&CityFlow::multiprocessor::nextStepPro);
+        .def("next_step_pro",&CityFlow::multiprocessor::nextStepPro)
+        .def("next_step_pro_F",&CityFlow::multiprocessor::nextStepPro_F, "step"_a);
     py::class_<CityFlow::Engine>(m, "Engine")
         .def(py::init<const std::string&, int, CityFlow::multiprocessor*>(),
             "config_file"_a,

@@ -14,9 +14,11 @@ int main(int argc, char const *argv[]) {
     // engine1.nextStep();
     // return 0;
     multiprocessor multi("gfdh");
-    for (size_t i = 0; i < 5000; i++)
-    {
-        multi.nextStepPro();
-        std::cout << i << std::endl;
-    }
+    // for (size_t i = 0; i < 5000; i++)
+    // {
+    //     multi.nextStepPro();
+    //     std::cout << i << std::endl;
+    // }
+    multi.nextStepPro_F(1000);
+    multi.nextStepPro_F(1000);
 }

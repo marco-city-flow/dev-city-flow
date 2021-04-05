@@ -26,6 +26,8 @@ namespace CityFlow {
 
     class Cross;
 
+    class Flow;
+
     class Segment {
         friend Lane;
     public:
@@ -264,6 +266,8 @@ namespace CityFlow {
         std::list<Vehicle *> vehicles;
         std::vector<Point> points;
         DrivableType drivableType;
+        Flow *flow = nullptr;
+        int density = 0;
 
     public:
         virtual ~Drivable() = default;
@@ -272,11 +276,20 @@ namespace CityFlow {
 
         std::list<Vehicle *> &getVehicles() { return vehicles; }
 
+
         double getLength() const { return length; }
 
         double getWidth() const { return width; }
 
         double getMaxSpeed() const { return maxSpeed; }
+
+        Flow* getFlow() const { return flow; }
+
+        int getDensity() const { return density; }
+
+        void resetDensity() { density = 0; }
+
+        void addDensity() { density+=2; std::cerr << "density " << density << std::endl; }//TODO
 
         size_t getVehicleCount() const { return vehicles.size(); }
 
@@ -306,6 +319,7 @@ namespace CityFlow {
 
         void popVehicle() { vehicles.pop_front(); }
 
+        virtual void initFlow(Engine*) = 0;
         virtual std::string getId() const = 0;
         virtual Engine* getBelongEngine(double) = 0;
         virtual Road *getBelongRoad() const = 0;
@@ -341,6 +355,8 @@ namespace CityFlow {
         Lane();
 
         Lane(double width, double maxSpeed, int laneIndex, Road *belongRoad);
+
+        void initFlow(Engine*);
 
         std::string getId() const override{
             return belongRoad->getId() + '_' + std::to_string(getLaneIndex());
@@ -487,6 +503,8 @@ namespace CityFlow {
             maxSpeed = 10000; //TODO
             drivableType = LANELINK;
         }
+
+        void initFlow(Engine *engine);
 
         Road *getBelongRoad() const { return nullptr; }
 

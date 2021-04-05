@@ -25,9 +25,29 @@ namespace CityFlow {
         return id;
     }
 
+    void Flow::setEndTime(int engineId)
+    {
+        endTime = lane->getDensity();
+        if (endTime != 0)
+        {
+            std::cerr << "endTime:" << endTime << std::endl;
+            lane->resetDensity();
+            vehicleTemplate = tempInfo;
+            resetRoute(engineId);
+        }
+    }
+
     void Flow::reset() {
         nowTime = interval;
         currentTime = 0;
         cnt = 0;
+    }
+
+    void Flow::resetRoute(int engineId)
+    {
+        std::vector<Road *> roads;
+        roads.push_back(lane->getBelongRoad());
+        roads.push_back(vehicleTemplate.route->getRoute().back());//tochange pointer
+        vehicleTemplate.route = std::make_shared<const Route>(roads);
     }
 }
