@@ -40,6 +40,7 @@ namespace CityFlow {
         void syncChangedVehicles(int i);
         void initEngines(int);
         void pushInEngine(int);
+        void calDensity(int, int);
 
 
         /*----------------------------------------------------------------*/

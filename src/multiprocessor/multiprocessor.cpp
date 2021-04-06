@@ -108,7 +108,11 @@ namespace CityFlow{
         std::vector<std::thread> threads2;
         for (size_t i = 0; i < multiprocessor::engines.size(); i++)
         {
-            threads2.emplace_back(std::thread(&multiprocessor::syncChangedVehicles,this,i));
+            // threads2.emplace_back(std::thread(&multiprocessor::syncChangedVehicles,this,i));
+            for (size_t j = 0; j < (engines[i])->virtualFlows.size(); j++)
+            {
+                threads2.emplace_back(std::thread(&multiprocessor::calDensity,this,i,j));
+            }
         }
         for (size_t i = 0; i < threads2.size(); i++)
         {
@@ -125,6 +129,10 @@ namespace CityFlow{
     void multiprocessor::syncChangedVehicles(int i)
     {
         engines[i]->syncChangedVehicles(i);
+    }
+
+    void multiprocessor::calDensity(int engineId, int flowId){
+        engines[engineId]->virtualFlows[flowId]->calDensity();
     }
 
     void multiprocessor::nextStepPro()
@@ -305,8 +313,8 @@ namespace CityFlow{
             try{
                 ret = engine -> getVehicleInfo(id);
                 break;  /* break the loop if no exception is thrown, i.e. vehicle #id found */
-            } 
-            catch(std::runtime_error rt_err&){
+            }
+            catch(std::runtime_error& rt_err){
                 tested++;
             }
         }
@@ -347,8 +355,8 @@ namespace CityFlow{
         for (auto engine : engines){
             try{
                 engine -> setTrafficLightPhase(id, phaseIndex);
-            } 
-            catch(std::runtime_error rt_err&){
+            }
+            catch(std::runtime_error& rt_err){
                 tested++;
             }
         }
@@ -369,8 +377,8 @@ namespace CityFlow{
         for (auto engine : engines){
             try{
                 engine -> setVehicleSpeed(id, speed);
-            } 
-            catch(std::runtime_error rt_err&){
+            }
+            catch(std::runtime_error& rt_err){
                 tested++;
             }
         }
@@ -383,7 +391,7 @@ namespace CityFlow{
     void multiprocessor::setSaveReplay(bool open){
         for (auto engine : engines){
             engine -> setSaveReplay(open);
-        } 
+        }
     }
 
     /* others */
@@ -391,7 +399,7 @@ namespace CityFlow{
     void multiprocessor::reset(bool resetRnd) {
         for (auto engine : engines){
             engine -> reset(resetRnd);
-        } 
+        }
     }
 
     void multiprocessor::loadFromFile(const char *fileName) {

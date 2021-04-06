@@ -198,6 +198,8 @@ namespace CityFlow
 
         double getAverageTravelTime() const;
 
+        std::vector<Flow*> getVirtualFlows() {return virtualFlows;}
+
         void deleteVehicle(Vehicle *vehicle);
 
         void setTrafficLightPhase(const std::string &id, int phaseIndex);
