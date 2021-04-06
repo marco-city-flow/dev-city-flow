@@ -79,8 +79,6 @@ namespace CityFlow {
         void setId(std::string id) { this->id = id; };
 
         void pushToEngine();
-
-        void addReceived() ( receiveVehicle++; );
     };
 }
 
