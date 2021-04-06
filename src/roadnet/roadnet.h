@@ -289,7 +289,8 @@ namespace CityFlow {
 
         void resetDensity() { density = 0; }
 
-        void addDensity() { density+=2; std::cerr << "density " << density << std::endl; }//TODO
+        void addDensity() { density+=2; }//TODO
+
 
         size_t getVehicleCount() const { return vehicles.size(); }
 
@@ -482,7 +483,6 @@ namespace CityFlow {
         }
 
         void reset();
-
     };
 
     class LaneLink : public Drivable {

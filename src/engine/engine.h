@@ -73,8 +73,6 @@ namespace CityFlow
     private:
         void initId(const int i) { id = i; }
 
-        int getId() const { return id; }
-
         void vehicleControl(Vehicle &vehicle, std::vector<std::pair<Vehicle *, double>> &buffer, std::vector<std::pair<Vehicle, double>> &changeEngineBuffer);
 
         void planRoute();
@@ -131,6 +129,8 @@ namespace CityFlow
 
         Engine(const std::string &configFile, int threadNum, multiprocessor *multiprocessor);
 
+        int getId() const { return id; }
+
         void startThread();
 
         size_t getStep() const { return step; }
@@ -160,6 +160,8 @@ namespace CityFlow
         void updateHistory();
 
         void syncFlow(int engineId);
+
+        void syncChangedVehicles(int engineId);
 
         ~Engine();
 
@@ -209,6 +211,12 @@ namespace CityFlow
         void setRandomSeed(int seed) { rnd.seed(seed); }
 
         void reset(bool resetRnd = false);
+
+        void addActiveVehicle() { activeVehicleCount++; };
+
+        void virtualNextStep(int i);
+
+        void virtualCallDensity(int i);
 
         // archive
         void load(const Archive &archive) { archive.resume(*this); }

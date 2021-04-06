@@ -16,6 +16,7 @@ namespace CityFlow {
         friend class multiprocessor;
     private:
         VehicleInfo vehicleTemplate;
+        Vehicle* templateVehicle;
         VehicleInfo tempInfo;
         std::shared_ptr<const Route> route;
         double interval = 2;
@@ -29,6 +30,10 @@ namespace CityFlow {
         std::string id;
         bool valid = true;
         Lane *lane;
+        Road *endRoad = nullptr;
+        std::vector<Vehicle> vehicleBuffer;
+        Vehicle *waitForPushVehicle = nullptr;
+        int receiveVehicle = 0;
 
     public:
         Flow(Lane *lane, Engine *engine) : vehicleTemplate(), endTime(0), engine(engine), lane(lane){
@@ -53,7 +58,7 @@ namespace CityFlow {
 
         bool isValid() const { return this->valid; }
 
-        VehicleInfo getTemplate() const { return vehicleTemplate; }
+        // VehicleInfo getTemplate() const { return vehicleTemplate; }
 
         void setValid(const bool valid) {
             if (this->valid && !valid)
@@ -61,11 +66,21 @@ namespace CityFlow {
             this->valid = valid;
         }
 
-        void setTemplate(Vehicle vehicle) { tempInfo = vehicle.getTemplate(); }
+        void setTemplate(Vehicle vehicle) { tempInfo = vehicle.getTemplate(); endRoad = vehicle.getControllerInfo()->endRoad; std::cerr << "endRoad: " << endRoad << std::endl; }
 
         void reset();
 
         void resetRoute(int engineId);
+
+        void addToBuffer(Vehicle vehicle);
+
+        void calDensity();
+
+        void setId(std::string id) { this->id = id; };
+
+        void pushToEngine();
+
+        void addReceived() ( receiveVehicle++; );
     };
 }
 

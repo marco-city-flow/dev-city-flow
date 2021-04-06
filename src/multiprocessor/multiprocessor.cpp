@@ -83,44 +83,45 @@ namespace CityFlow{
     }
 
     void multiprocessor::engineNext(int i){
-        multiprocessor::engines[i]->nextStep();
+        for (size_t j = 0; j < 50; j++)
+        {
+            multiprocessor::engines[i]->nextStep();
+        }
     }
 
-    void multiprocessor::nextStepPro_F(size_t step){
-        for (size_t j = 0; j < step; j++)
+    void multiprocessor::nextStepPro_F(){
+        std::vector<std::thread> threads1;
+        for(size_t i = 0; i < multiprocessor::engines.size(); i++)
         {
-            std::vector<std::thread> threads1;
-            for(size_t i = 0; i < multiprocessor::engines.size(); i++)
-            {
-                threads1.emplace_back(std::thread(&multiprocessor::engineNext,this,i));
-            }
-            for (size_t i = 0; i < threads1.size(); i++)
-            {
-                threads1[i].join();
-            }
-
-            if (j % 5 == 0)
-            {
-                // std::vector<std::thread> threads2;
-                // for (size_t i = 0; i < multiprocessor::engines.size(); i++)
-                // {
-                //     threads2.emplace_back(std::thread(&multiprocessor::syncFlow,this,i));
-                // }
-                // for (size_t i = 0; i < threads2.size(); i++)
-                // {
-                //     threads2[i].join();
-                // }
-                for (size_t i = 0; i < multiprocessor::engines.size(); i++)
-                {
-                    syncFlow(i);
-                }
-            }
-            std::cerr << j << std::endl;
+            threads1.emplace_back(std::thread(&multiprocessor::engineNext,this,i));
         }
+        for (size_t i = 0; i < threads1.size(); i++)
+        {
+            threads1[i].join();
+        }
+
+        std::vector<std::thread> threads2;
+        for (size_t i = 0; i < multiprocessor::engines.size(); i++)
+        {
+            threads2.emplace_back(std::thread(&multiprocessor::syncChangedVehicles,this,i));
+        }
+        for (size_t i = 0; i < threads2.size(); i++)
+        {
+            threads2[i].join();
+        }
+        // for (size_t i = 0; i < multiprocessor::engines.size(); i++)
+        // {
+        //     syncChangedVehicles(i);
+        // }
     }
 
     void multiprocessor::syncFlow(int i){
         engines[i]->syncFlow(i);
+    }
+
+    void multiprocessor::syncChangedVehicles(int i)
+    {
+        engines[i]->syncChangedVehicles(i);
     }
 
     void multiprocessor::nextStepPro()
@@ -391,8 +392,8 @@ namespace CityFlow{
     }
 
     void multiprocessor::loadFromFile(const char *fileName) {
-        Archive archive(*this, fileName);
-        archive.resume(*this);
+        // Archive archive(*this, fileName);
+        // archive.resume(*this);
     }
 
     bool multiprocessor::setRoute(const std::string &vehicle_id, const std::vector<std::string> &anchor_id){

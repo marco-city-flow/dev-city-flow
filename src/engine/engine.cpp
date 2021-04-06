@@ -275,10 +275,9 @@ namespace CityFlow {
 
         if (!vehicle.hasSetEnd() && vehicle.hasChangeEngine())
         {
-            changeEngineBuffer.emplace_back(vehicle, 0);
-            vehicle.getChangedDrivable()->addDensity();
-            vehicle.getChangedDrivable()->getFlow()->setTemplate(vehicle);
-            std::cerr << ((Lane *)vehicle.getChangedDrivable())->getBelongRoad()->getId() << std::endl;
+            // changeEngineBuffer.emplace_back(vehicle, 0);
+            vehicle.getChangedDrivable()->getFlow()->addToBuffer(vehicle);
+            // std::cerr << ((Lane *)vehicle.getChangedDrivable())->getBelongRoad()->getId() << std::endl;
         }
     }
 
@@ -647,14 +646,32 @@ namespace CityFlow {
         endBarrier.wait();
     }
 
+    void Engine::virtualNextStep(int i) {
+        virtualFlows[i]->nextStep(interval);
+    }
+
     void Engine::nextStep() {
         // clock_t start, now;
 
         // start = clock();
         for (auto &flow : flows)
             flow.nextStep(interval);
+        std::vector<std::thread> threads;
+        for(size_t i = 0; i < virtualFlows.size(); i++)
+        {
+            threads.emplace_back(std::thread(&Engine::virtualNextStep,this,i));
+        }
+        for (size_t i = 0; i < threads.size(); i++)
+        {
+            threads[i].join();
+        }
+
         for (auto &flow : virtualFlows)
-            flow->nextStep(interval);
+            flow->pushToEngine();
+
+        // for (auto &flow : virtualFlows)
+        //     flow->nextStep(interval);
+
         // now = clock();
         // std::cerr << "flow nextstep done" << std::endl;
 
@@ -829,8 +846,36 @@ namespace CityFlow {
         }
     }
 
+    void Engine::syncChangedVehicles(int engineId)
+    {
+        // for (auto &flow : virtualFlows)
+        // {
+        //     flow->calDensity(engineId);
+        // }
+        std::vector<std::thread> threads;
+        for (size_t i = 0; i < virtualFlows.size(); i++)
+        {
+            threads.emplace_back(std::thread(&Engine::virtualCallDensity,this,i));
+        }
+        for (size_t i = 0; i < threads.size(); i++)
+        {
+            threads[i].join();
+        }
+    }
+
+    void Engine::virtualCallDensity(int i)
+    {
+        virtualFlows[i]->calDensity();
+    }
+
+    // void Engine::calDensity()
+    // {
+
+    // }
+
     void Engine::pushFlow(Flow *flow)
     {
+        flow->setId("vflow_" + std::to_string(virtualFlows.size()));
         virtualFlows.push_back(flow);
     }
 

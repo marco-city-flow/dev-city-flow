@@ -11,6 +11,8 @@ namespace CityFlow {
     Vehicle::ControllerInfo::ControllerInfo(Vehicle *vehicle, std::shared_ptr<const Route> route, std::mt19937 *rnd)
         : router(vehicle, route, rnd) {
         enterLaneLinkTime = std::numeric_limits<int>::max();
+        endRoad = route->getRoute().back();
+        // std::cerr << "endRoadId " << endRoad->getId() << std::endl;
     }
 
     Vehicle::ControllerInfo::ControllerInfo(Vehicle *vehicle, const Vehicle::ControllerInfo &other): ControllerInfo(other) {

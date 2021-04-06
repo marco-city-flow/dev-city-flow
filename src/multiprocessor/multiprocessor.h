@@ -30,17 +30,18 @@ namespace CityFlow {
 
         bool loadFromConfig(std::string);
         void nextStepPro();
-        void nextStepPro_F(size_t);
+        void nextStepPro_F();
         void engineNext(int);
         void pushVehicle(Vehicle *);
         void exchangeVehicle();
         void generateVehicle(Vehicle);
         void updateHistory(int);
         void syncFlow(int);
+        void syncChangedVehicles(int i);
         void initEngines(int);
         void pushInEngine(int);
 
-        
+
         /*----------------------------------------------------------------*/
         /*|                             A P I s                          |*/
         /*|                      cityflow.cpp L22 - L44                  |*/   
