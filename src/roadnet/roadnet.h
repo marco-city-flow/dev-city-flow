@@ -339,6 +339,7 @@ namespace CityFlow {
         Road *belongRoad = nullptr;
         Drivable *nextHalfLane = nullptr;
         std::deque<Vehicle *> waitingBuffer;
+        std::deque<Vehicle *> halfWaitingBuffer;
 
         struct HistoryRecord {
             int vehicleNum;
@@ -410,8 +411,14 @@ namespace CityFlow {
 
         std::deque<Vehicle *> &getWaitingBuffer() { return waitingBuffer; }
 
+        std::deque<Vehicle *> &getHalfWaitingBuffer() { return halfWaitingBuffer; }
+
         void pushWaitingVehicle(Vehicle *vehicle) {
             waitingBuffer.emplace_back(vehicle);
+        }
+
+        void pushHalfWaitingVehicle(Vehicle *vehicle) {
+            halfWaitingBuffer.emplace_back(vehicle);
         }
 
         /* segmentation */

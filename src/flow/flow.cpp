@@ -24,18 +24,13 @@ namespace CityFlow {
         else
         {
             if (currentTime < endTime) {
-                Vehicle *vehicle = new Vehicle(*templateVehicle, this);
-                waitForPushVehicle = vehicle;
-
-                waitForPushVehicle->setFirstDrivable();
-                Lane *lane = (Lane *)(waitForPushVehicle->getChangedDrivable());
-                Vehicle * tail = lane->getLastVehicle();
-                lane->pushVehicle(waitForPushVehicle);
-                waitForPushVehicle->updateLeaderAndGap(tail);
-                // std::cerr << "leaderandgap update" << std::endl;
-
-                waitForPushVehicle->update();
-                waitForPushVehicle->clearSignal();
+                Vehicle* vehicle = new Vehicle(vehicleTemplate, id + "_" + std::to_string(cnt++), engine, this);
+                int priority = vehicle->getPriority();
+                while (engine->checkPriority(priority)) priority = engine->rnd();
+                vehicle->setPriority(priority);
+                vehicle->setHalfControllInfo(lane->getLength()/2+0.1);
+                engine->pushVehicle(vehicle, false);
+                vehicle->getFirstRoad()->addPlanRouteVehicle(vehicle);
             }
         }
         currentTime += timeInterval;
@@ -79,21 +74,22 @@ namespace CityFlow {
         cnt = 0;
     }
 
-    // void Flow::resetRoute(int engineId)
-    // {
-    //     std::vector<Road *> roads;
-    //     roads.push_back(lane->getBelongRoad());
-    //     // std::cerr << "resetRoutestart: " << roads.back()->getId() << std::endl;
-    //     roads.push_back(endRoad->getSameRoadById(engineId));//tochange pointer
-    //     // std::cerr << "resetRouteend: " << roads.back()->getId() << std::endl;
-    //     vehicleTemplate.route = std::make_shared<const Route>(roads);
-    // }
+    void Flow::resetRoute(int engineId)
+    {
+        std::vector<Road *> roads;
+        roads.push_back(lane->getBelongRoad());
+        // std::cerr << "resetRoutestart: " << roads.back()->getId() << std::endl;
+        roads.push_back(endRoad->getSameRoadById(engineId));//tochange pointer
+        // std::cerr << "resetRouteend: " << roads.back()->getId() << std::endl;
+        vehicleTemplate.route = std::make_shared<const Route>(roads);
+    }
 
-    void Flow::addToBuffer(Vehicle vehicle)
+    void Flow::addToBuffer(Vehicle vehicle, Flow* flow)
     {
         receiveVehicle++;
         if (vehicleBuffer.size() == 0)
         {
+            flowBuffer.push_back(flow);
             vehicleBuffer.push_back(vehicle);
         }
     }
@@ -103,14 +99,18 @@ namespace CityFlow {
         endTime = receiveVehicle;
         if (endTime != 0)
         {
-            // vehicleTemplate = vehicleBuffer.begin()->getTemplate();
-            templateVehicle = new Vehicle(*(vehicleBuffer.begin()), vehicleBuffer.begin()->getId() + "_CE", engine, nullptr);
-            Road * belongRoad = vehicleBuffer.begin()->getChangedDrivable()->getBelongRoad();
-            templateVehicle->getControllerInfo()->router.resetAnchorPoints(belongRoad, engine->getId());
-            templateVehicle->updateRoute();
-            endRoad = vehicleBuffer.begin()->getControllerInfo()->router.getLastRoad();
+            // templateVehicle = new Vehicle(*(vehicleBuffer.begin()), vehicleBuffer.begin()->getId() + "_CE", engine, nullptr);
+            // Road * belongRoad = vehicleBuffer.begin()->getChangedDrivable()->getBelongRoad();
+            // templateVehicle->getControllerInfo()->router.resetAnchorPoints(belongRoad, engine->getId());
+            // templateVehicle->updateRoute();
+            // endRoad = vehicleBuffer.begin()->getControllerInfo()->router.getLastRoad();
+            vehicleTemplate = flowBuffer.back()->getTemplate();
+            endRoad = vehicleTemplate.route->getRoute().back();
+            resetRoute(engine->getId());
             vehicleBuffer.clear();
+            flowBuffer.clear();
             receiveVehicle = 0;
         }
         currentTime = 0;
+    }
 }

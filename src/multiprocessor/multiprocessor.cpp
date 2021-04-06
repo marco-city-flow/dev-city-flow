@@ -94,8 +94,8 @@ namespace CityFlow{
     }
 
     void multiprocessor::nextStepPro_F(){
-        clock_t start, now;
-        start = clock();
+        // clock_t start, now;
+        // start = clock();
         std::vector<std::thread> threads1;
         for(size_t i = 0; i < multiprocessor::engines.size(); i++)
         {
@@ -105,10 +105,10 @@ namespace CityFlow{
         {
             threads1[i].join();
         }
-        now = clock();
-        std::cerr << "50 steps" << now - start << std::endl;
+        // now = clock();
+        // std::cerr << "50 steps" << now - start << std::endl;
 
-        start = clock();
+        // start = clock();
         std::vector<std::thread> threads2;
         for (size_t i = 0; i < multiprocessor::engines.size(); i++)
         {
@@ -122,8 +122,8 @@ namespace CityFlow{
         {
             threads2[i].join();
         }
-        now = clock();
-        std::cerr << "sync" << now - start << std::endl;
+        // now = clock();
+        // std::cerr << "sync" << now - start << std::endl;
     }
 
     void multiprocessor::syncFlow(int i){

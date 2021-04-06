@@ -32,6 +32,7 @@ namespace CityFlow {
         Lane *lane;
         Road *endRoad = nullptr;
         std::vector<Vehicle> vehicleBuffer;
+        std::vector<Flow*> flowBuffer;
         Vehicle *waitForPushVehicle = nullptr;
         int receiveVehicle = 0;
 
@@ -58,7 +59,7 @@ namespace CityFlow {
 
         bool isValid() const { return this->valid; }
 
-        // VehicleInfo getTemplate() const { return vehicleTemplate; }
+        VehicleInfo getTemplate() const { return vehicleTemplate; }
 
         void setValid(const bool valid) {
             if (this->valid && !valid)
@@ -72,7 +73,7 @@ namespace CityFlow {
 
         void resetRoute(int engineId);
 
-        void addToBuffer(Vehicle vehicle);
+        void addToBuffer(Vehicle vehicle, Flow* flow);
 
         void calDensity();
 

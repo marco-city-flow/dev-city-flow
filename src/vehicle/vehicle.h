@@ -128,11 +128,15 @@ namespace CityFlow {
 
         void setControllInfo(ControllerInfo info) { controllerInfo = info; };
 
+        void setHalfControllInfo(double length) { controllerInfo.dis = length; };
+
         void setBuffer(Buffer buff) { buffer = buff; };
 
         void setDeltaDistance(double dis);
 
         void setSpeed(double speed);
+
+        void setFlow(Flow *f) { flow = f; };
 
         void setCustomSpeed(double speed) {
             buffer.customSpeed = speed;

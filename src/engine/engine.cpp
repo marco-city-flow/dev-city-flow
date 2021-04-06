@@ -268,7 +268,6 @@ namespace CityFlow {
             }
         }
 
-
         if (!vehicle.hasSetEnd() && vehicle.hasSetDrivable() && !vehicle.hasChangeEngine()) {
             buffer.emplace_back(&vehicle, vehicle.getBufferDis());
         }
@@ -276,7 +275,7 @@ namespace CityFlow {
         if (!vehicle.hasSetEnd() && vehicle.hasChangeEngine())
         {
             // changeEngineBuffer.emplace_back(vehicle, 0);
-            vehicle.getChangedDrivable()->getFlow()->addToBuffer(vehicle);
+            vehicle.getChangedDrivable()->getFlow()->addToBuffer(vehicle,vehicle.getFlow());
             // std::cerr << ((Lane *)vehicle.getChangedDrivable())->getBelongRoad()->getId() << std::endl;
         }
     }
@@ -536,7 +535,14 @@ namespace CityFlow {
             for (auto &vehicle : road.getPlanRouteBuffer())
                 if (vehicle->isRouteValid()) {
                     vehicle->setFirstDrivable();
-                    vehicle->getCurLane()->pushWaitingVehicle(vehicle);
+                    if (vehicle->getFlow()->getVirtual())
+                    {
+                        vehicle->getCurLane()->pushHalfWaitingVehicle(vehicle);
+                    }
+                    else
+                    {
+                        vehicle->getCurLane()->pushWaitingVehicle(vehicle);
+                    }
                 }else {
                     Flow *flow = vehicle->getFlow();
                     if (flow) flow->setValid(false);
@@ -595,6 +601,19 @@ namespace CityFlow {
                 vehicle->updateLeaderAndGap(tail);
                 buffer.pop_front();
             }
+        }
+        for (Lane *lane : roadnet.getLanes()) {
+            auto &buffer = lane->getHalfWaitingBuffer();
+            if (buffer.empty()) continue;
+            auto &vehicle = buffer.front();
+            // if (lane->available(vehicle)) {//TODO
+                vehicle->setRunning(true);
+                activeVehicleCount += 1;
+                Vehicle * tail = lane->getLastVehicle();
+                lane->pushVehicle(vehicle);
+                vehicle->updateLeaderAndGap(tail);
+                buffer.pop_front();
+            // }
         }
     }
 
@@ -656,21 +675,21 @@ namespace CityFlow {
         // start = clock();
         for (auto &flow : flows)
             flow.nextStep(interval);
-        std::vector<std::thread> threads;
-        for(size_t i = 0; i < virtualFlows.size(); i++)
-        {
-            threads.emplace_back(std::thread(&Engine::virtualNextStep,this,i));
-        }
-        for (size_t i = 0; i < threads.size(); i++)
-        {
-            threads[i].join();
-        }
-
-        for (auto &flow : virtualFlows)
-            flow->pushToEngine();
+        // std::vector<std::thread> threads;
+        // for(size_t i = 0; i < virtualFlows.size(); i++)
+        // {
+        //     threads.emplace_back(std::thread(&Engine::virtualNextStep,this,i));
+        // }
+        // for (size_t i = 0; i < threads.size(); i++)
+        // {
+        //     threads[i].join();
+        // }
 
         // for (auto &flow : virtualFlows)
-        //     flow->nextStep(interval);
+        //     flow->pushToEngine();
+
+        for (auto &flow : virtualFlows)
+            flow->nextStep(interval);
 
         // now = clock();
         // std::cerr << "flow nextstep done" << std::endl;
