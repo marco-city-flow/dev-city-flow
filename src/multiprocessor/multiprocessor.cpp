@@ -302,7 +302,7 @@ namespace CityFlow{
                 ret = engine -> getVehicleInfo(id);
                 break;  /* break the loop if no exception is thrown, i.e. vehicle #id found */
             } 
-            catch(std::runtime_error rt_err){
+            catch(std::runtime_error rt_err&){
                 tested++;
             }
         }
@@ -344,7 +344,7 @@ namespace CityFlow{
             try{
                 engine -> setTrafficLightPhase(id, phaseIndex);
             } 
-            catch(std::runtime_error rt_err){
+            catch(std::runtime_error rt_err&){
                 tested++;
             }
         }
@@ -366,7 +366,7 @@ namespace CityFlow{
             try{
                 engine -> setVehicleSpeed(id, speed);
             } 
-            catch(std::runtime_error rt_err){
+            catch(std::runtime_error rt_err&){
                 tested++;
             }
         }
@@ -399,7 +399,7 @@ namespace CityFlow{
         for (auto engine : engines){
             if(engine -> setRoute(vehicle_id, anchor_id))
                 return true;
-        } 
+        }
         return false;
     }
 }
