@@ -124,6 +124,43 @@ namespace CityFlow{
         engines[i]->syncChangedVehicles(i);
     }
 
+    void multiprocessor::nextStepPro_F(size_t step){
+        for (size_t j = 0; j < step; j++)
+        {
+            std::vector<std::thread> threads1;
+            for(size_t i = 0; i < multiprocessor::engines.size(); i++)
+            {
+                threads1.emplace_back(std::thread(&multiprocessor::engineNext,this,i));
+            }
+            for (size_t i = 0; i < threads1.size(); i++)
+            {
+                threads1[i].join();
+            }
+
+            if (j % 5 == 0)
+            {
+                // std::vector<std::thread> threads2;
+                // for (size_t i = 0; i < multiprocessor::engines.size(); i++)
+                // {
+                //     threads2.emplace_back(std::thread(&multiprocessor::syncFlow,this,i));
+                // }
+                // for (size_t i = 0; i < threads2.size(); i++)
+                // {
+                //     threads2[i].join();
+                // }
+                for (size_t i = 0; i < multiprocessor::engines.size(); i++)
+                {
+                    syncFlow(i);
+                }
+            }
+            std::cerr << j << std::endl;
+        }
+    }
+
+    void multiprocessor::syncFlow(int i){
+        engines[i]->syncFlow(i);
+    }
+
     void multiprocessor::nextStepPro()
     {
         std::vector<std::thread> threads1;
