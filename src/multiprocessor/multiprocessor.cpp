@@ -68,7 +68,7 @@ namespace CityFlow{
                 std::string path_t = getJsonMember<const char*>("engineDir", curEngineConfig);
                 path_t += getJsonMember<const char*>("configFile", curEngineConfig);
                 std::cerr << path_t << std::endl;
-                Engine *engine = new Engine(path_t, 6, this);
+                Engine *engine = new Engine(path_t, 10, this);
                 multiprocessor::engines.push_back(engine);
             }
         }catch (const JsonFormatError &e) {
@@ -82,11 +82,15 @@ namespace CityFlow{
         return true;
     }
 
-    void multiprocessor::engineNext(int i){
+    void multiprocessor::engineNext50(int i){
         for (size_t j = 0; j < 50; j++)
         {
             multiprocessor::engines[i]->nextStep();
         }
+    }
+
+    void multiprocessor::engineNext(int i){
+        multiprocessor::engines[i]->nextStep();
     }
 
     void multiprocessor::nextStepPro_F(){
@@ -95,7 +99,7 @@ namespace CityFlow{
         std::vector<std::thread> threads1;
         for(size_t i = 0; i < multiprocessor::engines.size(); i++)
         {
-            threads1.emplace_back(std::thread(&multiprocessor::engineNext,this,i));
+            threads1.emplace_back(std::thread(&multiprocessor::engineNext50,this,i));
         }
         for (size_t i = 0; i < threads1.size(); i++)
         {

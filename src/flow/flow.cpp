@@ -100,28 +100,17 @@ namespace CityFlow {
 
     void Flow::calDensity()
     {
-        clock_t startTime = clock();
-        // endTime = vehicleBuffer.size();
         endTime = receiveVehicle;
         if (endTime != 0)
         {
-            // std::cerr << "calDensity: " << endTime << std::endl;
             // vehicleTemplate = vehicleBuffer.begin()->getTemplate();
             templateVehicle = new Vehicle(*(vehicleBuffer.begin()), vehicleBuffer.begin()->getId() + "_CE", engine, nullptr);
             Road * belongRoad = vehicleBuffer.begin()->getChangedDrivable()->getBelongRoad();
             templateVehicle->getControllerInfo()->router.resetAnchorPoints(belongRoad, engine->getId());
-            clock_t start, now;
-            start = clock();
             templateVehicle->updateRoute();
-            now = clock();
-            std::cerr << "updateroute" << now - start << std::endl;
-            // std::cerr << "route update" << std::endl;
-
             endRoad = vehicleBuffer.begin()->getControllerInfo()->router.getLastRoad();
             vehicleBuffer.clear();
             receiveVehicle = 0;
         }
         currentTime = 0;
-        std::cerr << "caldensity" << clock() - startTime << std::endl;
-    }
 }

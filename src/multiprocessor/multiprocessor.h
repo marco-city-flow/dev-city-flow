@@ -32,6 +32,7 @@ namespace CityFlow {
         void nextStepPro();
         void nextStepPro_F();
         void engineNext(int);
+        void engineNext50(int);
         void pushVehicle(Vehicle *);
         void exchangeVehicle();
         void generateVehicle(Vehicle);
@@ -45,7 +46,7 @@ namespace CityFlow {
 
         /*----------------------------------------------------------------*/
         /*|                             A P I s                          |*/
-        /*|                      cityflow.cpp L22 - L44                  |*/   
+        /*|                      cityflow.cpp L22 - L44                  |*/
         /*----------------------------------------------------------------*/
         /* getters */
         size_t getVehicleCount() const;
