@@ -92,6 +92,7 @@ namespace CityFlow {
             bool end = false;
             bool running = false;
             Router router;
+            Road* endRoad;
             ControllerInfo(Vehicle *vehicle, std::shared_ptr<const Route> route, std::mt19937 *rnd);
             ControllerInfo(Vehicle *vehicle, const ControllerInfo &other);
         };

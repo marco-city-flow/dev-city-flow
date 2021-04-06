@@ -51,6 +51,10 @@ namespace CityFlow {
             return anchorPoints[0];
         }
 
+        Road * getLastRoad() {
+            return anchorPoints[anchorPoints.size() - 1];
+        }
+
         Drivable *getFirstDrivable() const;
 
         Drivable *getNextDrivable(size_t i = 0) const;

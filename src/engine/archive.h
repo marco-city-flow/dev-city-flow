@@ -12,6 +12,7 @@ namespace CityFlow {
     class Flow;
     class Vehicle;
     class TrafficLight;
+    class multiprocessor;
 
     class Archive {
     private:
