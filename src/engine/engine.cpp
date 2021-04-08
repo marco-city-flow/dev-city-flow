@@ -860,19 +860,19 @@ namespace CityFlow {
 
     void Engine::syncChangedVehicles(int engineId)
     {
-        // for (auto &flow : virtualFlows)
+        for (auto &flow : virtualFlows)
+        {
+            flow->calDensity();
+        }
+        // std::vector<std::thread> threads;
+        // for (size_t i = 0; i < virtualFlows.size(); i++)
         // {
-        //     flow->calDensity(engineId);
+        //     threads.emplace_back(std::thread(&Engine::virtualCallDensity,this,i));
         // }
-        std::vector<std::thread> threads;
-        for (size_t i = 0; i < virtualFlows.size(); i++)
-        {
-            threads.emplace_back(std::thread(&Engine::virtualCallDensity,this,i));
-        }
-        for (size_t i = 0; i < threads.size(); i++)
-        {
-            threads[i].join();
-        }
+        // for (size_t i = 0; i < threads.size(); i++)
+        // {
+        //     threads[i].join();
+        // }
     }
 
     void Engine::virtualCallDensity(int i)

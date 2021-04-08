@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 3.0)
 project(cityflow)
 
+# set(CMAKE_BUILD_TYPE Profile)
 set(CMAKE_CXX_STANDARD "11" CACHE STRING "")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -DRAPIDJSON_HAS_STDSTRING=1")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
+# set(CMAKE_CXX_FLAGS_PROFILE "-pg")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 if(POLICY CMP0063)
@@ -65,6 +67,10 @@ if(GTEST_FOUND)
 endif()
 
 if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+    add_subdirectory(tools/debug)
+endif()
+
+if (${CMAKE_BUILD_TYPE} STREQUAL Profile)
     add_subdirectory(tools/debug)
 endif()
 
