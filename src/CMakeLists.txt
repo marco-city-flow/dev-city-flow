@@ -13,7 +13,6 @@ set(PROJECT_HEADER_FILES
     vehicle/vehicle.h
     vehicle/lanechange.h
     multiprocessor/multiprocessor.h
-    multiprocessor/ThreadPool.h
 )
 
 set(PROJECT_SOURCE_FILES
