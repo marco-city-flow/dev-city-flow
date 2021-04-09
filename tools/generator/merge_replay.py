@@ -26,22 +26,19 @@ if __name__ == '__main__':
                 f.append(open(os.path.join(path, file_name), "r"))
 
     for _ in f:
-        replays.append(_.read().split(';'))
+        replays.append(_.read().split('\n'))
 
     out_f = open(os.path.join(args.dir, args.output), "w")
 
-    step_count = len(replays[0])-1
+    step_count = len(replays[0])
     for step_index in track(range(step_count)):
         for replay_index in range(len(replays)):
             if replay_index == 0:   # read roadnet of each step from first replay file
-                roadnet = replays[replay_index][step_index+1].split(",")[0]
+                roadnet = replays[replay_index][step_index].split(";")[1]
 
-            if step_index == 0:
-                out_f.write(replays[replay_index][step_index])
-            else:
-                out_f.write(replays[replay_index]
-                            [step_index+1].split(",", 1)[1])
-        out_f.write("; " + roadnet + ",")
+            out_f.write(replays[replay_index]
+                        [step_index].split(";")[0])
+        out_f.write("; " + roadnet + ",\n")
 
     out_f.close()
 
