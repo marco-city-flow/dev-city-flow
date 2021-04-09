@@ -324,6 +324,7 @@ namespace CityFlow {
         virtual std::string getId() const = 0;
         virtual Engine* getBelongEngine(double) = 0;
         virtual Road *getBelongRoad() const = 0;
+        virtual void initLaneLinks() = 0;
     };
 
     class Lane : public Drivable {
@@ -336,6 +337,7 @@ namespace CityFlow {
         int laneIndex;
         std::vector<Segment> segments;
         std::vector<LaneLink *> laneLinks;
+        std::vector<std::pair<Road *, std::vector<LaneLink *>>> roadToLaneLinks;
         Road *belongRoad = nullptr;
         Drivable *nextHalfLane = nullptr;
         std::deque<Vehicle *> waitingBuffer;
@@ -359,6 +361,8 @@ namespace CityFlow {
         Lane(double width, double maxSpeed, int laneIndex, Road *belongRoad);
 
         void initFlow(Engine*);
+
+        void initLaneLinks();
 
         std::string getId() const override{
             return belongRoad->getId() + '_' + std::to_string(getLaneIndex());
@@ -512,6 +516,8 @@ namespace CityFlow {
         }
 
         void initFlow(Engine *engine);
+
+        void initLaneLinks(){};
 
         Road *getBelongRoad() const { return nullptr; }
 

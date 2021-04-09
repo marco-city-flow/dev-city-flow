@@ -40,6 +40,7 @@ namespace CityFlow{
         multiprocessor::engines[i]->initId(i);
         multiprocessor::engines[i]->roadnet.initEnginePointer();
         multiprocessor::engines[i]->roadnet.initRoadPointer(engines);
+        multiprocessor::engines[i]->initLaneLinks();
         multiprocessor::engines[i]->startThread();
         std::cout << "init" << i << std::endl;
     }

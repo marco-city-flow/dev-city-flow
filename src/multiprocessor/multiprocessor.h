@@ -6,7 +6,6 @@
 #include "engine/archive.h"
 #include "engine/engine.h"
 #include "utility/barrier.h"
-#include "multiprocessor/ThreadPool.h"
 
 #include <mutex>
 #include <thread>

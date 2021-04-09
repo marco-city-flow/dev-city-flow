@@ -15,6 +15,7 @@ frontend/replay/*
 tools/generator/output/*
 tools/generator/*mega.json
 tools/generator/*50_50*
+tools/generator/*10_10*
 tools/generator/100_100_m/*
 
 tempCodeRunnerFile.py

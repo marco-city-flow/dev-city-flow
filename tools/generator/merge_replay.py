@@ -3,6 +3,7 @@ import json
 import os
 from rich.progress import track
 
+# python3 merge_replay.py --dir ./10_10 --output merged_replay.txt
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -29,8 +30,8 @@ if __name__ == '__main__':
         replays.append(_.read().split('\n'))
 
     out_f = open(os.path.join(args.dir, args.output), "w")
-
-    step_count = len(replays[0])
+    #print(replays)[len(replays) - 1]
+    step_count = len(replays[0])-1
     for step_index in track(range(step_count)):
         for replay_index in range(len(replays)):
             if replay_index == 0:   # read roadnet of each step from first replay file
@@ -38,7 +39,7 @@ if __name__ == '__main__':
 
             out_f.write(replays[replay_index]
                         [step_index].split(";")[0])
-        out_f.write("; " + roadnet + ",\n")
+        out_f.write(";" + roadnet + "\n")
 
     out_f.close()
 

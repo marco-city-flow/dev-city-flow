@@ -880,10 +880,13 @@ namespace CityFlow {
         virtualFlows[i]->calDensity();
     }
 
-    // void Engine::calDensity()
-    // {
-
-    // }
+    void Engine::initLaneLinks()
+    {
+        for (auto &drivable : roadnet.getDrivables())
+        {
+            drivable->initLaneLinks();
+        }
+    }
 
     void Engine::pushFlow(Flow *flow)
     {

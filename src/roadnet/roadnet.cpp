@@ -474,12 +474,45 @@ namespace CityFlow {
     }
 
     std::vector<LaneLink *> Lane::getLaneLinksToRoad(const Road *road) const {
-        std::vector<LaneLink *> ret;
-        for (auto &laneLink : laneLinks) {
-            if (laneLink->getEndLane()->getBelongRoad() == road)
-                ret.push_back(laneLink);
+        // std::vector<LaneLink *> ret;
+        // for (auto &laneLink : laneLinks) {
+        //     if (laneLink->getEndLane()->getBelongRoad() == road)
+        //         ret.push_back(laneLink);
+        // }
+        // return ret;
+        for (size_t i = 0; i < roadToLaneLinks.size(); i++)
+        {
+            if (roadToLaneLinks[i].first == road)
+            {
+                return roadToLaneLinks[i].second;
+            }
         }
+        std::vector<LaneLink *> ret;
         return ret;
+    }
+
+    void Lane::initLaneLinks()
+    {
+        for (auto &laneLink : laneLinks) {
+            Road* road = laneLink->getEndLane()->getBelongRoad();
+            std::vector<std::pair<Road *, std::vector<LaneLink *>>>::iterator iter = roadToLaneLinks.begin();
+
+            while (iter != roadToLaneLinks.end() && iter->first != road)
+            {
+                iter++;
+            }
+
+            if (iter == roadToLaneLinks.end())
+            {
+                std::vector<LaneLink *> ret;
+                ret.push_back(laneLink);
+                roadToLaneLinks.emplace_back(std::make_pair(road, ret));
+            }
+            else
+            {
+                iter->second.push_back(laneLink);
+            }
+        }
     }
 
     void Road::initLanesPoints() {

@@ -52,8 +52,6 @@ namespace CityFlow
         size_t activeVehicleCount = 0;
         int seed;
         std::mutex lock;
-        std::mutex vehiclePoolLock;
-        std::mutex vehicleMapLock;
         Barrier startBarrier, endBarrier;
         std::vector<std::thread> threadPool;
         bool finished = false;
@@ -112,6 +110,8 @@ namespace CityFlow
 
         void updateLog();
 
+        std::string consumerLog();
+
         bool checkWarning();
 
         bool loadRoadNet(const std::string &jsonFile);
@@ -156,6 +156,8 @@ namespace CityFlow
         void setLogFile(const std::string &jsonFile, const std::string &logFile);
 
         void initSegments();
+
+        void initLaneLinks();
 
         void updateHistory();
 
