@@ -888,6 +888,13 @@ namespace CityFlow {
         }
     }
 
+    void Engine::initFlow() {
+        for (auto &road : roadnet.getRoads())
+        {
+            road.initFlow();
+        }
+    }
+
     void Engine::pushFlow(Flow *flow)
     {
         flow->setId("vflow_" + std::to_string(virtualFlows.size()));

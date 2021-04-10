@@ -14,23 +14,27 @@ namespace CityFlow{
     std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
     multiprocessor::multiprocessor(const std::string &configFile)
     {
-        std::string cconfigFile = "/home/zhj/Desktop/CityFlow/build/10_10_m/config_10_10.json";
-        loadFromConfig(cconfigFile);
+        // std::string cconfigFile = "/home/zhj/Desktop/CityFlow/build/10_10_m/config_10_10.json";
+        loadFromConfig(configFile);
 
         // std::cout << "end of initengines" << std::endl;
 
-        // std::vector<std::thread> threads;
-        // for (size_t i = 0; i < multiprocessor::engines.size(); ++i)
-        // {
-        //     threads.emplace_back(std::thread(&multiprocessor::initEngines,this,i));
-        // }
-        // for (size_t i = 0; i < threads.size(); i++)
-        // {
-        //     threads[i].join();
-        // }
+        std::vector<std::thread> threads;
         for (size_t i = 0; i < multiprocessor::engines.size(); ++i)
         {
-            initEngines(i);
+            threads.emplace_back(std::thread(&multiprocessor::initEngines,this,i));
+        }
+        for (size_t i = 0; i < threads.size(); i++)
+        {
+            threads[i].join();
+        }
+        for (size_t i = 0; i < multiprocessor::engines.size(); ++i)
+        {
+            multiprocessor::engines[i]->initFlow();
+        }
+        for (size_t i = 0; i < multiprocessor::engines.size(); ++i)
+        {
+            multiprocessor::engines[i]->startThread();
         }
         std::cout << "end of init" << std::endl;
     }
@@ -41,7 +45,6 @@ namespace CityFlow{
         multiprocessor::engines[i]->roadnet.initEnginePointer();
         multiprocessor::engines[i]->roadnet.initRoadPointer(engines);
         multiprocessor::engines[i]->initLaneLinks();
-        multiprocessor::engines[i]->startThread();
         std::cout << "init" << i << std::endl;
     }
 

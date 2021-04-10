@@ -204,6 +204,8 @@ namespace CityFlow {
 
         void initEnginePointer();
 
+        void initFlow();
+
         std::string getId() const { return id; }
 
         Engine* getBelongEngine(int num) { return (num==1?belongEngine1:belongEngine2); }

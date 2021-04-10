@@ -159,6 +159,8 @@ namespace CityFlow
 
         void initLaneLinks();
 
+        void initFlow();
+
         void updateHistory();
 
         void syncFlow(int engineId);

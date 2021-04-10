@@ -779,6 +779,16 @@ FOUND:;
             for (size_t i = 0; i < lanes.size(); ++i)
             {
                 lanes[i].nextHalfLane = belongEngine2->getRoadNet().getDrivableById(lanes[i].getId());
+            }
+        }
+    }
+
+    void Road::initFlow()
+    {
+        if (belongEngine1 != belongEngine2)
+        {
+            for (size_t i = 0; i < lanes.size(); ++i)
+            {
                 lanes[i].nextHalfLane->initFlow(belongEngine2);
             }
         }
