@@ -72,7 +72,7 @@ namespace CityFlow{
                 std::string path_t = getJsonMember<const char*>("engineDir", curEngineConfig);
                 path_t += getJsonMember<const char*>("configFile", curEngineConfig);
                 std::cerr << path_t << std::endl;
-                Engine *engine = new Engine(path_t, 6, this);
+                Engine *engine = new Engine(path_t, 1, this);
                 multiprocessor::engines.push_back(engine);
             }
         }catch (const JsonFormatError &e) {
