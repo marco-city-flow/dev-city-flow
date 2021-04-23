@@ -79,7 +79,7 @@ def distance_sum(intersections, n):
 
 
 def to_adjacency_list(intersections, roads, road_id_index, intersection_id_index):
-    adjacenccy_list = []
+    adjacency_list = []
     for intersection in track(intersections):
         cur_list = []
         for road in intersection['roads']:
@@ -93,8 +93,8 @@ def to_adjacency_list(intersections, roads, road_id_index, intersection_id_index
             else:
                 raise Exception(
                     'start- and endIntersection both the same as ', intersection['id'])
-        adjacenccy_list.append(np.array(cur_list))
-    return adjacenccy_list
+        adjacency_list.append(np.array(cur_list))
+    return adjacency_list
 
 
 def parse_args():
