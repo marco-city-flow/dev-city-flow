@@ -211,10 +211,14 @@ if __name__ == '__main__':
 
     # Assign each road to 1 or 2 engine(s), based on grouping of connected intersections
     print('Assigning engines to each road...')
+    edge_cut = 0
     for road in load_dict['roads']:
         road['engine1'] = load_dict['intersections'][intersection_id_index[road['startIntersection']]]['engine']
         road['engine2'] = load_dict['intersections'][intersection_id_index[road['endIntersection']]]['engine']
+        if road['engine1'] != road['engine2']:
+            edge_cut += 1
         #print(road['id'], engine1, engine2)
+    print("Number of edge cut: " + str(edge_cut))
 
     # All-in-one flow file to engine-wise flow files
     with open(os.path.join(config_dict['dir'], config_dict['flowFile']), "r") as load_f:
@@ -257,5 +261,5 @@ if __name__ == '__main__':
     print(distance_sum(load_dict['intersections'], number_of_engines))
 
     # Scatter intersections
-    print('Scatterring intersections...')
-    scatter_intersections(load_dict['intersections'])
+    # print('Scatterring intersections...')
+    # scatter_intersections(load_dict['intersections'])

@@ -220,10 +220,18 @@ if __name__ == '__main__':
 
     # Assign each road to 1 or 2 engine(s), based on grouping of connected intersections
     print('Assigning engines to each road...')
+    edge_cut = 0
+    same_eng = 0
     for road in load_dict['roads']:
         road['engine1'] = index_list_intersections[intersection_id_index[road['startIntersection']]]
         road['engine2'] = index_list_intersections[intersection_id_index[road['endIntersection']]]
+        if road['engine1'] != road['engine2']:
+            edge_cut += 1
+        else:
+            same_eng += 1
         #print(road['id'], engine1, engine2)
+    print("Number of edge cut: " + str(edge_cut))
+    print("Number of same_eng: " + str(same_eng))
 
     # Save JSON file
     print('Saving JSON file...')
