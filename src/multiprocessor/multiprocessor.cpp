@@ -14,8 +14,8 @@ namespace CityFlow{
     std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
     multiprocessor::multiprocessor(const std::string &configFile)
     {
-        // std::string cconfigFile = "/home/zhj/Desktop/CityFlow/build/10_10_m/config_10_10.json";
-        loadFromConfig(configFile);
+        std::string cconfigFile = "/home/zhj/Desktop/CityFlow/build/20_20_m/out_config_20_20.json";
+        loadFromConfig(cconfigFile);
 
         // std::cout << "end of initengines" << std::endl;
 

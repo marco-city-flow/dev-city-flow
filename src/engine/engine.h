@@ -139,6 +139,8 @@ namespace CityFlow
 
         RoadNet getRoadNet() { return this->roadnet; }
 
+        RoadNet* getRoadNetPointer() { return &(this->roadnet); }
+
         bool hasLaneChange() const { return laneChange; }
 
         bool loadConfig(const std::string &configFile);

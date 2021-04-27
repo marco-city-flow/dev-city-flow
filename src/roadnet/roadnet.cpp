@@ -778,7 +778,7 @@ FOUND:;
         {
             for (size_t i = 0; i < lanes.size(); ++i)
             {
-                lanes[i].nextHalfLane = belongEngine2->getRoadNet().getDrivableById(lanes[i].getId());
+                lanes[i].nextHalfLane = belongEngine2->getRoadNetPointer()->getDrivableById(lanes[i].getId());
             }
         }
     }
