@@ -11,16 +11,26 @@ from LngLatTransfer import LngLatTransfer
 # OBSOLETE: --inFile gps_small --dir .\tools\generator --roadnetJSON megaChengdu.json
 
 # input lon, lat, get closest edge in sumo network
+
+
 def get_closest_edge_id(net, radius, lon, lat):
+    tol = 50
+    it = 0
     x, y = net.convertLonLat2XY(lon, lat)
     edges = net.getNeighboringEdges(x, y, radius)
     # pick the closest edge
-    if len(edges) > 0:
-        distancesAndEdges = sorted([(dist, edge) for edge, dist in edges])
-        dist, closestEdge = distancesAndEdges[0]
-        return closestEdge.getID()
-    else:
-        raise Exception('No closest edge found')
+    while len(edges) == 0:
+        if(it >= tol):
+            raise Exception('Max iteration %d exceeded...' % (tol))
+        radius *= 2
+        edges = net.getNeighboringEdges(x, y, radius)
+        it += 1
+
+    # edge is not comparable
+    distancesAndEdges = sorted([(dist, edge)
+                                for edge, dist in edges], key=lambda x: x[0])
+    dist, closestEdge = distancesAndEdges[0]
+    return closestEdge.getID()
 
 
 def parse_args():
@@ -41,7 +51,7 @@ if __name__ == '__main__':
     if args.roadnetJSON is None and args.roadnetXML is None:
         raise Exception('Invalid arguments for roadnet file!')
     if args.outFlowFile is None:
-        args.outFlowFile = "%s_flow" % (args.inFile)
+        args.outFlowFile = "%s_flow.json" % (args.inFile)
 
     '''# read JSON
         with open(os.path.join(args.dir, args.roadnetFile), "r") as load_f:
@@ -77,7 +87,7 @@ if __name__ == '__main__':
     # read sumo net
     print("Reading SUMO net...")
     net = sumolib.net.readNet(os.path.join(args.dir, args.roadnetXML))
-    radius = 5
+    radius = 2
 
     # init flow
     for od_index in range(len(od) // 2):
