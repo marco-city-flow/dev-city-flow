@@ -13,6 +13,7 @@ PYBIND11_MODULE(cityflow, m) {
             "config_file"_a
         )
         .def("next_step_pro",&CityFlow::multiprocessor::nextStepPro)
+        .def("set_tl_phase", &CityFlow::multiprocessor::setTrafficLightPhase, "intersection_id"_a, "phase_id"_a)
         .def("next_step_pro_F",&CityFlow::multiprocessor::nextStepPro_F);
     py::class_<CityFlow::Engine>(m, "Engine")
         .def(py::init<const std::string&, int, CityFlow::multiprocessor*>(),
