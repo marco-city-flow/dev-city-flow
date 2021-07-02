@@ -13,6 +13,13 @@ PYBIND11_MODULE(cityflow, m) {
             "config_file"_a
         )
         .def("next_step_pro",&CityFlow::multiprocessor::nextStepPro)
+        .def("get_current_time", &CityFlow::multiprocessor::getCurrentTime)
+        .def("get_vehicle_distance", &CityFlow::multiprocessor::getVehicleDistance)
+        .def("get_vehicle_speed", &CityFlow::multiprocessor::getVehicleSpeed)
+        .def("get_lane_waiting_vehicle_count", &CityFlow::multiprocessor::getLaneWaitingVehicleCount)
+        .def("get_lane_vehicle_count", &CityFlow::multiprocessor::getLaneVehicleCount)
+        .def("get_vehicle_speed", &CityFlow::multiprocessor::getVehicleSpeed)
+        .def("get_lane_vehicles", &CityFlow::multiprocessor::getLaneVehicles)
         .def("set_tl_phase", &CityFlow::multiprocessor::setTrafficLightPhase, "intersection_id"_a, "phase_id"_a)
         .def("next_step_pro_F",&CityFlow::multiprocessor::nextStepPro_F);
     py::class_<CityFlow::Engine>(m, "Engine")
