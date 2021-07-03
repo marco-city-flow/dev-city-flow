@@ -21,7 +21,7 @@ import pymetis
 from rich.progress import track
 
 # cwd: /tools/generator
-# --inConfigFile config_20_20.json --dir ./20_20_m --outRoadnet out_roadnet_20_20.json --outConfigFile out_config_20_20.json
+# --inConfigFile config_6_6.json --dir ./6_6_m --outRoadnet out_roadnet_6_6.json --outConfigFile out_config_6_6.json
 
 
 def polygonize(load_dict, id_index=''):

@@ -42,7 +42,7 @@ namespace CityFlow {
                     candidateLanes.push_back(lane);
                 }
             }
-//             assert(candidateLanes.size() > 0);
+            assert(candidateLanes.size() > 0);
             return selectLane(nullptr, candidateLanes);
         }
     }
@@ -66,7 +66,7 @@ namespace CityFlow {
             while ((*tmpCurRoad) != curLane->getBelongRoad() && tmpCurRoad != route.end()) {
                 tmpCurRoad++;
             }
-            //assert(tmpCurRoad != route.end() && curLane->getBelongRoad() == (*tmpCurRoad));
+            assert(tmpCurRoad != route.end() && curLane->getBelongRoad() == (*tmpCurRoad));
             if (tmpCurRoad == route.end() - 1) {
                 return nullptr;
             } else if (tmpCurRoad == route.end() - 2) {
@@ -92,7 +92,7 @@ namespace CityFlow {
             while (iCurRoad < route.end() && static_cast<const Lane*>(curDrivable)->getBelongRoad() != (*iCurRoad)) {
                 iCurRoad++;
             }
-            //assert(iCurRoad < route.end());
+            assert(iCurRoad < route.end());
         }
         for (auto it = planned.begin(); it != planned.end();) {
             if ((*it) != curDrivable) {
