@@ -42,7 +42,7 @@ namespace CityFlow {
                     candidateLanes.push_back(lane);
                 }
             }
-            assert(candidateLanes.size() > 0);
+//             assert(candidateLanes.size() > 0);
             return selectLane(nullptr, candidateLanes);
         }
     }
