@@ -16,3 +16,10 @@ Welcome to CityFlow's documentation!
     roadnet
     flow
     replay
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

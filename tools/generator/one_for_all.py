@@ -133,6 +133,7 @@ if __name__ == '__main__':
     configFilePrefix = config_dict['configFilePrefix']
     roadnetLogFilePrefix = config_dict['roadnetLogFilePrefix']
     replayLogFilePrefix = config_dict['replayLogFilePrefix']
+    roadnetFile = config_dict['roadnetFile']
 
     if args.outRoadnet is None:
         args.outRoadnet = "out_%s" % (config_dict['roadnetFile'])
@@ -169,7 +170,7 @@ if __name__ == '__main__':
     number_of_engines = len(config_dict['engines'])
     engine_dicts = config_dict['engines']
 
-    with open(os.path.join(config_dict['dir'], config_dict['roadnetFile']), "r") as load_f:
+    with open(os.path.join(config_dict['dir'], roadnetFile), "r") as load_f:
         load_dict = json.load(load_f)  # JSON read as dictionary
         load_f.close()
     # Calculate length and midpoint

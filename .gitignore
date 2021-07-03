@@ -19,5 +19,10 @@ tools/generator/*10_10*
 tools/generator/20_20/
 tools/generator/100_100_m/*\
 tools/generator/edgecut/*
+tools/converter/Chengdu.json
+tools/generator/Chengdu_flow.json
+tools/generator/Chengdu.net.xml
+tools/generator/6_6_m
+tools/generator/gps_20161101
 
 tempCodeRunnerFile.py
