@@ -62,8 +62,10 @@ namespace CityFlow {
         VehicleInfo getTemplate() const { return vehicleTemplate; }
 
         void setValid(const bool valid) {
-            if (this->valid && !valid)
+            if (this->valid && !valid) {
                 std::cerr << "[warning] Invalid route '" << id << "'. Omitted by default." << std::endl;
+                std::cerr << this->endRoad->getId() << std::endl;
+            }
             this->valid = valid;
         }
 
@@ -74,6 +76,8 @@ namespace CityFlow {
         void resetRoute(int engineId);
 
         void addToBuffer(Vehicle vehicle, Flow* flow);
+      
+        Road* getEndRoad() const { return endRoad; }
 
         void calDensity();
 
