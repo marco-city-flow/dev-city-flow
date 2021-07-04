@@ -42,7 +42,10 @@ namespace CityFlow {
                     candidateLanes.push_back(lane);
                 }
             }
-            assert(candidateLanes.size() > 0);
+//             assert(candidateLanes.size() > 0);
+            if (candidateLanes.size() > 0) {
+                std::cerr << "candidateLanes.size() > 0 in " << vehicle->getFlow()->getEndRoad()->getId() << std::endl;
+            }
             return selectLane(nullptr, candidateLanes);
         }
     }
