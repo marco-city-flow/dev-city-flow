@@ -932,10 +932,13 @@ namespace CityFlow {
             return;
         }
         auto intersection = roadnet.getIntersectionById(id);
-        if(intersection == nullptr){
-            throw std::runtime_error("Intersection '" + id + "' not found");
-        }
-        else{
+        // if(intersection == nullptr){
+        //     throw std::runtime_error("Intersection '" + id + "' not found");
+        // }
+        // else{
+        //     intersection->getTrafficLight().setPhase(phaseIndex);
+        // }
+        if(intersection != nullptr){
             intersection->getTrafficLight().setPhase(phaseIndex);
         }
     }

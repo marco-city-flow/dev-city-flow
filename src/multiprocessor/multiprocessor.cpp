@@ -361,17 +361,17 @@ namespace CityFlow{
     void multiprocessor::setTrafficLightPhase(const std::string &id, int phaseIndex){
         size_t tested = 0;
         for (auto engine : engines){
-            try{
-                engine -> setTrafficLightPhase(id, phaseIndex);
-            }
-            catch(std::runtime_error& rt_err){
-                tested++;
-            }
+            // try{
+            //     engine -> setTrafficLightPhase(id, phaseIndex);
+            // }
+            // catch(std::runtime_error& rt_err){
+            //     tested++;
+            // }
+            engine -> setTrafficLightPhase(id, phaseIndex);
         }
-
-        if(tested == engines.size()){
-            throw std::runtime_error("Intersection '" + id + "' not found");
-        }
+        // if(tested == engines.size()){
+        //     throw std::runtime_error("Intersection '" + id + "' not found");
+        // }
     }
 
     void multiprocessor::setReplayLogFile(const std::string &logFile){
