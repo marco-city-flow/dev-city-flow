@@ -17,8 +17,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 import time
-import pymetis
+#import pymetis
 from rich.progress import track
+from sklearn.cluster import KMeans
 
 # cwd: /tools/generator
 # --inConfigFile config_6_6.json --dir ./6_6_m --outRoadnet out_roadnet_6_6.json --outConfigFile out_config_6_6.json
@@ -96,6 +97,24 @@ def to_adjacency_list(intersections, roads, road_id_index, intersection_id_index
         adjacency_list.append(np.array(cur_list))
     return adjacency_list
 
+def group_intersections_by_point(intersections, n):
+    kmeans = KMeans(n_clusters=n,
+                    init='k-means++',
+                    n_init=10,
+                    max_iter=300,
+                    tol=0.0001,
+                    verbose=0,
+                    random_state=None,
+                    copy_x=True,
+                    algorithm='auto'
+                    )
+    points = pd.DataFrame(data=intersections, columns=['point'])[
+        'point'].apply(pd.Series)
+    kmeans.fit(points)
+    labels = list()
+    for _ in range(len(kmeans.labels_)):
+        labels.append(intersections[int(kmeans.labels_[_])])
+    return labels
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -195,14 +214,18 @@ if __name__ == '__main__':
     polygonize(load_dict, id_index=road_id_index)
 
     # To adjacency list
-    adjacency_list = to_adjacency_list(
-        load_dict['intersections'], load_dict['roads'], road_id_index, intersection_id_index)
-    n_cuts, membership = pymetis.part_graph(
-        number_of_engines, adjacency=adjacency_list)
-    nodes_part = [np.argwhere(np.array(membership) == _).ravel()
-                  for _ in range(number_of_engines)]
-    for _ in nodes_part:
-        print(_)
+
+    ## with METIS
+    # adjacency_list = to_adjacency_list(
+    #     load_dict['intersections'], load_dict['roads'], road_id_index, intersection_id_index)
+    # n_cuts, membership = pymetis.part_graph(
+    #     number_of_engines, adjacency=adjacency_list)
+    # nodes_part = [np.argwhere(np.array(membership) == _).ravel()
+    #               for _ in range(number_of_engines)]
+    # for _ in nodes_part:
+    #     print(_)
+
+    nodes_part = group_intersections_by_point(load_dict['intersections'], number_of_engines)
 
     # Save engine information of each intersection
     print('Saving engine information to dict...')
