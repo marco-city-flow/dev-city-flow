@@ -1,0 +1,15 @@
+{
+	"interval": 1.0,
+	"seed": 0,
+	"dir": "./",
+	"roadnetFile": "roadnet_10_10.json",
+	"flowFile": "flow_10_10.json",
+	"rlTrafficLight": false,
+	"laneChange": false,
+	"saveReplay": true,
+	"engineNumber":4,
+	"flowFilePrefix":"flow_10_10",
+	"configFilePrefix":"config_10_10",
+	"roadnetLogFilePrefix":"10_10_replay_roadnet",
+	"replayLogFilePrefix":"10_10_replay"
+}

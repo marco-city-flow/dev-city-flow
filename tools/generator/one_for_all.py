@@ -111,9 +111,9 @@ def group_intersections_by_point(intersections, n):
     points = pd.DataFrame(data=intersections, columns=['point'])[
         'point'].apply(pd.Series)
     kmeans.fit(points)
-    labels = list()
+    labels = list([] for _ in range(n))
     for _ in range(len(kmeans.labels_)):
-        labels.append(intersections[int(kmeans.labels_[_])])
+        labels[int(kmeans.labels_[_])].append(_)
     return labels
 
 def parse_args():
@@ -229,8 +229,10 @@ if __name__ == '__main__':
 
     # Save engine information of each intersection
     print('Saving engine information to dict...')
+    #print(range(len(nodes_part)))
     for _ in range(len(nodes_part)):
         for intersection in nodes_part[_]:
+            #print(nodes_part[_])
             load_dict['intersections'][intersection]['engine'] = _
 
     # Assign each road to 1 or 2 engine(s), based on grouping of connected intersections
