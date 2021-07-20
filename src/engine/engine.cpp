@@ -286,7 +286,7 @@ namespace CityFlow {
                                   std::vector<Drivable *> &drivables) {
         while (!finished) {
             threadPlanRoute(roads);
-            std::cerr << "threadPlanRoute done" << std::endl;
+//             std::cerr << "threadPlanRoute done" << std::endl;
             if (laneChange) {
                 threadInitSegments(roads);
                 threadPlanLaneChange(vehicles);
