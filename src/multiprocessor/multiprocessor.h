@@ -21,6 +21,8 @@ namespace CityFlow {
         private:
         RoadNet roadnet;
         std::mutex lock;
+        std::vector<Engine *> engines;
+        std::vector<Vehicle *> vehiclePushBuffer;
         // void initEngineRoad();
         // std::map<Engine *, std::vector<std::pair<Vehicle *, double>>> enginePushBuffer;
 
@@ -59,6 +61,7 @@ namespace CityFlow {
         std::string getLeader(const std::string &vehicleId) const;
         double getCurrentTime() const;
         double getAverageTravelTime() const;
+        std::vector<Engine*> getEngines() const;
 
         /* setters */
         void setTrafficLightPhase(const std::string &id, int phaseIndex);
@@ -78,8 +81,7 @@ namespace CityFlow {
 
         /*----------------------------------------------------------------*/
 
-        static std::vector<Engine *> engines;
-        std::vector<Vehicle *> vehiclePushBuffer;
+
     };
 }
 

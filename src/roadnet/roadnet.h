@@ -12,6 +12,8 @@
 namespace CityFlow {
     class Engine;
 
+    class multiprocessor;
+
     class RoadNet;
 
     class Intersection;
@@ -202,7 +204,7 @@ namespace CityFlow {
 
         void initEngine(Engine *engine1, Engine *engine2) { belongEngine1 = engine1; belongEngine2 = engine2; };
 
-        void initEnginePointer();
+        void initEnginePointer(multiprocessor* master);
 
         void initFlow();
 
@@ -562,9 +564,10 @@ namespace CityFlow {
         std::vector<LaneLink *> laneLinks;
         std::vector<Drivable *> drivables;
         Point getPoint(const Point &p1, const Point &p2, double a);
+        multiprocessor* master;
 
     public:
-        bool loadFromJson(std::string jsonFileName);
+        bool loadFromJson(std::string jsonFileName, multiprocessor* master);
 
         rapidjson::Value convertToJson(rapidjson::Document::AllocatorType &allocator);
 
@@ -576,10 +579,10 @@ namespace CityFlow {
 
         std::vector<Intersection> &getIntersections() { return this->intersections; }
 
-        void initEnginePointer() {
+        void initEnginePointer(multiprocessor* master) {
             for (size_t i = 0; i < roads.size(); ++i)
             {
-                roads[i].initEnginePointer();
+                roads[i].initEnginePointer(master);
             }
         }
 

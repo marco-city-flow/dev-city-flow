@@ -58,6 +58,7 @@ namespace CityFlow
         std::string dir;
         std::ofstream logOut;
         int id;
+        multiprocessor* master;
 
         bool rlTrafficLight;
         bool laneChange;

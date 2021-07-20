@@ -76,7 +76,7 @@ namespace CityFlow {
         void resetRoute(int engineId);
 
         void addToBuffer(Vehicle vehicle, Flow* flow);
-      
+
         Road* getEndRoad() const { return endRoad; }
 
         void calDensity();

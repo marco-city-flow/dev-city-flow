@@ -1,0 +1,15 @@
+{
+	"interval": 1.0,
+	"seed": 0,
+	"dir": "./2_2/",
+	"roadnetFile": "roadnet_2_2.json",
+	"flowFile": "flow_2_2.json",
+	"rlTrafficLight": false,
+	"laneChange": false,
+	"saveReplay": false,
+	"engineNumber": 2,
+	"flowFilePrefix" : "flow_2_2",
+	"configFilePrefix": "config_2_2",
+	"roadnetLogFilePrefix": "2_2_replay_roadnet",
+	"replayLogFilePrefix": "2_2_replay"
+}

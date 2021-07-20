@@ -1,0 +1,26 @@
+{
+  "interval": 1.0,
+  "seed": 0,
+  "dir": "./2_2/",
+  "roadnetFile": "out_roadnet_2_2.json",
+  "flowFile": "flow_2_2.json",
+  "rlTrafficLight": false,
+  "laneChange": false,
+  "saveReplay": false,
+  "engines": [
+    {
+      "engineDir": "./2_2/",
+      "flowFile": "flow_2_2_1.json",
+      "configFile": "config_2_2_1.json",
+      "roadnetLogFile": "2_2_replay_roadnet_1.json",
+      "replayLogFile": "2_2_replay_1.txt"
+    },
+    {
+      "engineDir": "./2_2/",
+      "flowFile": "flow_2_2_2.json",
+      "configFile": "config_2_2_2.json",
+      "roadnetLogFile": "2_2_replay_roadnet_2.json",
+      "replayLogFile": "2_2_replay_2.txt"
+    }
+  ]
+}

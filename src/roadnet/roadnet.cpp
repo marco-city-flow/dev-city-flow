@@ -39,7 +39,8 @@ namespace CityFlow {
         return Point((p2.x - p1.x) * a + p1.x, (p2.y - p1.y) * a + p1.y);
     }
 
-    bool RoadNet::loadFromJson(std::string jsonFileName) {
+    bool RoadNet::loadFromJson(std::string jsonFileName, multiprocessor* master) {
+        this->master = master;
         rapidjson::Document document;
         if (!readJsonFromFile(jsonFileName, document)) {
             std::cerr << "cannot open roadnet file" << std::endl;
@@ -764,9 +765,10 @@ FOUND:;
         for (auto &lane : lanes) lane.reset();
     }
 
-    void Road::initEnginePointer() {
-        belongEngine1 = multiprocessor::engines[belongEngineId1];
-        belongEngine2 = multiprocessor::engines[belongEngineId2];
+    void Road::initEnginePointer(multiprocessor* master) {
+        std::vector<Engine*> engines = master->getEngines();
+        belongEngine1 = engines[belongEngineId1];
+        belongEngine2 = engines[belongEngineId2];
         if (belongEngine1 == belongEngine2)
         {
             for (size_t i = 0; i < lanes.size(); ++i)

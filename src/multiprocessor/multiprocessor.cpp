@@ -11,11 +11,11 @@
 #include "rapidjson/error/en.h"
 
 namespace CityFlow{
-    std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
+    // std::vector<Engine*> multiprocessor::engines = std::vector<Engine*>();
     multiprocessor::multiprocessor(const std::string &configFile)
     {
-//         std::string cconfigFile = "/home/zhj/Desktop/CityFlow/build/20_20_m/out_config_20_20.json";
-        loadFromConfig(configFile);
+        std::string cconfigFile = "/home/zhj/Desktop/CityFlow/build/6_6_m/out_config_6_6.json";
+        loadFromConfig(cconfigFile);
 
         // std::cout << "end of initengines" << std::endl;
 
@@ -42,7 +42,7 @@ namespace CityFlow{
     void multiprocessor::initEngines(int i)
     {
         multiprocessor::engines[i]->initId(i);
-        multiprocessor::engines[i]->roadnet.initEnginePointer();
+        multiprocessor::engines[i]->roadnet.initEnginePointer(this);
         multiprocessor::engines[i]->roadnet.initRoadPointer(engines);
         multiprocessor::engines[i]->initLaneLinks();
         std::cout << "init" << i << std::endl;
@@ -90,6 +90,7 @@ namespace CityFlow{
         for (size_t j = 0; j < 50; j++)
         {
             multiprocessor::engines[i]->nextStep();
+            std::cerr << "step " << i << std::endl;
         }
     }
 
@@ -169,6 +170,10 @@ namespace CityFlow{
             threads2[i].join();
         }
         // std::cout << "nextsteppro end" << std::endl;
+    }
+
+    std::vector<Engine*> multiprocessor::getEngines() const{
+        return engines;
     }
 
     void multiprocessor::updateHistory(int i)
@@ -359,7 +364,7 @@ namespace CityFlow{
 
     /* setters */
     void multiprocessor::setTrafficLightPhase(const std::string &id, int phaseIndex){
-        size_t tested = 0;
+        // size_t tested = 0;
         for (auto engine : engines){
             // try{
             //     engine -> setTrafficLightPhase(id, phaseIndex);
