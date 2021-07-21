@@ -86,49 +86,56 @@ namespace CityFlow{
         return true;
     }
 
-    void multiprocessor::engineNext50(int i){
-        for (size_t j = 0; j < 50; j++)
+    void multiprocessor::engineNext(int i){
+        for (int j = 0; j < SYNCRATE; j++)
         {
             multiprocessor::engines[i]->nextStep();
-            std::cerr << "step " << i << std::endl;
         }
     }
 
-    void multiprocessor::engineNext(int i){
-        multiprocessor::engines[i]->nextStep();
+    void multiprocessor::engineNextNum(int i,int num){
+        for (int j = 0; j < num; j++)
+        {
+            multiprocessor::engines[i]->nextStep();
+        }
     }
 
-    void multiprocessor::nextStepPro_F(){
-        // clock_t start, now;
-        // start = clock();
+    void multiprocessor::nextStepPro_F(int num){
+        while (num > SYNCRATE)
+        {
+            std::vector<std::thread> threads1;
+            for(size_t i = 0; i < multiprocessor::engines.size(); i++)
+            {
+                threads1.emplace_back(std::thread(&multiprocessor::engineNext,this,i));
+            }
+            for (size_t i = 0; i < threads1.size(); i++)
+            {
+                threads1[i].join();
+            }
+            std::vector<std::thread> threads2;
+            for (size_t i = 0; i < multiprocessor::engines.size(); i++)
+            {
+                // threads2.emplace_back(std::thread(&multiprocessor::syncChangedVehicles,this,i));
+                for (size_t j = 0; j < (engines[i])->virtualFlows.size(); j++)
+                {
+                    threads2.emplace_back(std::thread(&multiprocessor::calDensity,this,i,j));
+                }
+            }
+            for (size_t i = 0; i < threads2.size(); i++)
+            {
+                threads2[i].join();
+            }
+            num-=SYNCRATE;
+        }
         std::vector<std::thread> threads1;
         for(size_t i = 0; i < multiprocessor::engines.size(); i++)
         {
-            threads1.emplace_back(std::thread(&multiprocessor::engineNext50,this,i));
+            threads1.emplace_back(std::thread(&multiprocessor::engineNextNum,this,i,num));
         }
         for (size_t i = 0; i < threads1.size(); i++)
         {
             threads1[i].join();
         }
-        // now = clock();
-        // std::cerr << "50 steps" << now - start << std::endl;
-
-        // start = clock();
-        std::vector<std::thread> threads2;
-        for (size_t i = 0; i < multiprocessor::engines.size(); i++)
-        {
-            // threads2.emplace_back(std::thread(&multiprocessor::syncChangedVehicles,this,i));
-            for (size_t j = 0; j < (engines[i])->virtualFlows.size(); j++)
-            {
-                threads2.emplace_back(std::thread(&multiprocessor::calDensity,this,i,j));
-            }
-        }
-        for (size_t i = 0; i < threads2.size(); i++)
-        {
-            threads2[i].join();
-        }
-        // now = clock();
-        // std::cerr << "sync" << now - start << std::endl;
     }
 
     void multiprocessor::syncFlow(int i){

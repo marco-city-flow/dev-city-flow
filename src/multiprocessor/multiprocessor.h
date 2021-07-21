@@ -25,15 +25,16 @@ namespace CityFlow {
         std::vector<Vehicle *> vehiclePushBuffer;
         // void initEngineRoad();
         // std::map<Engine *, std::vector<std::pair<Vehicle *, double>>> enginePushBuffer;
+        int SYNCRATE = 50;
 
         public:
         multiprocessor(const std::string &configFile);
 
         bool loadFromConfig(std::string);
         void nextStepPro();
-        void nextStepPro_F();
+        void nextStepPro_F(int);
         void engineNext(int);
-        void engineNext50(int);
+        void engineNextNum(int,int);
         void pushVehicle(Vehicle *);
         void exchangeVehicle();
         void generateVehicle(Vehicle);

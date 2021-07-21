@@ -21,7 +21,7 @@ PYBIND11_MODULE(cityflow, m) {
         .def("get_vehicle_speed", &CityFlow::multiprocessor::getVehicleSpeed)
         .def("get_lane_vehicles", &CityFlow::multiprocessor::getLaneVehicles)
         .def("set_tl_phase", &CityFlow::multiprocessor::setTrafficLightPhase, "intersection_id"_a, "phase_id"_a)
-        .def("next_step_pro_F",&CityFlow::multiprocessor::nextStepPro_F);
+        .def("next_step_pro_F",&CityFlow::multiprocessor::nextStepPro_F, "num"_a);
     py::class_<CityFlow::Engine>(m, "Engine")
         .def(py::init<const std::string&, int, CityFlow::multiprocessor*>(),
             "config_file"_a,
