@@ -105,8 +105,8 @@ if __name__ == '__main__':
             },
             "route": [],
             "interval": 2.0,
-            "startTime": int(od[2 * od_index][2]),
-            "endTime": int(od[2 * od_index+1][2])
+            "startTime": int(float(od[2 * od_index][2])),
+            "endTime": int(float(od[2 * od_index+1][2]))
         }
 
     '''

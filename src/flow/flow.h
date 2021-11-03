@@ -33,6 +33,7 @@ namespace CityFlow {
         Road *endRoad = nullptr;
         std::vector<Vehicle> vehicleBuffer;
         std::vector<Flow*> flowBuffer;
+        std::vector<int> stepBuffer;
         Vehicle *waitForPushVehicle = nullptr;
         int receiveVehicle = 0;
 
@@ -75,7 +76,7 @@ namespace CityFlow {
 
         void resetRoute(int engineId);
 
-        void addToBuffer(Vehicle vehicle, Flow* flow);
+        void addToBuffer(Vehicle vehicle, Flow* flow, int step);
 
         Road* getEndRoad() const { return endRoad; }
 

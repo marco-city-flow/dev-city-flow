@@ -101,6 +101,7 @@ namespace CityFlow{
     }
 
     void multiprocessor::nextStepPro_F(int num){
+        step+=num;
         while (num > SYNCRATE)
         {
             std::vector<std::thread> threads1;
@@ -135,6 +136,18 @@ namespace CityFlow{
         for (size_t i = 0; i < threads1.size(); i++)
         {
             threads1[i].join();
+        }
+        std::vector<std::thread> threads2;
+        if (step%SYNCRATE==0)
+        {
+            for (size_t i = 0; i < multiprocessor::engines.size(); i++)
+            {
+                // threads2.emplace_back(std::thread(&multiprocessor::syncChangedVehicles,this,i));
+                for (size_t j = 0; j < (engines[i])->virtualFlows.size(); j++)
+                {
+                    threads2.emplace_back(std::thread(&multiprocessor::calDensity,this,i,j));
+                }
+            }
         }
     }
 

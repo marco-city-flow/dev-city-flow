@@ -275,7 +275,7 @@ namespace CityFlow {
         if (!vehicle.hasSetEnd() && vehicle.hasChangeEngine())
         {
             // changeEngineBuffer.emplace_back(vehicle, 0);
-            vehicle.getChangedDrivable()->getFlow()->addToBuffer(vehicle,vehicle.getFlow());
+            vehicle.getChangedDrivable()->getFlow()->addToBuffer(vehicle,vehicle.getFlow(),step);
             // std::cerr << ((Lane *)vehicle.getChangedDrivable())->getBelongRoad()->getId() << std::endl;
         }
     }

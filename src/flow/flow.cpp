@@ -84,33 +84,27 @@ namespace CityFlow {
         vehicleTemplate.route = std::make_shared<const Route>(roads);
     }
 
-    void Flow::addToBuffer(Vehicle vehicle, Flow* flow)
+    void Flow::addToBuffer(Vehicle vehicle, Flow* flow, int step)
     {
         receiveVehicle++;
-        if (vehicleBuffer.size() == 0)
-        {
-            flowBuffer.push_back(flow);
-            vehicleBuffer.push_back(vehicle);
-        }
+        stepBuffer.push_back(step);
+        flowBuffer.push_back(flow);
+        vehicleBuffer.push_back(vehicle);
     }
 
     void Flow::calDensity()
     {
-        endTime = receiveVehicle;
-        if (endTime != 0)
-        {
-            // templateVehicle = new Vehicle(*(vehicleBuffer.begin()), vehicleBuffer.begin()->getId() + "_CE", engine, nullptr);
-            // Road * belongRoad = vehicleBuffer.begin()->getChangedDrivable()->getBelongRoad();
-            // templateVehicle->getControllerInfo()->router.resetAnchorPoints(belongRoad, engine->getId());
-            // templateVehicle->updateRoute();
-            // endRoad = vehicleBuffer.begin()->getControllerInfo()->router.getLastRoad();
-            vehicleTemplate = flowBuffer.back()->getTemplate();
-            endRoad = vehicleTemplate.route->getRoute().back();
-            resetRoute(engine->getId());
-            vehicleBuffer.clear();
-            flowBuffer.clear();
-            receiveVehicle = 0;
-        }
-        currentTime = 0;
+        endTime = -1;
+        // templateVehicle = new Vehicle(*(vehicleBuffer.begin()), vehicleBuffer.begin()->getId() + "_CE", engine, nullptr);
+        // Road * belongRoad = vehicleBuffer.begin()->getChangedDrivable()->getBelongRoad();
+        // templateVehicle->getControllerInfo()->router.resetAnchorPoints(belongRoad, engine->getId());
+        // templateVehicle->updateRoute();
+        // endRoad = vehicleBuffer.begin()->getControllerInfo()->router.getLastRoad();
+        vehicleTemplate = flowBuffer.back()->getTemplate();
+        endRoad = vehicleTemplate.route->getRoute().back();
+        resetRoute(engine->getId());
+        vehicleBuffer.clear();
+        flowBuffer.clear();
+        receiveVehicle = 0;
     }
 }

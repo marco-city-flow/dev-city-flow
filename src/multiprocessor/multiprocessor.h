@@ -26,6 +26,7 @@ namespace CityFlow {
         // void initEngineRoad();
         // std::map<Engine *, std::vector<std::pair<Vehicle *, double>>> enginePushBuffer;
         int SYNCRATE = 50;
+        int step = 0;
 
         public:
         multiprocessor(const std::string &configFile);

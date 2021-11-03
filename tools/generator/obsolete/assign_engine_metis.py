@@ -64,11 +64,14 @@ def scatter_intersections(intersections):
     def get_colors(n): return list(map(lambda i: "#" + "%06x" %
                                        random.randint(0, 0xFFFFFF), range(n)))
     colors = get_colors(number_of_engines)
+    k=0
     for intersection in track(intersections):
-        x = intersection['point']['x']
-        y = intersection['point']['y']
-        engine = intersection['engine']
-        ax.scatter(x, y,  c=colors[engine], alpha=0.6)
+        if k%20==0:
+            x = intersection['point']['x']
+            y = intersection['point']['y']
+            engine = intersection['engine']
+            ax.scatter(x, y,  c=colors[engine], alpha=0.6)
+        k+=1
     plt.show()
 
 
@@ -85,15 +88,24 @@ def to_adjacency_list(intersections, roads, road_id_index,intersection_id_index)
         cur_list = []
         for road in intersection['roads']:
             _ = roads[road_id_index[road]]
-            if _['startIntersection'] is not intersection['id']:
-                cur_list.append(
-                    intersection_id_index[_['startIntersection']])
-            elif _['endIntersection'] is not intersection['id']:
+            # if _['startIntersection'] is not intersection['id']:
+            #     cur_list.append(
+            #         intersection_id_index[_['startIntersection']])
+            # elif _['endIntersection'] is not intersection['id']:
+            #     cur_list.append(
+            #         intersection_id_index[_['endIntersection']])
+            # else:
+            #     raise Exception(
+            #         'start- and endIntersection both the same as ', intersection['id'])
+            if _['endIntersection'] == intersection['id']:
+                pass
+            else:
                 cur_list.append(
                     intersection_id_index[_['endIntersection']])
-            else:
-                raise Exception(
-                    'start- and endIntersection both the same as ', intersection['id'])
+        # if len(cur_list) == 8:
+        #     adjacenccy_list.append(np.array(cur_list[:4]))
+        # if len(cur_list) == 2:
+        #     adjacenccy_list.append(np.array(cur_list[:1]))
         adjacenccy_list.append(np.array(cur_list))
     return adjacenccy_list
 
@@ -136,8 +148,41 @@ if __name__ == '__main__':
     # To adjacency list
     adjacency_list = to_adjacency_list(
         load_dict['intersections'], load_dict['roads'], road_id_index, intersection_id_index)
-    n_cuts, membership = pymetis.part_graph(
-        number_of_engines, adjacency=adjacency_list)
+    num = 0
+    for i in adjacency_list:
+        num += len(i)
+    print('adjacency list: ', num)
+    # print('adjacency list: ', adjacency_list)
+    import networkx as nx
+    G = nx.Graph()
+    list_net_nodes = [i for i in range(len(adjacency_list))]
+    list_net_edges = []
+    # pos={}
+    for i,node in enumerate(adjacency_list):
+        for j in node:
+            list_net_edges.append((i,j))
+        # pos[i] = (int(load_dict['intersections'][i]['point']['x']),int(load_dict['intersections'][i]['point']['y']))
+    G.add_nodes_from(list_net_nodes)
+    G.add_edges_from(list_net_edges)
+    # nx.draw(G, pos, with_labels=True)
+    # plt.show()
+
+    # modi_adjacency_list = []
+    # xadj = [0]
+    # weight = []
+    # for i in adjacency_list:
+    #     for j in i:
+    #         modi_adjacency_list.append(j)
+    #     xadj.append(len(modi_adjacency_list))
+    #     weight.append(10)
+    # n_cuts, membership = pymetis.part_graph(
+    #     nparts=number_of_engines, adjncy=modi_adjacency_list,xadj=xadj,eweights=weight,recursive=True)
+    # n_cuts, membership = pymetis.part_graph(
+        # nparts=number_of_engines, adjacency=adjacency_list,recursive=True)
+    import metis
+    n_cuts, membership = metis.part_graph(
+        graph=G, nparts=number_of_engines, recursive=False)
+    print('number of cuts: ', n_cuts)
     nodes_part = [np.argwhere(np.array(membership) == _).ravel()
                   for _ in range(number_of_engines)]
     for _ in nodes_part:
@@ -151,9 +196,18 @@ if __name__ == '__main__':
 
     # Assign each road to 1 or 2 engine(s), based on grouping of connected intersections
     print('Assigning engines to each road...')
+    edge_cut = 0
+    same_eng = 0
     for road in load_dict['roads']:
         road['engine1'] = load_dict['intersections'][intersection_id_index[road['startIntersection']]]['engine']
         road['engine2'] = load_dict['intersections'][intersection_id_index[road['endIntersection']]]['engine']
+        if road['engine1'] != road['engine2']:
+            edge_cut += 1
+        else:
+            same_eng += 1
+        #print(road['id'], engine1, engine2)
+    print("Number of edge cut: " + str(edge_cut))
+    print("Number of same_eng: " + str(same_eng))
         #print(road['id'], engine1, engine2)
 
     # Save JSON file
